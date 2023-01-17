@@ -4,13 +4,23 @@ import RouteItem from "../types/RouteItem";
 
 const Routes: RouteItem[] = [
   {
-    name: "Main Page",
+    name: "Workouts",
     toPath: "/",
     component: <MainPage />,
   },
   {
-    name: "Training Page",
-    toPath: "/training-page",
+    name: "History",
+    toPath: "/history",
+    component: <TrainingPage />,
+  },
+  {
+    name: "Measure",
+    toPath: "/measure",
+    component: <TrainingPage />,
+  },
+  {
+    name: "My Profile",
+    toPath: "/my-profile",
     component: <TrainingPage />,
   },
 
