@@ -1,4 +1,17 @@
+
+using backend.Context;
+using backend.Interfaces;
+using backend.Repository;
+
 var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+builder.Services.AddSingleton<DapperContext>();
+builder.Services.AddScoped<ITrainingRepository, TrainingRepository>();
+builder.Services.AddScoped<IExerciseRepository, ExerciseRepository>();
+builder.Services.AddScoped<IExerciseBaseRepository, ExerciseBaseRepository>();
+builder.Services.AddControllers();
+
 
 // Add services to the container.
 
@@ -8,6 +21,13 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+app.UseCors(builder =>
+{
+    builder.AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader();
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

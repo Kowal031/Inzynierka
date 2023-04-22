@@ -1,4 +1,4 @@
-import MainPage from "../pages/MainPage";
+import WorkoutsPage from "../pages/WorkoutsPage";
 import TrainingPage from "../pages/TrainingPage";
 import RouteItem from "../types/RouteItem";
 
@@ -6,7 +6,7 @@ const Routes: RouteItem[] = [
   {
     name: "Workouts",
     toPath: "/",
-    component: <MainPage />,
+    component: <WorkoutsPage />,
   },
   {
     name: "History",
@@ -23,7 +23,6 @@ const Routes: RouteItem[] = [
     toPath: "/my-profile",
     component: <TrainingPage />,
   },
-
 ];
 
 export default Routes;

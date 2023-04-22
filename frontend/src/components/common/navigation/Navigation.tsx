@@ -3,12 +3,13 @@ import { FC, useState } from "react";
 import styled from "@emotion/styled";
 import { NavLink } from "react-router-dom";
 import RouteItems from "../../../routes/RouteItems";
-import { palette } from "../../assets/palette";
+import { palette } from "../../../assets/palette";
 
 const Container = styled(Box)({
   display: "flex",
   justifyContent: "space-between",
-  width: "99vw",
+  marginLeft: "1rem",
+  marginRight: "1rem",
 });
 
 const CommonBox = styled(Box)({
@@ -33,28 +34,30 @@ interface CustomTypographyProps {
   pathname: string;
 }
 
-const CustomTypographyBasic = styled(Typography)({
+const BasicTypography = styled(Typography)({
   display: "flex",
   alignItems: "center",
   padding: "0.5rem",
-  color: palette.white,
+  color: palette.black,
 });
 
-const CustomTypography = styled(CustomTypographyBasic)<CustomTypographyProps>(
+const CustomTypography = styled(BasicTypography)<CustomTypographyProps>(
   ({ currentLocation, pathname }) => ({
+    borderBottom:
+      currentLocation === pathname ? `3px solid ${palette.blue}` : "",
     color: currentLocation === pathname ? palette.blue : "",
     "&:hover": {
       color: palette.blue,
-      opacity: "0.7",
+      opacity: "0.5",
     },
   })
 );
 
 const Navigation: FC = () => {
   const currentLocation = window.location.pathname;
+  const [changeOnClick, setChangeOnClick] = useState<number>(-1);
   const setClassName = (isActive: boolean): string | undefined =>
     isActive ? "selected" : undefined;
-  const [changeOnClick, setChangeOnClick] = useState<number>(-1);
 
   const handleOnClick = (id: number): void => {
     setChangeOnClick(changeOnClick === id ? -1 : id);
@@ -64,7 +67,7 @@ const Navigation: FC = () => {
     <Container>
       <ListItem>
         <NavLink to="/" onClick={() => handleOnClick(-1)}>
-          <CustomTypographyBasic variant="h3">Logo</CustomTypographyBasic>
+          <BasicTypography variant="h3">My Workout</BasicTypography>
         </NavLink>
       </ListItem>
       <CommonBox>
