@@ -18,6 +18,8 @@ import WorkoutsItem from "./WorkoutsItem";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import PlayCircleIcon from "@mui/icons-material/PlayCircle";
+import Training from "../../types/Training";
+import trainingApi from "../../api/trainingApi";
 
 const ContainerForTable = styled(TableContainer)({
   maxWidth: "31.25rem",
@@ -50,15 +52,25 @@ const Cell = styled(TableCell)({
 });
 
 interface WorkoutsTableProps {
-  name: string;
+  training: Training;
+  handleRefreshTraining: () => void;
 }
 
-const WorkoutsTable: FC<WorkoutsTableProps> = ({ name }) => {
+const WorkoutsTable: FC<WorkoutsTableProps> = ({
+  training,
+  handleRefreshTraining,
+}) => {
+  const onDeleteClick = (id: number) => {
+    void trainingApi.deleteTraining(id).then(() => {
+      handleRefreshTraining();
+    });
+  };
+
   return (
     <ContainerForTable>
       <ContainerForTabHeader>
         <Typography sx={{ margin: "1rem" }} variant="h4">
-          {name}
+          {training.name}
         </Typography>
         <ContainerForIcon>
           <ButtonIcon>
@@ -75,7 +87,10 @@ const WorkoutsTable: FC<WorkoutsTableProps> = ({ name }) => {
 
           <ButtonIcon>
             <Tooltip title="Delete workout" placement="top" arrow>
-              <DeleteIcon sx={{ color: palette.error, fontSize: 30 }} />
+              <DeleteIcon
+                sx={{ color: palette.error, fontSize: 30 }}
+                onClick={() => onDeleteClick(training.id)}
+              />
             </Tooltip>
           </ButtonIcon>
         </ContainerForIcon>

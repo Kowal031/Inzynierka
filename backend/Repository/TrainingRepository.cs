@@ -77,4 +77,15 @@ public class TrainingRepository : ITrainingRepository
 
         return createdTraining;
     }
+
+    public async Task DeleteTraining(int id)
+    {
+        var query = @"DELETE FROM Training WHERE Id = @Id
+";
+
+        using (var connection = _context.CreateConnection())
+        {
+            await connection.ExecuteAsync(query, new { id });
+        }
+    }
 }

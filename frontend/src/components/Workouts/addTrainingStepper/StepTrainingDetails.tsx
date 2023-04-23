@@ -50,6 +50,7 @@ const StepTrainingDetais: FC<StepTrainingDetails> = ({
   state,
 }) => {
   const [checked, setChecked] = useState(false);
+  
 
   const {
     schoulder,
@@ -63,10 +64,6 @@ const StepTrainingDetais: FC<StepTrainingDetails> = ({
     hamstring,
     claves,
   } = state;
-
-  console.log(state);
-  console.log(checked);
-  console.log(values);
 
   const handleChangeSwitch = (event: ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);

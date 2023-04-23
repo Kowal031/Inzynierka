@@ -10,6 +10,9 @@ import StepTrainingDetais from "./StepTrainingDetails";
 import StepWorkoutSetsWeight from "./StepWorkoutSetsWeight";
 import { styled } from "@mui/system";
 import trainingApi from "../../../api/trainingApi";
+import ExerciseBase from "../../../types/ExerciseBase";
+import StepSubmitWorkout from "./StepSubmitWorkout";
+import exerciseApi from "../../../api/exerciseApi";
 
 const BoxContainer = styled(Box)({
   width: "100%",
@@ -29,7 +32,9 @@ const steps = [
 ];
 
 interface AddWorkoutsStepperProps {
+  lastTrainingId: number;
   handleCloseModal: () => void;
+  openModal: boolean;
 }
 
 type Values = {
@@ -38,13 +43,13 @@ type Values = {
 
 const AddWorkoutsStepper: FC<AddWorkoutsStepperProps> = ({
   handleCloseModal,
+  lastTrainingId,
+  openModal,
 }) => {
   const [activeStep, setActiveStep] = useState(0);
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-
-    AddTraining();
   };
 
   const handleBack = () => {
@@ -54,10 +59,10 @@ const AddWorkoutsStepper: FC<AddWorkoutsStepperProps> = ({
   const handleReset = () => {};
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setValues({ ...values, [event.target.name]: event.target.value });
+    setTitle({ ...title, [event.target.name]: event.target.value });
   };
 
-  const [values, setValues] = useState<Values>({
+  const [title, setTitle] = useState<Values>({
     title: "",
   });
 
@@ -81,6 +86,31 @@ const AddWorkoutsStepper: FC<AddWorkoutsStepperProps> = ({
     claves: false,
   });
 
+  const [formValues, setFormValues] = useState<
+    Array<{ exercise: ExerciseBase | null; sets: number | null }>
+  >([]);
+
+  const [valueForExercise, setValueForExercise] = useState<ExerciseBase | null>(
+    null
+  );
+  const [valueForSets, setValueForSets] = useState<number>(1);
+
+  const handleRemoveItem = (index: number) => {
+    setFormValues((prevFormValues) => {
+      const updatedFormValues = [...prevFormValues];
+      updatedFormValues.splice(index, 1);
+      return updatedFormValues;
+    });
+  };
+
+  const inputValueExercise = (value: ExerciseBase | null) => {
+    setValueForExercise(value);
+  };
+
+  const inputValueSet = (valueForSets: number) => {
+    setValueForSets(valueForSets);
+  };
+
   const stepLvl = (activeStep: number) => {
     switch (activeStep) {
       case 0:
@@ -89,19 +119,30 @@ const AddWorkoutsStepper: FC<AddWorkoutsStepperProps> = ({
             handleChangeCheckbox={handleChangeCheckbox}
             handleChange={handleChange}
             state={state}
-            values={values}
+            values={title}
           />
         );
       case 1:
-        return <StepWorkoutSetsWeight />;
-      case 3:
-        break;
+        return (
+          <StepWorkoutSetsWeight
+            formValues={formValues}
+            valueForExercise={valueForExercise}
+            updatedFormValues={updatedFormValues}
+            valueForSets={valueForSets}
+            handleRemoveItem={handleRemoveItem}
+            inputValueExercise={inputValueExercise}
+            inputValueSet={inputValueSet}
+            lastTrainingId={lastTrainingId}
+          />
+        );
+      case 2:
+        return <StepSubmitWorkout state={state} formValues={formValues} />;
     }
   };
 
   const AddTraining = () => {
     trainingApi.createTraining(
-      values.title,
+      title.title,
       state.schoulder === true ? 3 : 0,
       state.chest === true ? 3 : 0,
       state.back === true ? 3 : 0,
@@ -113,6 +154,29 @@ const AddWorkoutsStepper: FC<AddWorkoutsStepperProps> = ({
       state.hamstring === true ? 3 : 0,
       state.claves === true ? 3 : 0
     );
+  };
+
+  const stepperBackManagment = () => {
+    activeStep === 0 ? handleCloseModal() : handleBack();
+  };
+
+  const stepperNextManagment = () => {
+    if (activeStep === steps.length - 1) {
+      AddTraining();
+    } else {
+      void trainingApi.deleteTraining(lastTrainingId).then(() => {});
+    }
+
+    activeStep === steps.length - 1 ? handleCloseModal() : handleNext();
+  };
+
+  const updatedFormValues = (
+    formValues: {
+      exercise: ExerciseBase | null;
+      sets: number | null;
+    }[]
+  ) => {
+    setFormValues(formValues);
   };
 
   return (
@@ -133,18 +197,11 @@ const AddWorkoutsStepper: FC<AddWorkoutsStepperProps> = ({
           {stepLvl(activeStep)}
         </Typography>
         <ButtonContainer>
-          <Button
-            color="inherit"
-            onClick={activeStep === 0 ? handleCloseModal : handleBack}
-          >
+          <Button color="inherit" onClick={stepperBackManagment}>
             {activeStep === 0 ? "Exit" : "Back"}
           </Button>
-          <Button
-            onClick={
-              activeStep === steps.length ? handleCloseModal : handleNext
-            }
-          >
-            {activeStep === steps.length ? "Finish" : "Next"}
+          <Button onClick={stepperNextManagment}>
+            {activeStep === steps.length - 1 ? "Confirm" : "Next"}
           </Button>
         </ButtonContainer>
       </>

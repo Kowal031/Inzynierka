@@ -1,6 +1,10 @@
 import { Box, Button, styled, Tooltip } from "@mui/material";
 import { FC, useEffect, useState } from "react";
+import exerciseApi from "../../api/exerciseApi";
+import trainingApi from "../../api/trainingApi";
 import { palette } from "../../assets/palette";
+import ExerciseBase from "../../types/ExerciseBase";
+import Training from "../../types/Training";
 import CommonModal from "../common/CommonModal";
 import AddWorkoutsStepper from "./addTrainingStepper/AddWorkoutsStepper";
 
@@ -23,14 +27,24 @@ const Container = styled(Button)({
   },
 });
 
-const AddWorkouts: FC = () => {
+interface AddWorkoutsProps {
+  lastTrainingId: number;
+  handleRefreshTraining: () => void;
+}
+
+const AddWorkouts: FC<AddWorkoutsProps> = ({
+  lastTrainingId,
+  handleRefreshTraining,
+}) => {
   const [openModal, setOpenModal] = useState(false);
   const [parentOpen, setParentOpen] = useState(false);
   const handleOpenModal = (): void => {
     setOpenModal(true);
   };
-  const handleCloseModal = (): void => {
+  const handleCloseModal =  () => {
+    console.log(lastTrainingId)
     setOpenModal(false);
+    handleRefreshTraining();
   };
 
   useEffect(() => {
@@ -55,8 +69,10 @@ const AddWorkouts: FC = () => {
             handleClose={handleCloseModal}
             children={
               <AddWorkoutsStepper
+                lastTrainingId={lastTrainingId}
+                openModal={openModal}
                 handleCloseModal={handleCloseModal}
-              ></AddWorkoutsStepper>
+              />
             }
           />
         </Box>

@@ -9,11 +9,12 @@ const getAll = async (): Promise<AxiosResponse<Training[]>> => {
   );
 };
 
-const getAllExerciseBase = async (): Promise<AxiosResponse<ExerciseBase[]>> => {
-  return await axios.get<ExerciseBase[]>(
-    `${endpoints.baseURL}${endpoints.exerciseBase}`
+const getTraining = async (id: number): Promise<AxiosResponse<Training>> => {
+  return await axios.get<Training>(
+    `${endpoints.baseURL}${endpoints.training}/${id}`
   );
 };
+
 
 const createTraining = async (
   name: string,
@@ -43,10 +44,15 @@ const createTraining = async (
   });
 };
 
+const deleteTraining = async (id: number): Promise<AxiosResponse<void>> => {
+  return await axios.delete(`${endpoints.baseURL}${endpoints.training}/${id}`);
+}
+
 const trainingApi = {
   getAll,
-  getAllExerciseBase,
-  createTraining
+  getTraining,
+  createTraining,
+  deleteTraining
 };
 
 export default trainingApi;

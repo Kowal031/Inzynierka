@@ -14,11 +14,14 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { FC, useEffect, useState } from "react";
-import trainingApi from "../../../api/trainingApi";
 import ExerciseBase from "../../../types/ExerciseBase";
 import styled from "@mui/material/styles/styled";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { palette } from "../../../assets/palette";
+import exerciseBaseApi from "../../../api/exerciseBaseApi";
+import trainingApi from "../../../api/trainingApi";
+import exerciseApi from "../../../api/exerciseApi";
+import Exercise from "../../../types/Exercise";
 
 const FormContainer = styled("form")({
   paddingTop: "1rem",
@@ -38,48 +41,68 @@ const ButtonIcon = styled(IconButton)({
   },
 });
 
-const StepWorkoutSetsWeight: FC = () => {
+interface StepWorkoutSetsWeightProps {
+  handleRemoveItem: (index: number) => void;
+  inputValueExercise: (value: ExerciseBase | null) => void;
+  inputValueSet: (valueForSets: number) => void;
+  valueForExercise: ExerciseBase | null;
+  valueForSets: number;
+  formValues: {
+    exercise: ExerciseBase | null;
+    sets: number | null;
+  }[];
+  lastTrainingId: number;
+  updatedFormValues: (
+    formValues: {
+      exercise: ExerciseBase | null;
+      sets: number | null;
+    }[]
+  ) => void;
+}
+
+const StepWorkoutSetsWeight: FC<StepWorkoutSetsWeightProps> = ({
+  handleRemoveItem,
+  inputValueExercise,
+  inputValueSet,
+  valueForSets,
+  valueForExercise,
+  formValues,
+  lastTrainingId,
+  updatedFormValues,
+}) => {
   const [exerciseBase, setExerciseBase] = useState<ExerciseBase[]>([]);
-  const [formValues, setFormValues] = useState<
-    Array<{ exercise: ExerciseBase | null; sets: number | null }>
-  >([]);
-  const [valueForExercise, setValueForExercise] = useState<ExerciseBase | null>(
-    null
-  );
-  const [valueForSets, setValueForSets] = useState<number>(1);
+  const [myExercise, setMyExercise] = useState<Exercise[]>([]);
 
   useEffect(() => {
-    void trainingApi
+    void exerciseBaseApi
       .getAllExerciseBase()
       .then(({ data }) => setExerciseBase(data));
   }, []);
 
-  const handleFormSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (valueForExercise !== null && valueForSets !== null) {
-      // Access the exercise and sets values from the first element in the array
-      // Perform any necessary operations with exercise and sets values
-
-      setFormValues((prevFormValues) => [
-        ...prevFormValues,
-        { exercise: valueForExercise, sets: valueForSets },
-      ]);
-
-      console.log(formValues);
-
-      // Reset the form state
-      setValueForExercise(null);
-      setValueForSets(0);
-    }
+  const getMyExercise = () => {
+    void exerciseApi
+      .getExerciseByTrainingId(lastTrainingId )
+      .then(({ data }) => setMyExercise(data));
   };
-  console.log(formValues);
 
-  const handleRemoveItem = (index: number) => {
-    setFormValues((prevFormValues) => {
-      const updatedFormValues = [...prevFormValues];
-      updatedFormValues.splice(index, 1);
-      return updatedFormValues;
-    });
+  useEffect(() => {
+    getMyExercise();
+  }, []);
+
+  console.log(typeof lastTrainingId);
+
+  const handleAddExerciseAndWeight = (e: React.FormEvent) => {
+    e.preventDefault();
+    const id = lastTrainingId ;
+    if (valueForExercise !== null && valueForSets !== null) {
+      void exerciseApi.addExercise(
+        id,
+        valueForExercise.name,
+        valueForExercise.id,
+        valueForSets
+      );
+    }
+
   };
 
   return (
@@ -90,7 +113,7 @@ const StepWorkoutSetsWeight: FC = () => {
             marginTop: "1rem",
             padding: "1rem",
           }}
-          onSubmit={handleFormSubmit}
+          onSubmit={handleAddExerciseAndWeight}
         >
           <Autocomplete
             id="filter-demo"
@@ -98,7 +121,7 @@ const StepWorkoutSetsWeight: FC = () => {
             getOptionLabel={(exerciseBase) => exerciseBase.name}
             sx={{ width: 300 }}
             value={valueForExercise}
-            onChange={(event, value) => setValueForExercise(value)}
+            onChange={(event, value) => inputValueExercise(value)}
             renderInput={(params) => (
               <TextField {...params} label="Choose exercise" />
             )}
@@ -113,7 +136,7 @@ const StepWorkoutSetsWeight: FC = () => {
               },
             }}
             value={valueForSets}
-            onChange={(event) => setValueForSets(parseInt(event.target.value))}
+            onChange={(event) => inputValueSet(parseInt(event.target.value))}
           />
           <Button
             variant="contained"
@@ -137,41 +160,42 @@ const StepWorkoutSetsWeight: FC = () => {
           padding: "1rem",
         }}
       >
-        {formValues.length !== 0 && 
-        <TableContainer component={Paper} sx={{ width: "80%" }}>
-          <Table aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Workout</TableCell>
-                <TableCell align="right">Sets</TableCell>
-                <TableCell align="right">Remove</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {formValues.map((item, index) => (
-                <TableRow
-                  key={index}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell component="th" scope="row">
-                    {item.exercise ? item.exercise.name : "N/A"}
-                  </TableCell>
-                  <TableCell align="right">{item.sets}</TableCell>
-                  <TableCell align="right">
-                    <ButtonIcon onClick={() => handleRemoveItem(index)}>
-                      <Tooltip title="Delete workout" placement="top" arrow>
-                        <DeleteIcon sx={{ color: palette.error }} />
-                      </Tooltip>
-                    </ButtonIcon>
-                  </TableCell>
+        {myExercise.length !== 0 && (
+          <TableContainer component={Paper} sx={{ width: "80%" }}>
+            <Table aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Workout</TableCell>
+                  <TableCell align="right">Sets</TableCell>
+                  <TableCell align="right">Remove</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        }
+              </TableHead>
+              <TableBody>
+                {myExercise.map((item, index) => (
+                  <TableRow
+                    key={index}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell component="th" scope="row">
+                      {item.name ? item.name : "N/A"}
+                    </TableCell>
+                    <TableCell align="right">{item.numberOfSeries}</TableCell>
+                    <TableCell align="right">
+                      <ButtonIcon onClick={() => handleRemoveItem(index)}>
+                        <Tooltip title="Delete workout" placement="top" arrow>
+                          <DeleteIcon sx={{ color: palette.error }} />
+                        </Tooltip>
+                      </ButtonIcon>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
       </Box>
     </>
   );
 };
+
 export default StepWorkoutSetsWeight;

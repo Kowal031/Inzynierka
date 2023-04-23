@@ -15,6 +15,24 @@ public class ExerciseController : ControllerBase
         _exerciseRepo = exerciseRepo;
     }
     
+    [HttpGet]
+    public async Task<IActionResult> GetTraining()
+    {
+        var exerciseRepo = await _exerciseRepo.GetExercise();
+        if (exerciseRepo is null)
+            return NotFound();
+        return Ok(exerciseRepo);
+    }
+    
+    [HttpGet("ByTrainingId/{id}")]
+    public async Task<IActionResult> GetExerciseByTrainingId(int id)
+    {
+        var exerciseRepo = await _exerciseRepo.GetExerciseByTrainingId(id);
+        if (exerciseRepo is null)
+            return NotFound();
+        return Ok(exerciseRepo);
+    }
+    
     [HttpGet("id", Name = "ExerciseById")]
     public async Task<IActionResult> GetTraining(int id)
     {
@@ -31,4 +49,26 @@ public class ExerciseController : ControllerBase
 
         return CreatedAtRoute("ExerciseById", new { id = addExercise.Id }, addExercise);
     }
+    
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteExercise(int id)
+    {
+        var exerciseRepo = await _exerciseRepo.GetExercise(id);
+        if (exerciseRepo is null)
+            return NotFound();
+        await _exerciseRepo.DeleteExercise(id);
+
+        return NoContent();
+    }
+    [HttpDelete("ByTrainingId/{id}")]
+    public async Task<IActionResult> DeleteExercises(int id)
+    {
+        var exerciseRepo = await _exerciseRepo.GetExercise();
+        if (exerciseRepo is null)
+            return NotFound();
+        await _exerciseRepo.DeleteExercises(id);
+
+        return NoContent();
+    }
+    
 }

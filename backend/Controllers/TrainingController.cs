@@ -39,6 +39,17 @@ public class TrainingController : ControllerBase
         return Ok(trainingRepo);
     }
 
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteTraining(int id)
+    {
+        var trainingRepo = await _trainingRepo.GetTraining(id);
+        if (trainingRepo is null)
+            return NotFound();
+        await _trainingRepo.DeleteTraining(id);
+        
+        return NoContent();
+    }
+
 
     [HttpPost]
     public async Task<IActionResult> CreateTraining([FromBody] TrainingDto trainingDto)

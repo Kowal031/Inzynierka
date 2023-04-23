@@ -8,4 +8,5 @@ public interface ITrainingRepository
     public Task<IEnumerable<Training>> GetTrainings();
     public Task<Training> GetTraining(int id);
     public Task<Training> CreateTraining(TrainingDto training);
+    public Task DeleteTraining(int id);
 }
