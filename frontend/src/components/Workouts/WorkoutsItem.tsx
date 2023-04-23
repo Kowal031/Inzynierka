@@ -1,9 +1,11 @@
 import { styled, TableCell, TableRow } from "@mui/material";
-import { FC } from "react";
+import { FC, useEffect } from "react";
+import exerciseApi from "../../api/exerciseApi";
 import { palette } from "../../assets/palette";
+import Exercise from "../../types/Exercise";
 
 interface WorkoutsItemProps {
-  aa: string;
+  exercise: Exercise;
 }
 const StyledTableRow = styled(TableRow)({
   "&:nth-of-type(even)": {
@@ -15,11 +17,12 @@ const StyledTableRow = styled(TableRow)({
   },
 });
 
-const WorkoutsItem: FC<WorkoutsItemProps> = ({ aa }) => {
+const WorkoutsItem: FC<WorkoutsItemProps> = ({ exercise }) => {
+
   return (
     <StyledTableRow>
-      <TableCell>{aa}</TableCell>
-      <TableCell>{aa}</TableCell>
+      <TableCell>{exercise.name}</TableCell>
+      <TableCell>{exercise.numberOfSeries}</TableCell>
       <TableCell>0</TableCell>
       <TableCell>0</TableCell>
     </StyledTableRow>

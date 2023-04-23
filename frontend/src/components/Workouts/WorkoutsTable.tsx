@@ -12,7 +12,7 @@ import {
   IconButton,
   Tooltip,
 } from "@mui/material";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { palette } from "../../assets/palette";
 import WorkoutsItem from "./WorkoutsItem";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -20,6 +20,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import Training from "../../types/Training";
 import trainingApi from "../../api/trainingApi";
+import exerciseApi from "../../api/exerciseApi";
+import Exercise from "../../types/Exercise";
 
 const ContainerForTable = styled(TableContainer)({
   maxWidth: "31.25rem",
@@ -54,17 +56,30 @@ const Cell = styled(TableCell)({
 interface WorkoutsTableProps {
   training: Training;
   handleRefreshTraining: () => void;
+  lastTrainingId: number;
 }
 
 const WorkoutsTable: FC<WorkoutsTableProps> = ({
   training,
   handleRefreshTraining,
+  lastTrainingId,
 }) => {
   const onDeleteClick = (id: number) => {
     void trainingApi.deleteTraining(id).then(() => {
       handleRefreshTraining();
     });
+    void exerciseApi.deleteExercise(id).then(() => {
+      handleRefreshTraining();
+    });
   };
+  const [allExercise, setaAlExercise] = useState<Exercise[]>([]);
+  useEffect(() => {
+    void exerciseApi
+      .getExerciseByTrainingId(training.id)
+      .then(({ data }) => {
+        setaAlExercise(data);
+      });
+  });
 
   return (
     <ContainerForTable>
@@ -105,7 +120,9 @@ const WorkoutsTable: FC<WorkoutsTableProps> = ({
           </TableRow>
         </TableHead>
         <TableBody>
-          <WorkoutsItem aa="aa" />
+          {allExercise.map((exercise: Exercise) => (
+            <WorkoutsItem exercise={exercise} />
+          ))}
         </TableBody>
       </Table>
     </ContainerForTable>

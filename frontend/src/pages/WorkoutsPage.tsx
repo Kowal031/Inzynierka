@@ -55,6 +55,7 @@ const WorkoutsPage: FC = () => {
         {training?.map((tra) => (
           <WorkoutsTable
             training={tra}
+            lastTrainingId={lastTrainingId}
             handleRefreshTraining={handleRefreshTraining}
           />
         ))}
