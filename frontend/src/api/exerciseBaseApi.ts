@@ -1,16 +1,17 @@
 import axios, { AxiosResponse } from "axios";
 import ExerciseBase from "../types/ExerciseBase";
-import endpoints from "./eindpoints";
+import endpoints from "./endpoints";
 
+// Function to get all exercise bases
 const getAllExerciseBase = async (): Promise<AxiosResponse<ExerciseBase[]>> => {
-    return await axios.get<ExerciseBase[]>(
-      `${endpoints.baseURL}${endpoints.exerciseBase}`
-    );
-  };
+  const url = `${endpoints.baseURL}${endpoints.exerciseBase}`;
+  const response = await axios.get<ExerciseBase[]>(url);
+  return response;
+};
 
+// API object with all functions
+const exerciseBaseApi = {
+  getAllExerciseBase,
+};
 
-  const exerciseBaseApi = {
-    getAllExerciseBase,
-  };
-   
-  export default exerciseBaseApi;
+export default exerciseBaseApi;

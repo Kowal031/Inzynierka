@@ -1,32 +1,37 @@
 import {
-  TableContainer,
-  Paper,
-  Table,
-  TableHead,
-  TableRow,
-  TableBody,
-  TableCell,
-  styled,
-  Typography,
   Box,
   IconButton,
+  styled,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   Tooltip,
+  Typography,
 } from "@mui/material";
 import { FC, useEffect, useState } from "react";
 import { palette } from "../../assets/palette";
-import WorkoutsItem from "./WorkoutsItem";
+import Exercise from "../../types/Exercise";
+import Training from "../../types/Training";
+import exerciseApi from "../../api/exerciseApi";
+import trainingApi from "../../api/trainingApi";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import PlayCircleIcon from "@mui/icons-material/PlayCircle";
-import Training from "../../types/Training";
-import trainingApi from "../../api/trainingApi";
-import exerciseApi from "../../api/exerciseApi";
-import Exercise from "../../types/Exercise";
+import WorkoutsItem from "./WorkoutsItem";
+
+interface WorkoutsTableProps {
+  training: Training;
+  handleRefreshTraining: () => void;
+  lastTrainingId: number;
+}
 
 const ContainerForTable = styled(TableContainer)({
   maxWidth: "31.25rem",
   background: palette.white,
-  boxShadow: " 2px 2px 7px 0px rgba(66, 68, 90, 1)",
+  boxShadow: "2px 2px 7px 0px rgba(66, 68, 90, 1)",
   margin: "1rem",
 });
 
@@ -53,33 +58,27 @@ const Cell = styled(TableCell)({
   verticalAlign: "bottom",
 });
 
-interface WorkoutsTableProps {
-  training: Training;
-  handleRefreshTraining: () => void;
-  lastTrainingId: number;
-}
-
 const WorkoutsTable: FC<WorkoutsTableProps> = ({
   training,
   handleRefreshTraining,
   lastTrainingId,
 }) => {
+  const [allExercise, setAllExercise] = useState<Exercise[]>([]);
+
   const onDeleteClick = (id: number) => {
-    void trainingApi.deleteTraining(id).then(() => {
+    void trainingApi.deleteTrainingById(id).then(() => {
       handleRefreshTraining();
     });
     void exerciseApi.deleteExercise(id).then(() => {
       handleRefreshTraining();
     });
   };
-  const [allExercise, setaAlExercise] = useState<Exercise[]>([]);
+
   useEffect(() => {
-    void exerciseApi
-      .getExerciseByTrainingId(training.id)
-      .then(({ data }) => {
-        setaAlExercise(data);
-      });
-  });
+    exerciseApi.getExerciseByTrainingId(training.id).then(({ data }) => {
+      setAllExercise(data);
+    });
+  }, [training.id]);
 
   return (
     <ContainerForTable>
@@ -110,6 +109,7 @@ const WorkoutsTable: FC<WorkoutsTableProps> = ({
           </ButtonIcon>
         </ContainerForIcon>
       </ContainerForTabHeader>
+
       <Table>
         <TableHead>
           <TableRow>

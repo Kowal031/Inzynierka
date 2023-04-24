@@ -57,11 +57,7 @@ const SwitchComponent: FC<SwitchComponentProps> = ({
   return (
     <Stack direction="row" spacing={1} alignItems="center">
       <Typography>No</Typography>
-      <AntSwitch
-        checked={checked}
-        onChange={handleChange}
-        inputProps={{ "aria-label": "ant design" }}
-      />
+      <AntSwitch checked={checked} onChange={handleChange} />
       <Typography>Yes</Typography>
     </Stack>
   );

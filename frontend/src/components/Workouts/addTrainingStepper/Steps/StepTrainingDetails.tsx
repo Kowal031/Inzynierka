@@ -7,8 +7,8 @@ import {
   Typography,
 } from "@mui/material";
 import { ChangeEvent, FC, FormEvent, useState } from "react";
-import CustomTextField from "../../common/CustomTextField";
-import SwitchComponent from "../../common/SwitchComponent";
+import CustomTextField from "../../../common/CustomTextField";
+import SwitchComponent from "../../../common/SwitchComponent";
 
 const BasicForm = styled(`form`)({
   display: "flex",
@@ -21,14 +21,9 @@ const Container = styled(Box)({
   textAlign: "center",
 });
 
-type Values = {
-  title: string;
-};
-
 interface StepTrainingDetails {
   handleChangeCheckbox: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  values: Values;
   state: {
     schoulder: boolean;
     chest: boolean;
@@ -46,11 +41,9 @@ interface StepTrainingDetails {
 const StepTrainingDetais: FC<StepTrainingDetails> = ({
   handleChangeCheckbox,
   handleChange,
-  values,
   state,
 }) => {
   const [checked, setChecked] = useState(false);
-  
 
   const {
     schoulder,

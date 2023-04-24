@@ -1,4 +1,5 @@
 interface Exercise {
+  id: number;
   idTraining: number;
   name: string;
   idExerciseBase: number;

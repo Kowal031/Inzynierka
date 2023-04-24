@@ -1,5 +1,5 @@
 import { TextField } from "@mui/material";
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, FC } from "react";
 
 type CustomTextFieldProps = {
   label: string;
@@ -7,12 +7,16 @@ type CustomTextFieldProps = {
   changeHandler: (event: ChangeEvent<HTMLInputElement>) => void;
 };
 
-const CustomTextField = (props: CustomTextFieldProps) => {
+const CustomTextField: FC<CustomTextFieldProps> = ({
+  label,
+  name,
+  changeHandler,
+}) => {
   return (
     <TextField
-      label={props.label}
-      name={props.name}
-      onChange={props.changeHandler}
+      label={label}
+      name={name}
+      onChange={changeHandler}
       variant={"outlined"}
       size={"small"}
       margin={"dense"}

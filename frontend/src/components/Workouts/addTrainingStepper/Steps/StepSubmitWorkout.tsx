@@ -1,39 +1,21 @@
 import {
   Box,
-  TableContainer,
-  Paper,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
+  // TableContainer,
+  // Paper,
+  // Table,
+  // TableHead,
+  // TableRow,
+  // TableCell,
+  // TableBody,
 } from "@mui/material";
 import { FC } from "react";
-import ExerciseBase from "../../../types/ExerciseBase";
+// import ExerciseBase from "../../../types/ExerciseBase";
 
 interface StepSubmitWorkoutProps {
-  formValues: {
-    exercise: ExerciseBase | null;
-    sets: number | null;
-  }[];
-  state: {
-    schoulder: boolean;
-    chest: boolean;
-    back: boolean;
-    biceps: boolean;
-    triceps: boolean;
-    abdominal: boolean;
-    buttocks: boolean;
-    quadraceps: boolean;
-    hamstring: boolean;
-    claves: boolean;
-  };
+
 }
 
-const StepSubmitWorkout: FC<StepSubmitWorkoutProps> = ({
-  formValues,
-  state,
-}) => {
+const StepSubmitWorkout: FC<StepSubmitWorkoutProps> = ({}) => {
   return (
     <Box
       sx={{
@@ -43,7 +25,7 @@ const StepSubmitWorkout: FC<StepSubmitWorkoutProps> = ({
         padding: "1rem",
       }}
     >
-      {formValues.length !== 0 && (
+      {/* {formValues.length !== 0 && (
         <TableContainer component={Paper} sx={{ width: "80%" }}>
           <Table aria-label="simple table">
             <TableHead>
@@ -70,7 +52,7 @@ const StepSubmitWorkout: FC<StepSubmitWorkoutProps> = ({
             </TableBody>
           </Table>
         </TableContainer>
-      )}
+      )} */}
     </Box>
   );
 };

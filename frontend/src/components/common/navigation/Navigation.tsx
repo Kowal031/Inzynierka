@@ -5,6 +5,7 @@ import { NavLink } from "react-router-dom";
 import RouteItems from "../../../routes/RouteItems";
 import { palette } from "../../../assets/palette";
 
+// Styled components
 const Container = styled(Box)({
   display: "flex",
   justifyContent: "space-between",
@@ -27,47 +28,53 @@ const ListItem = styled.li`
   }
 `;
 
-interface CustomTypographyProps {
-  changeOnClick: number;
-  index: number;
+const NavLinkText = styled(Typography)<{
   currentLocation: string;
   pathname: string;
-}
-
-const BasicTypography = styled(Typography)({
+}>(({ currentLocation, pathname }) => ({
   display: "flex",
   alignItems: "center",
   padding: "0.5rem",
+  color: currentLocation === pathname ? palette.blue : palette.black,
+  borderBottom: currentLocation === pathname ? `3px solid ${palette.blue}` : "",
+  "&:hover": {
+    color: palette.blue,
+    opacity: "0.5",
+  },
+}));
+
+const Logo = styled(Typography)({
   color: palette.black,
-});
+})
 
-const CustomTypography = styled(BasicTypography)<CustomTypographyProps>(
-  ({ currentLocation, pathname }) => ({
-    borderBottom:
-      currentLocation === pathname ? `3px solid ${palette.blue}` : "",
-    color: currentLocation === pathname ? palette.blue : "",
-    "&:hover": {
-      color: palette.blue,
-      opacity: "0.5",
-    },
-  })
-);
 
+
+// Component
 const Navigation: FC = () => {
   const currentLocation = window.location.pathname;
   const [changeOnClick, setChangeOnClick] = useState<number>(-1);
+
   const setClassName = (isActive: boolean): string | undefined =>
     isActive ? "selected" : undefined;
 
-  const handleOnClick = (id: number): void => {
+  const handleNavLinkClick = (
+    id: number,
+    changeOnClick: number,
+    setChangeOnClick: (id: number) => void
+  ): void => {
     setChangeOnClick(changeOnClick === id ? -1 : id);
   };
 
   return (
     <Container>
       <ListItem>
-        <NavLink to="/" onClick={() => handleOnClick(-1)}>
-          <BasicTypography variant="h3">My Workout</BasicTypography>
+        <NavLink
+          to="/"
+          onClick={() =>
+            handleNavLinkClick(-1, changeOnClick, setChangeOnClick)
+          }
+        >
+          <Logo variant="h3">My Workout</Logo>
         </NavLink>
       </ListItem>
       <CommonBox>
@@ -75,17 +82,14 @@ const Navigation: FC = () => {
           <ListItem key={toPath}>
             <NavLink
               to={toPath}
-              onClick={() => handleOnClick(index)}
+              onClick={() =>
+                handleNavLinkClick(index, changeOnClick, setChangeOnClick)
+              }
               className={({ isActive }) => setClassName(isActive)}
             >
-              <CustomTypography
-                changeOnClick={changeOnClick}
-                index={index}
-                currentLocation={currentLocation}
-                pathname={toPath}
-              >
+              <NavLinkText currentLocation={currentLocation} pathname={toPath}>
                 {name}
-              </CustomTypography>
+              </NavLinkText>
             </NavLink>
           </ListItem>
         ))}
@@ -93,4 +97,5 @@ const Navigation: FC = () => {
     </Container>
   );
 };
+
 export default Navigation;
