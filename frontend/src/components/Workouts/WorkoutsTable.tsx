@@ -22,12 +22,6 @@ import EditIcon from "@mui/icons-material/Edit";
 import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import WorkoutsItem from "./WorkoutsItem";
 
-interface WorkoutsTableProps {
-  training: Training;
-  handleRefreshTraining: () => void;
-  lastTrainingId: number;
-}
-
 const ContainerForTable = styled(TableContainer)({
   maxWidth: "31.25rem",
   background: palette.white,
@@ -58,19 +52,20 @@ const Cell = styled(TableCell)({
   verticalAlign: "bottom",
 });
 
-const WorkoutsTable: FC<WorkoutsTableProps> = ({
-  training,
-  handleRefreshTraining,
-  lastTrainingId,
-}) => {
+interface WorkoutsTableProps {
+  training: Training;
+  handleRefreshTraining: () => void;
+}
+
+const WorkoutsTable: FC<WorkoutsTableProps> = ({ training,handleRefreshTraining }) => {
   const [allExercise, setAllExercise] = useState<Exercise[]>([]);
 
   const onDeleteClick = (id: number) => {
     void trainingApi.deleteTrainingById(id).then(() => {
-      handleRefreshTraining();
-    });
-    void exerciseApi.deleteExercise(id).then(() => {
-      handleRefreshTraining();
+      //sprawdzić czy ćw z takim id istnieją
+      void exerciseApi.deleteExercises(id).then(() => {
+        handleRefreshTraining();
+      });
     });
   };
 

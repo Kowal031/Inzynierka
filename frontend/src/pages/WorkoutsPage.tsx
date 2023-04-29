@@ -5,6 +5,7 @@ import trainingApi from "../api/trainingApi";
 import AddWorkouts from "../components/Workouts/AddWorkouts";
 import WorkoutsTable from "../components/Workouts/WorkoutsTable";
 import Training from "../types/Training";
+import getTrainingId from "../utils/GetTrainingId";
 
 // Container for the WorkoutsTable components
 const ContainerForTable = styled(Box)({
@@ -24,29 +25,36 @@ const ContainerForAddButton = styled(Box)({
 
 const WorkoutsPage: FC = () => {
   const [training, setTraining] = useState<Training[]>([]);
+  const [openModal, setOpenModal] = useState(false);
   const [refreshTraining, setRefreshTraining] = useState(false);
-  const [lastTrainingId, setLastTrainingId] = useState<number>(0);
 
   const handleRefreshTraining = () => {
     setRefreshTraining(!refreshTraining);
   };
 
-  useEffect(() => {
-    // Fetch all trainings and update state
-    void trainingApi
-      .getAllTrainings()
-      .then(({ data }) => {
-        setTraining(data);
-
-        // Get the last training ID, or 0 if there are no trainings
-        const lastId = data.length > 0 ? Math.max(...data.map(({ id }) => id)) : 0;
-
-        // Set the last training ID state variable
-        setLastTrainingId(lastId + 1);
-
-        // Delete any exercises for a training that doesn't exist
-        void exerciseApi.deleteExercises(lastId + 1);
+  const fetchData = async () => {
+    await getTrainingId()
+      .then((trainingId) => {
+        exerciseApi.deleteExercises(trainingId);
+      })
+      .then(() => {
+        setRefreshTraining(!refreshTraining);
+        setOpenModal(false);
       });
+  };
+
+  const handleOpenModal = (): void => {
+    setOpenModal(true);
+    handleRefreshTraining();
+  };
+  const handleCloseModal = () => {
+    fetchData();
+  };
+
+  useEffect(() => {
+    void trainingApi.getAllTrainings().then(({ data }) => {
+      setTraining(data);
+    });
   }, [refreshTraining]);
 
   return (
@@ -54,8 +62,9 @@ const WorkoutsPage: FC = () => {
       {/* Container for the AddWorkouts component */}
       <ContainerForAddButton>
         <AddWorkouts
-          lastTrainingId={lastTrainingId}
-          handleRefreshTraining={handleRefreshTraining}
+          handleCloseModal={handleCloseModal}
+          handleOpenModal={handleOpenModal}
+          openModal={openModal}
         />
       </ContainerForAddButton>
 
@@ -66,7 +75,6 @@ const WorkoutsPage: FC = () => {
           <WorkoutsTable
             key={tra.id} // Add a key prop to fix a warning
             training={tra}
-            lastTrainingId={lastTrainingId}
             handleRefreshTraining={handleRefreshTraining}
           />
         ))}

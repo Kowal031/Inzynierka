@@ -36,7 +36,12 @@ public class TrainingRepository : ITrainingRepository
     public async Task<Training> CreateTraining(TrainingDto training)
     {
         var query =
-            @"INSERT INTO Training(Name, ShouldersInjury ,ChestInjury  ,BackInjury  ,BicepsInjury ,TricepsInjury
+            @"IF NOT EXISTS (SELECT * FROM Training)
+                BEGIN
+                    DBCC CHECKIDENT (Training, RESEED, 0);
+                END
+
+            INSERT INTO Training(Name, ShouldersInjury ,ChestInjury  ,BackInjury  ,BicepsInjury ,TricepsInjury
                     ,AbdominalInjury ,ButtocksInjury ,QuadricepsInjury ,HamstringsInjury ,ClavesInjury, Date) 
             VALUES (@Name, @ShouldersInjury ,@ChestInjury  ,@BackInjury  ,@BicepsInjury ,@TricepsInjury
                     ,@AbdominalInjury ,@ButtocksInjury ,@QuadricepsInjury ,@HamstringsInjury ,@ClavesInjury, GETDATE())

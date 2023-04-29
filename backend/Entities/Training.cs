@@ -3,7 +3,7 @@
 public class Training
 {
     public int Id { get; set; }
-    public string Name { get; set; }
+    public string? Name { get; set; }
     public int? ShouldersInjury { get; set; }
     public int? ChestInjury { get; set; }
     public int? BackInjury { get; set; }

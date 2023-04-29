@@ -3,13 +3,13 @@ import trainingApi from "../../../api/trainingApi";
 import ExerciseBase from "../../../types/ExerciseBase";
 import WorkoutsStepper from "./WorkoutsStepper";
 import MuscleGroupInjuriesState from "../../../types/MuscleGroupInjuriesState";
+import getTrainingId from "../../../utils/GetTrainingId";
 
 interface TitleProps {
   title: string;
 }
 
 interface ManageStepperProps {
-  lastTrainingId: number;
   handleCloseModal: () => void;
 }
 
@@ -26,42 +26,53 @@ const initialState: MuscleGroupInjuriesState = {
   claves: false,
 };
 
-const ManageStepper: FC<ManageStepperProps> = ({
-  handleCloseModal,
-  lastTrainingId,
-}) => {
+const ManageStepper: FC<ManageStepperProps> = ({ handleCloseModal }) => {
   const [activeStep, setActiveStep] = useState<number>(0);
   const [title, setTitle] = useState<TitleProps>({ title: "" });
-  const [state, setState] = useState<MuscleGroupInjuriesState>(initialState);
+  const [injuries, setInjuries] =
+    useState<MuscleGroupInjuriesState>(initialState);
   const [valueForExercise, setValueForExercise] = useState<ExerciseBase | null>(
     null
   );
   const [valueForSets, setValueForSets] = useState<number>(1);
 
   const stepperNextManagement = () => {
-    if (activeStep === steps.length - 1) {
-      AddTraining();
-    } else {
-      void trainingApi.deleteTrainingById(lastTrainingId).then(() => {});
+    switch (activeStep) {
+      case 2:
+        void trainingApi
+          .createTraining(
+            title.title,
+            injuries.schoulder === true ? 3 : 0,
+            injuries.chest === true ? 3 : 0,
+            injuries.back === true ? 3 : 0,
+            injuries.biceps === true ? 3 : 0,
+            injuries.triceps === true ? 3 : 0,
+            injuries.abdominal === true ? 3 : 0,
+            injuries.buttocks === true ? 3 : 0,
+            injuries.quadraceps === true ? 3 : 0,
+            injuries.hamstring === true ? 3 : 0,
+            injuries.claves === true ? 3 : 0
+          )
+          .then(() => {
+            handleCloseModal();
+          });
+        break;
+      default:
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        break;
     }
-
-    activeStep === steps.length - 1 ? handleCloseModal() : handleNext();
   };
 
-  const AddTraining = () => {
-    trainingApi.createTraining(
-      title.title,
-      state.schoulder === true ? 3 : 0,
-      state.chest === true ? 3 : 0,
-      state.back === true ? 3 : 0,
-      state.biceps === true ? 3 : 0,
-      state.triceps === true ? 3 : 0,
-      state.abdominal === true ? 3 : 0,
-      state.buttocks === true ? 3 : 0,
-      state.quadraceps === true ? 3 : 0,
-      state.hamstring === true ? 3 : 0,
-      state.claves === true ? 3 : 0
-    );
+  const stepperBackManagement = () => {
+    switch (activeStep) {
+      case 0:
+        handleCloseModal();
+
+        break;
+      default:
+        setActiveStep((prevActiveStep) => prevActiveStep - 1);
+        break;
+    }
   };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -69,8 +80,8 @@ const ManageStepper: FC<ManageStepperProps> = ({
   };
 
   const handleChangeCheckbox = (event: ChangeEvent<HTMLInputElement>) => {
-    setState({
-      ...state,
+    setInjuries({
+      ...injuries,
       [event.target.name]: event.target.checked,
     });
   };
@@ -83,35 +94,22 @@ const ManageStepper: FC<ManageStepperProps> = ({
     setValueForSets(valueForSets);
   };
 
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
   const steps = [
     "Select Training Details",
     "Select Workouts, Sets, Weight",
     "Create Training",
   ];
 
-  const stepperBackManagement = () => {
-    activeStep === 0 ? handleCloseModal() : handleBack();
-  };
-
   return (
     <WorkoutsStepper
       activeStep={activeStep}
       handleChangeCheckbox={handleChangeCheckbox}
       handleChange={handleChange}
-      state={state}
+      state={injuries}
       valueForExercise={valueForExercise}
       valueForSets={valueForSets}
       inputValueExercise={inputValueExercise}
       inputValueSet={inputValueSet}
-      lastTrainingId={lastTrainingId}
       stepperBackManagement={stepperBackManagement}
       stepperNextManagement={stepperNextManagement}
       steps={steps}

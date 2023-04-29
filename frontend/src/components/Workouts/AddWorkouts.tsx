@@ -3,6 +3,7 @@ import { FC, useEffect, useState } from "react";
 import CommonModal from "../common/CommonModal";
 import ManageStepper from "./addTrainingStepper/ManageStepper";
 import { palette } from "../../assets/palette";
+import trainingApi from "../../api/trainingApi";
 
 const Container = styled(Button)({
   height: "4rem",
@@ -24,25 +25,17 @@ const Container = styled(Button)({
 });
 
 interface AddWorkoutsProps {
-  lastTrainingId: number;
-  handleRefreshTraining: () => void;
+  handleOpenModal: () => void;
+  openModal: boolean;
+  handleCloseModal: () => void;
 }
 
 const AddWorkouts: FC<AddWorkoutsProps> = ({
-  lastTrainingId,
-  handleRefreshTraining,
+  handleCloseModal,
+  handleOpenModal,
+  openModal,
 }) => {
-  const [openModal, setOpenModal] = useState(false);
   const [parentOpen, setParentOpen] = useState(false);
-
-  const handleOpenModal = (): void => {
-    setOpenModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setOpenModal(false);
-    handleRefreshTraining();
-  };
 
   useEffect(() => {
     if (!openModal) setParentOpen(false);
@@ -63,10 +56,9 @@ const AddWorkouts: FC<AddWorkoutsProps> = ({
         <Box>
           <CommonModal
             openModal={openModal}
-            handleClose={handleCloseModal}
+            handleCloseModal={handleCloseModal}
             children={
               <ManageStepper
-                lastTrainingId={lastTrainingId}
                 handleCloseModal={handleCloseModal}
               />
             }

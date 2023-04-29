@@ -1,9 +1,4 @@
-import {
-  Autocomplete,
-  Button,
-  Paper,
-  TextField,
-} from "@mui/material";
+import { Autocomplete, Button, Paper, TextField } from "@mui/material";
 import { FC, useEffect, useState } from "react";
 import ExerciseBase from "../../../../types/ExerciseBase";
 import styled from "@mui/material/styles/styled";
@@ -11,6 +6,7 @@ import exerciseBaseApi from "../../../../api/exerciseBaseApi";
 import exerciseApi from "../../../../api/exerciseApi";
 import Exercise from "../../../../types/Exercise";
 import ExerciseTable from "./ExerciseTable";
+import getTrainingId from "../../../../utils/GetTrainingId";
 
 const FormContainer = styled("form")({
   paddingTop: "1rem",
@@ -28,7 +24,6 @@ interface StepWorkoutSetsWeightProps {
   inputValueSet: (valueForSets: number) => void;
   valueForExercise: ExerciseBase | null;
   valueForSets: number;
-  lastTrainingId: number;
 }
 
 const StepWorkoutSetsWeight: FC<StepWorkoutSetsWeightProps> = ({
@@ -36,10 +31,18 @@ const StepWorkoutSetsWeight: FC<StepWorkoutSetsWeightProps> = ({
   inputValueSet,
   valueForSets,
   valueForExercise,
-  lastTrainingId,
 }) => {
   const [exerciseBase, setExerciseBase] = useState<ExerciseBase[]>([]);
   const [myExercise, setMyExercise] = useState<Exercise[]>([]);
+  const [lastTrainingId, setLastTrainingId] = useState<number>(0);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const id = await getTrainingId();
+      setLastTrainingId(id);
+    };
+    fetchData();
+  }, []);
 
   const getMyExercise = () => {
     void exerciseApi

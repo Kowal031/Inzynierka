@@ -21,21 +21,21 @@ const CommonBox = styled(Box)({
 // Define the props for the CommonModal component
 interface CommonModalProps {
   openModal: boolean;
-  handleClose: () => void;
   children: ReactNode;
+  handleCloseModal: ()=>void;
 }
 
 // Define the CommonModal component
 const CommonModal: FC<CommonModalProps> = ({
   openModal,
-  handleClose,
   children,
+  handleCloseModal
 }) => {
   // Render the Modal component with the open and onClose props
   // Render the Box component with the background, display, boxShadow, and padding props
   // Render the children prop within the Box component
   return (
-    <CommonStyledModal open={openModal} onClose={handleClose}>
+    <CommonStyledModal open={openModal} onClose={handleCloseModal}>
       <CommonBox>{children}</CommonBox>
     </CommonStyledModal>
   );

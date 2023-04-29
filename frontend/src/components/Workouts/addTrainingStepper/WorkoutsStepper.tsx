@@ -34,7 +34,6 @@ interface WorkoutsStepperProps {
   valueForSets: number;
   inputValueExercise: (value: ExerciseBase | null) => void;
   inputValueSet: (valueForSets: number) => void;
-  lastTrainingId: number;
   stepperBackManagement: () => void;
   stepperNextManagement: () => void;
   steps: string[];
@@ -49,11 +48,11 @@ const WorkoutsStepper: FC<WorkoutsStepperProps> = ({
   valueForSets,
   inputValueExercise,
   inputValueSet,
-  lastTrainingId,
   stepperBackManagement,
   stepperNextManagement,
   steps,
 }) => {
+  const convertedSteps = activeStep 
   const stepsContent = [
     <StepTrainingDetails
       handleChangeCheckbox={handleChangeCheckbox}
@@ -65,14 +64,13 @@ const WorkoutsStepper: FC<WorkoutsStepperProps> = ({
       valueForSets={valueForSets}
       inputValueExercise={inputValueExercise}
       inputValueSet={inputValueSet}
-      lastTrainingId={lastTrainingId}
     />,
     <StepSubmitWorkout />,
   ];
-
+console.log(convertedSteps)
   return (
     <BoxContainer>
-      <Stepper activeStep={activeStep}>
+      <Stepper activeStep={convertedSteps}>
         {steps.map((step) => (
           <Step key={step}>
             <StepLabel>{step}</StepLabel>
@@ -80,14 +78,14 @@ const WorkoutsStepper: FC<WorkoutsStepperProps> = ({
         ))}
       </Stepper>
       <Typography mt="5px" mb="1px">
-        {stepsContent[activeStep]}
+        {stepsContent[convertedSteps]}
       </Typography>
       <ButtonContainer>
         <Button color="inherit" onClick={stepperBackManagement}>
-          {activeStep === 0 ? "Exit" : "Back"}
+          {convertedSteps === 0 ? "Exit" : "Back"}
         </Button>
         <Button onClick={stepperNextManagement}>
-          {activeStep === steps.length - 1 ? "Confirm" : "Next"}
+          {convertedSteps === steps.length - 1 ? "Confirm" : "Next"}
         </Button>
       </ButtonContainer>
     </BoxContainer>

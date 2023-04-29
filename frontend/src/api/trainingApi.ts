@@ -10,7 +10,9 @@ const getAllTrainings = async (): Promise<AxiosResponse<Training[]>> => {
 };
 
 // Function to get a specific training by ID
-const getTrainingById = async (id: number): Promise<AxiosResponse<Training>> => {
+const getTrainingById = async (
+  id: number
+): Promise<AxiosResponse<Training>> => {
   const url = `${endpoints.baseURL}${endpoints.training}/${id}`;
   const response = await axios.get<Training>(url);
   return response;
