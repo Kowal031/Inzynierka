@@ -15,6 +15,7 @@ import TextField from "@mui/material/TextField";
 import { FC, useEffect, useState } from "react";
 import exerciseBaseApi from "../../../api/exerciseBaseApi";
 import { palette } from "../../../assets/palette";
+import EditExercise from "../../../types/EditExercise";
 import Exercise from "../../../types/Exercise";
 import ExerciseBase from "../../../types/ExerciseBase";
 import Training from "../../../types/Training";
@@ -44,7 +45,7 @@ const EditTraining: FC<EditTrainingProps> = ({ allExercise, training }) => {
   const [valueForExercise, setValueForExercise] = useState<{
     [key: number]: ExerciseBase | null;
   }>({});
-
+  const [data, setData ] = useState<EditExercise[]>()
 
   const inputValueExercise = (value: ExerciseBase, exerciseId: number) => {
     setValueForExercise({
@@ -52,17 +53,16 @@ const EditTraining: FC<EditTrainingProps> = ({ allExercise, training }) => {
       [exerciseId]: value,
     });
   };
-  console.log(valueForExercise);
+
   const changeTitle = (value: string) => {
     setTitle(value);
   };
 
-  const inputValueSet = (sets: number, exerciseId: number) => {
+  const inputValueSet = (value: any, exerciseId: any) => {
     setValueForSets({
       ...valueForSets,
-      [exerciseId]: sets,
+      [exerciseId]: value,
     });
-    setValueForSets(valueForSets);
   };
 
   useEffect(() => {
@@ -70,6 +70,31 @@ const EditTraining: FC<EditTrainingProps> = ({ allExercise, training }) => {
       .getAllExerciseBase()
       .then(({ data }) => setExerciseBase(data));
   }, []);
+
+  const handleOnSave = () => {
+    const exercises: EditExercise[] = [];
+  
+    Object.keys(valueForExercise).forEach((id) => {
+      const exerciseBase = valueForExercise[parseInt(id)];
+      const numberOfSeries = valueForSets[parseInt(id)];
+  
+      if (exerciseBase) {
+        exercises.push({
+          id: parseInt(id),
+          idTraining: training.id,
+          treningTitle: title,
+          name: exerciseBase.name,
+          idExerciseBase: exerciseBase.id,
+          numberOfSeries,
+        });
+      }
+    });
+  
+    setData(exercises);
+  };
+
+  console.log(data)
+
 
   return (
     <ContainerForTable>
@@ -108,11 +133,11 @@ const EditTraining: FC<EditTrainingProps> = ({ allExercise, training }) => {
                 inputValueExercise={inputValueExercise}
                 valueForExercise={valueForExercise[exercise.id]}
                 valueForSets={valueForSets[exercise.id]}
-        
               />
             ))}
           </TableBody>
         </Table>
+        <Button variant="contained" fullWidth onClick={handleOnSave} >Save</Button>
       </Paper>
     </ContainerForTable>
   );

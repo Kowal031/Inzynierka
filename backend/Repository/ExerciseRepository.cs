@@ -7,12 +7,12 @@ using Dapper;
 
 namespace backend.Repository;
 
-public class ExerciseRepository  : IExerciseRepository
+public class ExerciseRepository : IExerciseRepository
 {
     private readonly DapperContext _context;
 
     public ExerciseRepository(DapperContext context) => _context = context;
-    
+
     public async Task<IEnumerable<Exercise>> GetExercise()
     {
         var query = @"SELECT * FROM Exercise
@@ -22,18 +22,18 @@ public class ExerciseRepository  : IExerciseRepository
 
         return exercise;
     }
-    
+
     public async Task<IEnumerable<Exercise>> GetExerciseByTrainingId(int id)
     {
         var query = @"SELECT * FROM Exercise
 WHERE IdTraining = @Id
                      ";
         using var connection = _context.CreateConnection();
-        var exercise = await connection.QueryAsync<Exercise>(query, new {id});
+        var exercise = await connection.QueryAsync<Exercise>(query, new { id });
 
         return exercise;
     }
-    
+
     public async Task<Exercise> GetExercise(int id)
     {
         var query = @"SELECT * FROM Exercise
@@ -72,6 +72,9 @@ WHERE IdTraining = @Id
         return createdExercise;
     }
 
+ 
+
+
     public async Task DeleteExercise(int id)
     {
         var query = @"DELETE FROM Exercise WHERE Id = @Id";
@@ -91,18 +94,34 @@ WHERE IdTraining = @Id
         }
     }
 
-    public async Task UpdateExercise(int id, ExerciseDto exerciseDto)
+    public async Task UpdateExercise(EditExerciseDto[] editExerciseDtos)
     {
-        var query = @"";
-        var parametrs = new DynamicParameters();
-        parametrs.Add("IdTraining", exerciseDto.IdTraining, DbType.Int32);
-        parametrs.Add("Name", exerciseDto.Name, DbType.String);
-        parametrs.Add("IdExerciseBase", exerciseDto.IdExerciseBase, DbType.Int32);
-        parametrs.Add("NumberOfSeries", exerciseDto.NumberOfSeries, DbType.Int32);
+        var query =
+            @"UPDATE Exercise SET Name = @Name, IdExerciseBase = @IdExerciseBase,  NumberOfSeries = @NumberOfSeries 
+    WHERE Id = @Id";
 
         using (var connection = _context.CreateConnection())
         {
-            await connection.ExecuteAsync(query, parametrs);
+            foreach (var editExerciseDto in editExerciseDtos)
+            {
+                var parameters = new DynamicParameters();
+   
+                parameters.Add("Id", editExerciseDto.Id, DbType.Int32);
+                parameters.Add("Name", editExerciseDto.Name, DbType.String);
+       
+                parameters.Add("IdExerciseBase", editExerciseDto.IdExerciseBase, DbType.Int32);
+                parameters.Add("NumberOfSeries", editExerciseDto.NumberOfSeries, DbType.Int32);
+                parameters.Add("TrainingTitle", editExerciseDto.TreningTitle, DbType.String);
+
+                await connection.ExecuteAsync(query, parameters);
+
+                var trainingQuery = @"UPDATE Training SET Name = @TrainingTitle WHERE Id = @IdTraining";
+                var parametersForTraining = new DynamicParameters();
+                parametersForTraining.Add("IdTraining", editExerciseDto.IdTraining, DbType.Int32);
+                parametersForTraining.Add("TrainingTitle", editExerciseDto.TreningTitle, DbType.String);
+
+                await connection.ExecuteAsync(trainingQuery, parametersForTraining);
+            }
         }
     }
 }

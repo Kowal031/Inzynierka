@@ -1,6 +1,7 @@
 import { Autocomplete, TableCell, TableRow, TextField } from "@mui/material";
+
 import React from "react";
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import Exercise from "../../../types/Exercise";
 import ExerciseBase from "../../../types/ExerciseBase";
 
@@ -9,10 +10,9 @@ interface EditTrainingTableProps {
   exerciseBase: ExerciseBase[];
   trainingId: number;
   inputValueSet: (valueForSets: number, exerciseId: number) => void;
-  inputValueExercise: (value: ExerciseBase, exerciseId: number ) => void;
+  inputValueExercise: (value: ExerciseBase, exerciseId: number) => void;
   valueForExercise: ExerciseBase | null;
   valueForSets: number;
-
 }
 
 const EditTrainingTable: FC<EditTrainingTableProps> = ({
@@ -23,15 +23,9 @@ const EditTrainingTable: FC<EditTrainingTableProps> = ({
   inputValueSet,
   inputValueExercise,
   exercise,
-
 }) => {
-  const defaultValue = exerciseBase.find(
-    (e) => e.id === exercise.idExerciseBase
-  );
-console.log(defaultValue)
-console.log(valueForSets)
-console.log(valueForExercise)
-
+  const defaultValue =
+    exerciseBase.find((e) => e.id === exercise.idExerciseBase) || null;
 
   return (
     <TableRow>
@@ -40,9 +34,13 @@ console.log(valueForExercise)
           id={`${exercise.id}`}
           options={exerciseBase}
           getOptionLabel={(exerciseBase) => exerciseBase.name}
-         
-          value={valueForExercise === null && defaultValue !== undefined ? defaultValue : valueForExercise}
-          onChange={(event, value) => inputValueExercise(value !== null ? value : exerciseBase[0], exercise.id)}
+          value={valueForExercise }
+          onChange={(event, value) =>
+            inputValueExercise(
+              value !== null ? value : exerciseBase[0],
+              exercise.id
+            )
+          }
           renderInput={(params) => <TextField {...params} label="Exercise" />}
         />
       </TableCell>
@@ -56,8 +54,10 @@ console.log(valueForExercise)
               min: 1,
             },
           }}
-          value={valueForSets === undefined ? exercise.numberOfSeries : valueForSets}
-          onChange={(event) => inputValueSet(parseInt(event.target.value),exercise.id)}
+          value={valueForSets ?? exercise.numberOfSeries}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+            inputValueSet(Number(event.target.value), exercise.id)
+          }
         />
       </TableCell>
     </TableRow>

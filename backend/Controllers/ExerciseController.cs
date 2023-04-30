@@ -1,4 +1,5 @@
 ﻿using backend.Dto;
+using backend.Entities;
 using backend.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -71,13 +72,17 @@ public class ExerciseController : ControllerBase
         return NoContent();
     }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateExercise(int id, [FromBody] ExerciseDto exerciseDto)
+    [HttpPut]
+    public async Task<IActionResult> UpdateExercise([FromBody] EditExerciseDto[] editExerciseDtos)
     {
-        var exerciseRepo = await _exerciseRepo.GetExercise(id);
-        if (exerciseRepo is null)
-            return NotFound();
-        await _exerciseRepo.UpdateExercise(id, exerciseDto);
+        foreach (var editExerciseDto in editExerciseDtos)
+        {
+            var exerciseRepo = await _exerciseRepo.GetExercise(editExerciseDto.Id);
+            if (exerciseRepo is null)
+                return NotFound();
+        }
+
+        await _exerciseRepo.UpdateExercise(editExerciseDtos);
 
         return NoContent();
     }
