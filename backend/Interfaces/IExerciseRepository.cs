@@ -12,4 +12,5 @@ public interface IExerciseRepository
     public Task DeleteExercise(int id);
     public Task DeleteExercises(int id);
     public Task<Exercise> AddExercise(ExerciseDto exercise);
+    public Task UpdateExercise(int id, ExerciseDto exerciseDto);
 }

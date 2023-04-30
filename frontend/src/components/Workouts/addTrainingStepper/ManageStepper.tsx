@@ -4,6 +4,7 @@ import ExerciseBase from "../../../types/ExerciseBase";
 import WorkoutsStepper from "./WorkoutsStepper";
 import MuscleGroupInjuriesState from "../../../types/MuscleGroupInjuriesState";
 import getTrainingId from "../../../utils/GetTrainingId";
+import { Box } from "@mui/material";
 
 interface TitleProps {
   title: string;
@@ -101,19 +102,21 @@ const ManageStepper: FC<ManageStepperProps> = ({ handleCloseModal }) => {
   ];
 
   return (
-    <WorkoutsStepper
-      activeStep={activeStep}
-      handleChangeCheckbox={handleChangeCheckbox}
-      handleChange={handleChange}
-      state={injuries}
-      valueForExercise={valueForExercise}
-      valueForSets={valueForSets}
-      inputValueExercise={inputValueExercise}
-      inputValueSet={inputValueSet}
-      stepperBackManagement={stepperBackManagement}
-      stepperNextManagement={stepperNextManagement}
-      steps={steps}
-    />
+    <Box sx={{ padding: " 4rem" }}>
+      <WorkoutsStepper
+        activeStep={activeStep}
+        handleChangeCheckbox={handleChangeCheckbox}
+        handleChange={handleChange}
+        state={injuries}
+        valueForExercise={valueForExercise}
+        valueForSets={valueForSets}
+        inputValueExercise={inputValueExercise}
+        inputValueSet={inputValueSet}
+        stepperBackManagement={stepperBackManagement}
+        stepperNextManagement={stepperNextManagement}
+        steps={steps}
+      />
+    </Box>
   );
 };
 

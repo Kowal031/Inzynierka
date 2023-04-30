@@ -2,7 +2,7 @@
 
 public class ExerciseBase
 {
-    public string? Id { get; set; }
+    public int? Id { get; set; }
     public string? Name { get; set; }
     public int? ShouldersInjuryGenerating { get; set; }
     public int? ChestInjuryGenerating { get; set; }

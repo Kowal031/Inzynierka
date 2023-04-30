@@ -12,18 +12,21 @@ import {
   Typography,
 } from "@mui/material";
 import { FC, useEffect, useState } from "react";
-import { palette } from "../../assets/palette";
-import Exercise from "../../types/Exercise";
-import Training from "../../types/Training";
-import exerciseApi from "../../api/exerciseApi";
-import trainingApi from "../../api/trainingApi";
-import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import PlayCircleIcon from "@mui/icons-material/PlayCircle";
+import trainingApi from "../../../api/trainingApi";
+import exerciseApi from "../../../api/exerciseApi";
+import { palette } from "../../../assets/palette";
+import Exercise from "../../../types/Exercise";
+import Training from "../../../types/Training";
 import WorkoutsItem from "./WorkoutsItem";
+import CommonModal from "../../common/CommonModal";
+import EditTraining from "../editTraining/EditTraining";
+// import ExerciseBase from "../../../types/ExerciseBase";
 
 const ContainerForTable = styled(TableContainer)({
-  maxWidth: "31.25rem",
+  maxWidth: "32.25rem",
   background: palette.white,
   boxShadow: "2px 2px 7px 0px rgba(66, 68, 90, 1)",
   margin: "1rem",
@@ -57,9 +60,12 @@ interface WorkoutsTableProps {
   handleRefreshTraining: () => void;
 }
 
-const WorkoutsTable: FC<WorkoutsTableProps> = ({ training,handleRefreshTraining }) => {
+const WorkoutsTable: FC<WorkoutsTableProps> = ({
+  training,
+  handleRefreshTraining,
+}) => {
   const [allExercise, setAllExercise] = useState<Exercise[]>([]);
-
+  const [openEditModal, setOpenEditModal] = useState(false);
   const onDeleteClick = (id: number) => {
     void trainingApi.deleteTrainingById(id).then(() => {
       //sprawdzić czy ćw z takim id istnieją
@@ -67,6 +73,14 @@ const WorkoutsTable: FC<WorkoutsTableProps> = ({ training,handleRefreshTraining 
         handleRefreshTraining();
       });
     });
+  };
+
+  const handleOnEditClick = () => {
+    setOpenEditModal(true);
+  };
+
+  const handleCloseEditModal = () => {
+    setOpenEditModal(false);
   };
 
   useEffect(() => {
@@ -90,9 +104,35 @@ const WorkoutsTable: FC<WorkoutsTableProps> = ({ training,handleRefreshTraining 
 
           <ButtonIcon>
             <Tooltip title="Edit workout" placement="top" arrow>
-              <EditIcon sx={{ fontSize: 30 }} />
+              <EditIcon
+                color="action"
+                sx={{ fontSize: 30 }}
+                onClick={handleOnEditClick}
+              />
             </Tooltip>
           </ButtonIcon>
+          <CommonModal
+            openModal={openEditModal}
+            children={
+              <EditTraining
+                allExercise={allExercise}
+                training={training} // exercise={undefined}
+                // exerciseBase={[]}
+                // trainingId={0}
+                // inputValueSet={function (valueForSets: number): void {
+                //   throw new Error("Function not implemented.");
+                // }}
+                // inputValueExercise={function (
+                //   value: ExerciseBase | null
+                // ): void {
+                //   throw new Error("Function not implemented.");
+                // }}
+                // valueForExercise={null}
+                // valueForSets={0}
+              />
+            }
+            handleCloseModal={handleCloseEditModal}
+          />
 
           <ButtonIcon>
             <Tooltip title="Delete workout" placement="top" arrow>
@@ -108,15 +148,21 @@ const WorkoutsTable: FC<WorkoutsTableProps> = ({ training,handleRefreshTraining 
       <Table>
         <TableHead>
           <TableRow>
-            <Cell align="left">Exercise</Cell>
-            <Cell align="left">Average Sets</Cell>
-            <Cell align="left">Average reps</Cell>
-            <Cell align="left">Average weight</Cell>
+            <Cell width="65%" align="left">
+              Exercise
+            </Cell>
+            <Cell width="25%" align="left">
+              Sets
+            </Cell>
+
+            <Cell width="10%" align="left">
+              Details
+            </Cell>
           </TableRow>
         </TableHead>
         <TableBody>
           {allExercise.map((exercise: Exercise) => (
-            <WorkoutsItem exercise={exercise} />
+            <WorkoutsItem exercise={exercise} trainingId={training.id} />
           ))}
         </TableBody>
       </Table>

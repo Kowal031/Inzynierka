@@ -15,7 +15,6 @@ const CommonBox = styled(Box)({
   display: "flex",
   flexWrap: "wrap",
   boxShadow: "0px 0px 24px rgba(0,0,0,0.1)",
-  padding: "4rem",
 });
 
 // Define the props for the CommonModal component

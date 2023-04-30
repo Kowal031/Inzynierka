@@ -43,7 +43,7 @@ WHERE IdTraining = @Id
 
         return exercise;
     }
-    
+
     public async Task<Exercise> AddExercise(ExerciseDto exercise)
     {
         var query =
@@ -71,7 +71,7 @@ WHERE IdTraining = @Id
 
         return createdExercise;
     }
-    
+
     public async Task DeleteExercise(int id)
     {
         var query = @"DELETE FROM Exercise WHERE Id = @Id";
@@ -88,6 +88,21 @@ WHERE IdTraining = @Id
         using (var connection = _context.CreateConnection())
         {
             await connection.ExecuteAsync(query, new { id });
+        }
+    }
+
+    public async Task UpdateExercise(int id, ExerciseDto exerciseDto)
+    {
+        var query = @"";
+        var parametrs = new DynamicParameters();
+        parametrs.Add("IdTraining", exerciseDto.IdTraining, DbType.Int32);
+        parametrs.Add("Name", exerciseDto.Name, DbType.String);
+        parametrs.Add("IdExerciseBase", exerciseDto.IdExerciseBase, DbType.Int32);
+        parametrs.Add("NumberOfSeries", exerciseDto.NumberOfSeries, DbType.Int32);
+
+        using (var connection = _context.CreateConnection())
+        {
+            await connection.ExecuteAsync(query, parametrs);
         }
     }
 }

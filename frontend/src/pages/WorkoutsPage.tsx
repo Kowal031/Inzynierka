@@ -3,7 +3,7 @@ import { FC, useEffect, useState } from "react";
 import exerciseApi from "../api/exerciseApi";
 import trainingApi from "../api/trainingApi";
 import AddWorkouts from "../components/Workouts/AddWorkouts";
-import WorkoutsTable from "../components/Workouts/WorkoutsTable";
+import WorkoutsTable from "../components/Workouts/workoutsTable/WorkoutsTable";
 import Training from "../types/Training";
 import getTrainingId from "../utils/GetTrainingId";
 

@@ -70,5 +70,15 @@ public class ExerciseController : ControllerBase
 
         return NoContent();
     }
-    
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateExercise(int id, [FromBody] ExerciseDto exerciseDto)
+    {
+        var exerciseRepo = await _exerciseRepo.GetExercise(id);
+        if (exerciseRepo is null)
+            return NotFound();
+        await _exerciseRepo.UpdateExercise(id, exerciseDto);
+
+        return NoContent();
+    }
 }
