@@ -10,7 +10,9 @@ builder.Services.AddSingleton<DapperContext>();
 builder.Services.AddScoped<ITrainingRepository, TrainingRepository>();
 builder.Services.AddScoped<IExerciseRepository, ExerciseRepository>();
 builder.Services.AddScoped<IExerciseBaseRepository, ExerciseBaseRepository>();
+builder.Services.AddScoped<ISeriesAndRepsRepository, SeriesAndRepsRepository>();
 builder.Services.AddControllers();
+
 
 
 // Add services to the container.

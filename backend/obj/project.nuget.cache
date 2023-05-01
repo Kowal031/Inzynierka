@@ -1,13 +1,16 @@
 {
   "version": 2,
-  "dgSpecHash": "L3elW9ASvH2V7/K/x7ldVAvOpwcGv0DPwKtlEmD6vsd0ny6MB1cL7AIkgEnLhBKiZSK0Xhu89dPZXmbC3XneiQ==",
+  "dgSpecHash": "xio3SY47Vw0EgtNmK7K2LyP76w4l5ArI3XrsV2AJsz6IUlKPXowxYIY3N3rSdHXf8ai70lwvjoYMY9Ua+8f04w==",
   "success": true,
   "projectFilePath": "C:\\Users\\Maciej.LAPTOP-A8IIEIHI\\Desktop\\Inzynierka\\backend\\backend.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Maciej.LAPTOP-A8IIEIHI\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
+    "C:\\Users\\Maciej.LAPTOP-A8IIEIHI\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
     "C:\\Users\\Maciej.LAPTOP-A8IIEIHI\\.nuget\\packages\\dapper\\2.0.123\\dapper.2.0.123.nupkg.sha512",
     "C:\\Users\\Maciej.LAPTOP-A8IIEIHI\\.nuget\\packages\\mediatr\\11.1.0\\mediatr.11.1.0.nupkg.sha512",
     "C:\\Users\\Maciej.LAPTOP-A8IIEIHI\\.nuget\\packages\\mediatr.contracts\\1.0.1\\mediatr.contracts.1.0.1.nupkg.sha512",
     "C:\\Users\\Maciej.LAPTOP-A8IIEIHI\\.nuget\\packages\\mediatr.extensions.microsoft.dependencyinjection\\11.1.0\\mediatr.extensions.microsoft.dependencyinjection.11.1.0.nupkg.sha512",
+    "C:\\Users\\Maciej.LAPTOP-A8IIEIHI\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\Maciej.LAPTOP-A8IIEIHI\\.nuget\\packages\\microsoft.entityframeworkcore\\7.0.2\\microsoft.entityframeworkcore.7.0.2.nupkg.sha512",
     "C:\\Users\\Maciej.LAPTOP-A8IIEIHI\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\7.0.2\\microsoft.entityframeworkcore.abstractions.7.0.2.nupkg.sha512",
     "C:\\Users\\Maciej.LAPTOP-A8IIEIHI\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\7.0.2\\microsoft.entityframeworkcore.analyzers.7.0.2.nupkg.sha512",

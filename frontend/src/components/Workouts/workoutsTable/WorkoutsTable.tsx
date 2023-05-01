@@ -23,6 +23,7 @@ import Training from "../../../types/Training";
 import WorkoutsItem from "./WorkoutsItem";
 import CommonModal from "../../common/CommonModal";
 import EditTraining from "../editTraining/EditTraining";
+import { useNavigate  } from "react-router-dom";
 // import ExerciseBase from "../../../types/ExerciseBase";
 
 const ContainerForTable = styled(TableContainer)({
@@ -66,6 +67,8 @@ const WorkoutsTable: FC<WorkoutsTableProps> = ({
 }) => {
   const [allExercise, setAllExercise] = useState<Exercise[]>([]);
   const [openEditModal, setOpenEditModal] = useState(false);
+  const navigate  = useNavigate();
+
   const onDeleteClick = (id: number) => {
     void trainingApi.deleteTrainingById(id).then(() => {
       //sprawdzić czy ćw z takim id istnieją
@@ -81,13 +84,18 @@ const WorkoutsTable: FC<WorkoutsTableProps> = ({
 
   const handleCloseEditModal = () => {
     setOpenEditModal(false);
+    handleRefreshTraining();
   };
+
+  const handleOnPlayClick = (trainingId: number) => {
+    navigate(`/workout/${trainingId}`)
+  }
 
   useEffect(() => {
     exerciseApi.getExerciseByTrainingId(training.id).then(({ data }) => {
       setAllExercise(data);
     });
-  }, [training.id]);
+  }, [training.id,openEditModal]);
 
   return (
     <ContainerForTable>
@@ -98,7 +106,7 @@ const WorkoutsTable: FC<WorkoutsTableProps> = ({
         <ContainerForIcon>
           <ButtonIcon>
             <Tooltip title="Start workout" placement="top" arrow>
-              <PlayCircleIcon sx={{ color: palette.blue, fontSize: 30 }} />
+              <PlayCircleIcon onClick={()=> handleOnPlayClick(training.id)} sx={{ color: palette.blue, fontSize: 30 }} />
             </Tooltip>
           </ButtonIcon>
 
@@ -116,19 +124,8 @@ const WorkoutsTable: FC<WorkoutsTableProps> = ({
             children={
               <EditTraining
                 allExercise={allExercise}
-                training={training} // exercise={undefined}
-                // exerciseBase={[]}
-                // trainingId={0}
-                // inputValueSet={function (valueForSets: number): void {
-                //   throw new Error("Function not implemented.");
-                // }}
-                // inputValueExercise={function (
-                //   value: ExerciseBase | null
-                // ): void {
-                //   throw new Error("Function not implemented.");
-                // }}
-                // valueForExercise={null}
-                // valueForSets={0}
+                training={training} 
+                handleRefreshTraining={handleCloseEditModal}
               />
             }
             handleCloseModal={handleCloseEditModal}

@@ -79,6 +79,7 @@ const Navigation: FC = () => {
       </ListItem>
       <CommonBox>
         {RouteItems.map(({ toPath, name }, index) => (
+          index !== RouteItems.length -1 &&
           <ListItem key={toPath}>
             <NavLink
               to={toPath}

@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from "axios";
+import EditExercise from "../types/EditExercise";
 import Exercise from "../types/Exercise";
 import endpoints from "./endpoints";
 
@@ -36,12 +37,24 @@ const deleteExercises = async (id: number): Promise<AxiosResponse<void>> => {
   return response;
 };
 
+
+
+const updateExercise = async (editExerciseDtos: EditExercise[]) => {
+  try {
+    const response = await axios.put(`${endpoints.baseURL}${endpoints.exercise}`, editExerciseDtos);
+    console.log(response.data);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 // API object with all functions
 const exerciseApi = {
   getExerciseByTrainingId,
   addExercise,
   deleteExercise,
   deleteExercises,
+  updateExercise
 };
 
 export default exerciseApi;

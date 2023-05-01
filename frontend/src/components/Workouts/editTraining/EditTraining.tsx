@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { FC, useEffect, useState } from "react";
+import exerciseApi from "../../../api/exerciseApi";
 import exerciseBaseApi from "../../../api/exerciseBaseApi";
 import { palette } from "../../../assets/palette";
 import EditExercise from "../../../types/EditExercise";
@@ -36,16 +37,17 @@ const Cell = styled(TableCell)({
 interface EditTrainingProps {
   allExercise: Exercise[];
   training: Training;
+  handleRefreshTraining: () => void;
 }
 
-const EditTraining: FC<EditTrainingProps> = ({ allExercise, training }) => {
+const EditTraining: FC<EditTrainingProps> = ({ allExercise, training,handleRefreshTraining }) => {
   const [title, setTitle] = useState<string>(training.name);
   const [exerciseBase, setExerciseBase] = useState<ExerciseBase[]>([]);
   const [valueForSets, setValueForSets] = useState<number[]>([]);
   const [valueForExercise, setValueForExercise] = useState<{
     [key: number]: ExerciseBase | null;
   }>({});
-  const [data, setData ] = useState<EditExercise[]>()
+  const [data, setData] = useState<EditExercise[]>();
 
   const inputValueExercise = (value: ExerciseBase, exerciseId: number) => {
     setValueForExercise({
@@ -73,11 +75,11 @@ const EditTraining: FC<EditTrainingProps> = ({ allExercise, training }) => {
 
   const handleOnSave = () => {
     const exercises: EditExercise[] = [];
-  
+
     Object.keys(valueForExercise).forEach((id) => {
       const exerciseBase = valueForExercise[parseInt(id)];
       const numberOfSeries = valueForSets[parseInt(id)];
-  
+
       if (exerciseBase) {
         exercises.push({
           id: parseInt(id),
@@ -89,12 +91,12 @@ const EditTraining: FC<EditTrainingProps> = ({ allExercise, training }) => {
         });
       }
     });
-  
-    setData(exercises);
+    void exerciseApi.updateExercise(exercises).then(()=>{
+      handleRefreshTraining()
+    })
   };
 
-  console.log(data)
-
+  console.log(data);
 
   return (
     <ContainerForTable>
@@ -137,7 +139,9 @@ const EditTraining: FC<EditTrainingProps> = ({ allExercise, training }) => {
             ))}
           </TableBody>
         </Table>
-        <Button variant="contained" fullWidth onClick={handleOnSave} >Save</Button>
+        <Button variant="contained" fullWidth onClick={handleOnSave}>
+          Save
+        </Button>
       </Paper>
     </ContainerForTable>
   );
