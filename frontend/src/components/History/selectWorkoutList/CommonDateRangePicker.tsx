@@ -1,3 +1,4 @@
+import { Button } from "@mui/material";
 import React, { useState } from "react";
 import DatePicker, { ReactDatePickerProps } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -15,6 +16,11 @@ const CommonDateRangePicker: React.FC<CommonDateRangePickerProps> = ({
   endDate,
   handleEndDateChange,
 }) => {
+  const handleReset = () => {
+    handleStartDateChange(null);
+    handleEndDateChange(null);
+  };
+
   const datePickerProps: ReactDatePickerProps = {
     selected: startDate,
     onChange: handleStartDateChange,
@@ -38,6 +44,7 @@ const CommonDateRangePicker: React.FC<CommonDateRangePickerProps> = ({
     <div>
       <DatePicker {...datePickerProps} />
       <DatePicker {...endDatePickerProps} />
+      <Button size="small" variant="contained" onClick={handleReset}>Reset filter</Button>
     </div>
   );
 };
