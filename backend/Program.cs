@@ -11,6 +11,7 @@ builder.Services.AddScoped<ITrainingRepository, TrainingRepository>();
 builder.Services.AddScoped<IExerciseRepository, ExerciseRepository>();
 builder.Services.AddScoped<IExerciseBaseRepository, ExerciseBaseRepository>();
 builder.Services.AddScoped<ISeriesAndRepsRepository, SeriesAndRepsRepository>();
+builder.Services.AddScoped<IHistoryRepository, HistoryRepository>();
 builder.Services.AddControllers();
 
 
