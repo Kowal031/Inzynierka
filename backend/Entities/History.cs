@@ -2,8 +2,9 @@
 
 public class History
 {
+    public int Id { get; set; }
     public int IdExercise { get; set; }
- 
+
     public int Reps { get; set; }
     public int Weight { get; set; }
     public int TrainingId { get; set; }
@@ -11,5 +12,4 @@ public class History
     public DateTime Date { get; set; }
     public int IdBaseExercise { get; set; }
     public string ExerciseName { get; set; }
-    
 }

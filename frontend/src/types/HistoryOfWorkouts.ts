@@ -1,4 +1,5 @@
 interface HistoryOfWorkouts {
+  id?: number;
   idExercise: number;
   reps: number;
   weight: number;
