@@ -96,7 +96,7 @@ const EditTraining: FC<EditTrainingProps> = ({ allExercise, training,handleRefre
     })
   };
 
-  console.log(data);
+
 
   return (
     <ContainerForTable>

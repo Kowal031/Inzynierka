@@ -7,41 +7,38 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import SloRenderValueForHistory from "../../utils/SloRenderValueForHistory";
-
-interface EventsForCalendar {
-  title: string;
-  start: Date;
-}
-
-interface test{
-  trainingId: number;
-  date: Date;
-}
+import EventsForCalendar from "../../types/EventsForCalendar";
 
 interface BasicCalendarProps {
+  getTrainingValueFromCalendar: (title: string, start: Date | null) => void;
   events: EventsForCalendar[];
-  changeRenderValue: (value: SloRenderValueForHistory) => void;
 }
 
 const BasicCalendar: FC<BasicCalendarProps> = ({
+  getTrainingValueFromCalendar,
   events,
-  changeRenderValue,
 }) => {
-  console.log(events);
 
-  
-
+  console.log(events)
   const renderEventContent = (eventInfo: EventContentArg) => {
     return (
       <>
-        {/* <b>{eventInfo.timeText}</b> */}
-        <Button size="small" variant="contained" onClick={() => {changeRenderValue(SloRenderValueForHistory.ValueFromCalendar); console.log(eventInfo.event)}}>
+        <Button
+          size="small"
+          variant="contained"
+          onClick={() => {
+  
+            getTrainingValueFromCalendar(
+              eventInfo.event.title,
+              eventInfo.event.start
+            );
+          }}
+        >
           {eventInfo.event.title}
         </Button>
       </>
     );
   };
-
 
   return (
     <Box
@@ -60,7 +57,7 @@ const BasicCalendar: FC<BasicCalendarProps> = ({
         events={events}
         eventContent={renderEventContent}
         selectable={true}
-        dayMaxEvents={true}
+        dayMaxEvents={5}
       />
     </Box>
   );

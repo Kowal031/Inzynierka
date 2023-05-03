@@ -5,20 +5,18 @@ import HistoryOfWorkouts from "../../../types/HistoryOfWorkouts";
 import SloRenderValueForHistory from "../../../utils/SloRenderValueForHistory";
 import BasicCalendar from "../BasicCalendar";
 
-
-
 interface SelectWorkoutDayProps {
   historyOfWorkouts: HistoryOfWorkouts[];
-  changeRenderValue: (value: SloRenderValueForHistory) => void;
 
+  getTrainingValueFromCalendar: (title: string, start: Date | null) => void;
 }
 
 const SelectWorkoutDay: FC<SelectWorkoutDayProps> = ({
   historyOfWorkouts,
-  changeRenderValue,
+
+  getTrainingValueFromCalendar,
 }) => {
   const [events, setEvents] = useState<EventsForCalendar[]>([]);
-
 
   useEffect(() => {
     const uniqueEventsSet = historyOfWorkouts.reduce<EventsForCalendar[]>(
@@ -34,13 +32,17 @@ const SelectWorkoutDay: FC<SelectWorkoutDayProps> = ({
       },
       []
     );
-    console.log(uniqueEventsSet);
     setEvents(uniqueEventsSet ?? []);
-  }, []);
+  }, [historyOfWorkouts]);
+
+  console.log(events)
 
   return (
     <Box>
-      <BasicCalendar events={events} changeRenderValue={changeRenderValue}/>
+      <BasicCalendar
+        getTrainingValueFromCalendar={getTrainingValueFromCalendar}
+        events={events}
+      />
     </Box>
   );
 };

@@ -10,13 +10,11 @@ interface SelectWorkoutListProps {
   history: HistoryOfWorkouts[];
   inputValueExercise: (value: ExerciseBase | null) => void;
   valueForExercise: any;
-  changeRenderValue: (value: SloRenderValueForHistory) => void
 }
 
 const SelectWorkoutList: FC<SelectWorkoutListProps> = ({
   valueForExercise,
   inputValueExercise,
-  changeRenderValue
 }) => {
   const [exerciseBase, setExerciseBase] = useState<ExerciseBase[]>([]);
 
@@ -25,8 +23,6 @@ const SelectWorkoutList: FC<SelectWorkoutListProps> = ({
       .getAllExerciseBase()
       .then(({ data }) => setExerciseBase(data));
   }, []);
-
-  console.log(valueForExercise);
 
   return (
     <Box
@@ -44,7 +40,9 @@ const SelectWorkoutList: FC<SelectWorkoutListProps> = ({
         getOptionLabel={(exerciseBase) => exerciseBase.name}
         sx={{ width: 300, paddingTop: "0.5rem" }}
         value={valueForExercise}
-        onChange={(event, value) =>{ inputValueExercise(value); changeRenderValue(SloRenderValueForHistory.ValueForList)} }
+        onChange={(event, value) => {
+          inputValueExercise(value);
+        }}
         renderInput={(params) => (
           <TextField {...params} label="Choose exercise" />
         )}

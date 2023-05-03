@@ -67,7 +67,7 @@ const WorkoutsStepper: FC<WorkoutsStepperProps> = ({
     />,
     <StepSubmitWorkout />,
   ];
-console.log(convertedSteps)
+
   return (
     <BoxContainer>
       <Stepper activeStep={convertedSteps}>

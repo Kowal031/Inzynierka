@@ -22,15 +22,16 @@ const HistoryPage: FC = () => {
   const [valueForSelectedWorkoutsList, setValueForSelectedWorkoutsList] =
     useState<HistoryOfWorkouts[]>([]);
 
-  const [valueForCalendary, setValueForCalendary] = useState<
-    HistoryOfWorkouts[]
-  >([]);
+  const getTrainingValueFromCalendar = (title: string, start: Date | null) => {
+    setValueForSelectedWorkoutsList(
+      historyOfWorkouts.filter(
+        (his) =>
+        new Date(his.date).getTime() ===
+            (start !== null ? new Date(start).getTime() : new Date(his.date).getTime()) &&
+          his.trainingTitle.includes(title)
+      )
+    );
 
-  const [renderValueFrom, setRenderValueFrom] =
-    useState<SloRenderValueForHistory | null>(null);
-
-  const changeRenderValue = (value: SloRenderValueForHistory) => {
-    setRenderValueFrom(value);
   };
 
   const inputValueExercise = (value: ExerciseBase | null) => {
@@ -50,22 +51,6 @@ const HistoryPage: FC = () => {
     );
   };
 
-  // console.log(summedValues);
-
-  const result = () => {
-    switch (renderValueFrom) {
-      case SloRenderValueForHistory.ValueForList:
-        return valueForSelectedWorkoutsList;
-
-      case SloRenderValueForHistory.ValueFromCalendar:
-        return valueForCalendary;
-      default:
-        return valueForSelectedWorkoutsList;
-    }
-  };
-
-  console.log(valueForSelectedWorkoutsList);
-
   return (
     <Box sx={{ display: "flex", flexDirection: "row" }}>
       <Box
@@ -79,11 +64,12 @@ const HistoryPage: FC = () => {
           inputValueExercise={inputValueExercise}
           valueForExercise={valueForExercise}
           history={historyOfWorkouts}
-          changeRenderValue={changeRenderValue}
+
         />
         <SelectWorkoutDay
           historyOfWorkouts={historyOfWorkouts}
-          changeRenderValue={changeRenderValue}
+
+          getTrainingValueFromCalendar={getTrainingValueFromCalendar}
         />
       </Box>
       <Box
@@ -92,7 +78,7 @@ const HistoryPage: FC = () => {
         elevation={3}
       >
         <WorkoutHistoryTable
-          workouts={result()}
+          workouts={valueForSelectedWorkoutsList}
         />
       </Box>
     </Box>
