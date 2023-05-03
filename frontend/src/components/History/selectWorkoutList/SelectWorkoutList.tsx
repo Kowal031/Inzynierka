@@ -4,18 +4,19 @@ import { FC, useEffect, useState } from "react";
 import exerciseBaseApi from "../../../api/exerciseBaseApi";
 import ExerciseBase from "../../../types/ExerciseBase";
 import HistoryOfWorkouts from "../../../types/HistoryOfWorkouts";
+import SloRenderValueForHistory from "../../../utils/SloRenderValueForHistory";
 
 interface SelectWorkoutListProps {
   history: HistoryOfWorkouts[];
   inputValueExercise: (value: ExerciseBase | null) => void;
   valueForExercise: any;
-  getValueForWorkoutsList: (value: ExerciseBase) => void
+  changeRenderValue: (value: SloRenderValueForHistory) => void
 }
 
 const SelectWorkoutList: FC<SelectWorkoutListProps> = ({
   valueForExercise,
   inputValueExercise,
-  getValueForWorkoutsList
+  changeRenderValue
 }) => {
   const [exerciseBase, setExerciseBase] = useState<ExerciseBase[]>([]);
 
@@ -43,7 +44,7 @@ const SelectWorkoutList: FC<SelectWorkoutListProps> = ({
         getOptionLabel={(exerciseBase) => exerciseBase.name}
         sx={{ width: 300, paddingTop: "0.5rem" }}
         value={valueForExercise}
-        onChange={(event, value) => inputValueExercise(value)}
+        onChange={(event, value) =>{ inputValueExercise(value); changeRenderValue(SloRenderValueForHistory.ValueForList)} }
         renderInput={(params) => (
           <TextField {...params} label="Choose exercise" />
         )}

@@ -6,17 +6,32 @@ import SelectWorkoutList from "../components/History/selectWorkoutList/SelectWor
 import WorkoutHistoryTable from "../components/History/selectWorkoutList/WorkoutHistoryTable";
 import ExerciseBase from "../types/ExerciseBase";
 import HistoryOfWorkouts from "../types/HistoryOfWorkouts";
+import SloRenderValueForHistory from "../utils/SloRenderValueForHistory";
 import sumValuesForHistory from "../utils/SumValuesForHistory";
 
+
+
 const HistoryPage: FC = () => {
-  const [history, setHistory] = useState<HistoryOfWorkouts[]>([]);
-  const summedValues = sumValuesForHistory(history);
+  const [historyOfWorkouts, setHistoryOfWorkouts] = useState<
+    HistoryOfWorkouts[]
+  >([]);
+
   const [valueForExercise, setValueForExercise] = useState<ExerciseBase | null>(
     null
   );
-  const [valueForSelectedWorkoutsList, setValueForSelectedWorkoutsList] = useState<HistoryOfWorkouts[]>([]);
+  const [valueForSelectedWorkoutsList, setValueForSelectedWorkoutsList] =
+    useState<HistoryOfWorkouts[]>([]);
 
+  const [valueForCalendary, setValueForCalendary] = useState<
+    HistoryOfWorkouts[]
+  >([]);
 
+  const [renderValueFrom, setRenderValueFrom] =
+    useState<SloRenderValueForHistory | null>(null);
+
+  const changeRenderValue = (value: SloRenderValueForHistory) => {
+    setRenderValueFrom(value);
+  };
 
   const inputValueExercise = (value: ExerciseBase | null) => {
     setValueForExercise(value);
@@ -25,15 +40,29 @@ const HistoryPage: FC = () => {
 
   useEffect(() => {
     void historyApi.getHistory().then(({ data }) => {
-      setHistory(data);
+      setHistoryOfWorkouts(data);
     });
   }, []);
 
- const getValueForWorkoutsList = (value: ExerciseBase | null) =>{
-  setValueForSelectedWorkoutsList(history.filter((his) => his.idBaseExercise === value?.id));
- }
+  const getValueForWorkoutsList = (value: ExerciseBase | null) => {
+    setValueForSelectedWorkoutsList(
+      historyOfWorkouts.filter((his) => his.idBaseExercise === value?.id)
+    );
+  };
 
-// console.log(summedValues);
+  // console.log(summedValues);
+
+  const result = () => {
+    switch (renderValueFrom) {
+      case SloRenderValueForHistory.ValueForList:
+        return valueForSelectedWorkoutsList;
+
+      case SloRenderValueForHistory.ValueFromCalendar:
+        return valueForCalendary;
+      default:
+        return valueForSelectedWorkoutsList;
+    }
+  };
 
   console.log(valueForSelectedWorkoutsList);
 
@@ -49,17 +78,22 @@ const HistoryPage: FC = () => {
         <SelectWorkoutList
           inputValueExercise={inputValueExercise}
           valueForExercise={valueForExercise}
-          history={history}
-          getValueForWorkoutsList={getValueForWorkoutsList}
+          history={historyOfWorkouts}
+          changeRenderValue={changeRenderValue}
         />
-        <SelectWorkoutDay history={history} />
+        <SelectWorkoutDay
+          historyOfWorkouts={historyOfWorkouts}
+          changeRenderValue={changeRenderValue}
+        />
       </Box>
       <Box
         sx={{ width: "100%", margin: "2rem 2rem 0 2rem" }}
         component={Paper}
         elevation={3}
       >
-       <WorkoutHistoryTable workouts={valueForSelectedWorkoutsList} />
+        <WorkoutHistoryTable
+          workouts={result()}
+        />
       </Box>
     </Box>
   );

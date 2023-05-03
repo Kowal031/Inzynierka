@@ -1,18 +1,48 @@
 import { Box } from "@mui/system";
-import { FC } from "react";
+import { FC, useState, useEffect } from "react";
+import EventsForCalendar from "../../../types/EventsForCalendar";
 import HistoryOfWorkouts from "../../../types/HistoryOfWorkouts";
+import SloRenderValueForHistory from "../../../utils/SloRenderValueForHistory";
 import BasicCalendar from "../BasicCalendar";
 
-interface SelectWorkoutDayProps{
-    history: HistoryOfWorkouts[];
+
+
+interface SelectWorkoutDayProps {
+  historyOfWorkouts: HistoryOfWorkouts[];
+  changeRenderValue: (value: SloRenderValueForHistory) => void;
+
 }
 
+const SelectWorkoutDay: FC<SelectWorkoutDayProps> = ({
+  historyOfWorkouts,
+  changeRenderValue,
+}) => {
+  const [events, setEvents] = useState<EventsForCalendar[]>([]);
 
-const SelectWorkoutDay: FC<SelectWorkoutDayProps> = () => {
+
+  useEffect(() => {
+    const uniqueEventsSet = historyOfWorkouts.reduce<EventsForCalendar[]>(
+      (acc, workout) => {
+        const event = {
+          title: workout.trainingTitle,
+          start: new Date(workout.date),
+        };
+        if (!acc.some((e) => e.title === event.title)) {
+          acc.push(event);
+        }
+        return acc;
+      },
+      []
+    );
+    console.log(uniqueEventsSet);
+    setEvents(uniqueEventsSet ?? []);
+  }, []);
+
   return (
     <Box>
-      <BasicCalendar />
+      <BasicCalendar events={events} changeRenderValue={changeRenderValue}/>
     </Box>
   );
 };
+
 export default SelectWorkoutDay;
