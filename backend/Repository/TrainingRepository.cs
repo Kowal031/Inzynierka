@@ -26,7 +26,8 @@ public class TrainingRepository : ITrainingRepository
     public async Task<Training> GetTraining(int id)
     {
         var query = @"SELECT * FROM Training
-                     WHERE Id = @Id";
+                     WHERE Id = @Id
+                        ORDER BY Id";
         using var connection = _context.CreateConnection();
         var training = await connection.QuerySingleOrDefaultAsync<Training>(query, new { id });
 

@@ -16,6 +16,7 @@ public class ExerciseRepository : IExerciseRepository
     public async Task<IEnumerable<Exercise>> GetExercise()
     {
         var query = @"SELECT * FROM Exercise
+ORDER BY Id
                      ";
         using var connection = _context.CreateConnection();
         var exercise = await connection.QueryAsync<Exercise>(query);
@@ -27,6 +28,7 @@ public class ExerciseRepository : IExerciseRepository
     {
         var query = @"SELECT * FROM Exercise
 WHERE IdTraining = @Id
+ORDER BY Id
                      ";
         using var connection = _context.CreateConnection();
         var exercise = await connection.QueryAsync<Exercise>(query, new { id });
@@ -37,7 +39,8 @@ WHERE IdTraining = @Id
     public async Task<Exercise> GetExercise(int id)
     {
         var query = @"SELECT * FROM Exercise
-                     WHERE Id = @Id";
+                     WHERE Id = @Id
+                     ORDER BY Id";
         using var connection = _context.CreateConnection();
         var exercise = await connection.QuerySingleOrDefaultAsync<Exercise>(query, new { id });
 

@@ -17,6 +17,7 @@ public class SeriesAndRepsRepository : ISeriesAndRepsRepository
     public async Task<SeriesAndReps> GetSeriesAndReps(int id)
     {
         var query = @"SELECT * FROM SeriesAndReps
+ORDER BY Id
                      ";
         using var connection = _context.CreateConnection();
         var seriesAndReps = await connection.QuerySingleOrDefaultAsync<SeriesAndReps>(query, new { id });
@@ -27,6 +28,7 @@ public class SeriesAndRepsRepository : ISeriesAndRepsRepository
     public async Task<SeriesAndReps> GetSeriesAndRepsByExerciseAndSeries(int idExercise, int idSeries)
     {
         var query = @"SELECT * FROM SeriesAndReps WHERE idExercise = @idExercise AND  seriesNumber = @idSeries
+ORDER BY Id
                      ";
         using var connection = _context.CreateConnection();
         var seriesAndReps =
@@ -39,6 +41,8 @@ public class SeriesAndRepsRepository : ISeriesAndRepsRepository
     {
         var query = @"SELECT * FROM SeriesAndReps
 WHERE IdExercise = @Id
+ORDER BY Id
+
                      ";
         using var connection = _context.CreateConnection();
         var exercise = await connection.QueryAsync<SeriesAndReps>(query, new { id });

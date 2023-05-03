@@ -75,8 +75,8 @@ const WorkoutHistoryTable: FC<WorkoutHistoryTableProps> = ({ workouts }) => {
     );
     rows.push(
       <TableRow key="header">
-        <TableCell>Series</TableCell>
         <TableCell>Exercise Name</TableCell>
+        <TableCell>Series</TableCell>
         <TableCell>Reps</TableCell>
         <TableCell>Weight</TableCell>
       </TableRow>

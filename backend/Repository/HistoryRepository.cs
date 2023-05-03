@@ -13,6 +13,7 @@ public class HistoryRepository : IHistoryRepository
     public async Task<IEnumerable<History>> GetHistory()
     {
         var query = @"SELECT * FROM History
+ORDER BY Id
                      ";
         using var connection = _context.CreateConnection();
         var history = await connection.QueryAsync<History>(query);
