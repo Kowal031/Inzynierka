@@ -9,8 +9,6 @@ import HistoryOfWorkouts from "../types/HistoryOfWorkouts";
 import SloRenderValueForHistory from "../utils/SloRenderValueForHistory";
 import sumValuesForHistory from "../utils/SumValuesForHistory";
 
-
-
 const HistoryPage: FC = () => {
   const [historyOfWorkouts, setHistoryOfWorkouts] = useState<
     HistoryOfWorkouts[]
@@ -26,12 +24,13 @@ const HistoryPage: FC = () => {
     setValueForSelectedWorkoutsList(
       historyOfWorkouts.filter(
         (his) =>
-        new Date(his.date).getTime() ===
-            (start !== null ? new Date(start).getTime() : new Date(his.date).getTime()) &&
+          new Date(his.date).getTime() ===
+            (start !== null
+              ? new Date(start).getTime()
+              : new Date(his.date).getTime()) &&
           his.trainingTitle.includes(title)
       )
     );
-
   };
 
   const inputValueExercise = (value: ExerciseBase | null) => {
@@ -64,22 +63,23 @@ const HistoryPage: FC = () => {
           inputValueExercise={inputValueExercise}
           valueForExercise={valueForExercise}
           history={historyOfWorkouts}
-
         />
         <SelectWorkoutDay
           historyOfWorkouts={historyOfWorkouts}
-
           getTrainingValueFromCalendar={getTrainingValueFromCalendar}
         />
       </Box>
       <Box
-        sx={{ width: "100%", margin: "2rem 2rem 0 2rem" }}
+        sx={{
+          width: "100%",
+          maxHeight: "87vh",
+          margin: "2rem 2rem 0 2rem",
+          overflow: "auto",
+        }}
         component={Paper}
         elevation={3}
       >
-        <WorkoutHistoryTable
-          workouts={valueForSelectedWorkoutsList}
-        />
+        <WorkoutHistoryTable workouts={valueForSelectedWorkoutsList} />
       </Box>
     </Box>
   );

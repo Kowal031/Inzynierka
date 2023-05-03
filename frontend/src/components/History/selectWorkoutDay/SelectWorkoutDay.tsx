@@ -25,7 +25,7 @@ const SelectWorkoutDay: FC<SelectWorkoutDayProps> = ({
           title: workout.trainingTitle,
           start: new Date(workout.date),
         };
-        if (!acc.some((e) => e.title === event.title)) {
+        if (!acc.some((e) => e.title === event.title &&  new Date(e.start).getTime() ===  new Date(event.start).getTime()  )) {
           acc.push(event);
         }
         return acc;
@@ -36,6 +36,7 @@ const SelectWorkoutDay: FC<SelectWorkoutDayProps> = ({
   }, [historyOfWorkouts]);
 
   console.log(events)
+  console.log(historyOfWorkouts)
 
   return (
     <Box>
