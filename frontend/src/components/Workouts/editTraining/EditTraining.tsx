@@ -125,7 +125,7 @@ const EditTraining: FC<EditTrainingProps> = ({
 
   return (
     <Box >
-        <Paper elevation={3} sx={{ margin: "1rem 2rem" }}>
+        <Box  sx={{ margin: "1rem 2rem" }}>
           <Box sx={{ display: "flex", alignItems: "center", width: "90%" }}>
             <Typography sx={{ margin: "1rem" }} variant="h4">
               Title:
@@ -164,7 +164,7 @@ const EditTraining: FC<EditTrainingProps> = ({
               ))}
             </TableBody>
           </Table>
-        </Paper>
+        </Box>
         <Box  sx={{display: "flex", justifyContent: "center", }}>
         <Button
        

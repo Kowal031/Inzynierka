@@ -1,14 +1,15 @@
 import { Box } from "@mui/material";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import { EventContentArg } from "@fullcalendar/core";
-import { FC } from "react";
+import { EventContentArg, sliceEvents } from "@fullcalendar/core";
+import { FC, Fragment } from "react";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import SloRenderValueForHistory from "../../utils/SloRenderValueForHistory";
 import EventsForCalendar from "../../types/EventsForCalendar";
 import styled from "styled-components";
+import React from "react";
 
 interface BasicCalendarProps {
   getTrainingValueFromCalendar: (title: string, start: Date | null) => void;
@@ -19,11 +20,17 @@ const BasicCalendar: FC<BasicCalendarProps> = ({
   getTrainingValueFromCalendar,
   events,
 }) => {
+
+
+
   console.log(events);
   const renderEventContent = (eventInfo: EventContentArg) => {
+    console.log(eventInfo)
     return (
       <>
         <Button
+        style={{fontSize: "12px", whiteSpace:"break-spaces", textTransform: "none" }}
+        fullWidth
           size="small"
           variant="contained"
           onClick={() => {
@@ -43,6 +50,9 @@ const BasicCalendar: FC<BasicCalendarProps> = ({
     center: "",
     right: "prev,next today",
   };
+
+
+
   return (
     <Box
       sx={{ width: "35vw", padding: "1rem" }}
@@ -60,9 +70,11 @@ const BasicCalendar: FC<BasicCalendarProps> = ({
           events={events}
           eventContent={renderEventContent}
           selectable={true}
-          dayMaxEvents={5}
+          dayMaxEvents={0}
           headerToolbar={customHeaderToolbar}
           themeSystem="bootstrap"
+         moreLinkText={n => ` +${n} workouts`}
+          
         />
       </StyleWrapper>
     </Box>
@@ -98,9 +110,7 @@ export const StyleWrapper = styled.div`
     font-weight: 600;
   }
   .fc-today-bg-color{
-    background-color: gray transparent
+    background-color: gray 
   }
-  .fc-button{
-    
-  }
+
 `;

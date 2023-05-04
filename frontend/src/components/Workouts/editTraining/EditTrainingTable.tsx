@@ -1,11 +1,17 @@
-import { Autocomplete, TableCell, TableRow, TextField } from "@mui/material";
+import { Autocomplete, styled, TableCell, TableRow, TextField } from "@mui/material";
 
 import React, { useEffect } from "react";
 import { FC } from "react";
 import exerciseApi from "../../../api/exerciseApi";
 import Exercise from "../../../types/Exercise";
 import ExerciseBase from "../../../types/ExerciseBase";
+const StyledTableRow = styled(TableRow)({
 
+  // hide last border
+  "&:last-child td, &:last-child th": {
+    border: 0,
+  },
+});
 interface EditTrainingTableProps {
   exercise: Exercise;
   exerciseBase: ExerciseBase[];
@@ -32,7 +38,7 @@ const EditTrainingTable: FC<EditTrainingTableProps> = ({
     
 
   return (
-    <TableRow>
+    <StyledTableRow>
       <TableCell width="65%" align="left">
         <Autocomplete
           id={`${exercise.id}`}
@@ -64,7 +70,7 @@ const EditTrainingTable: FC<EditTrainingTableProps> = ({
           }
         />
       </TableCell>
-    </TableRow>
+    </StyledTableRow>
   );
 };
 
