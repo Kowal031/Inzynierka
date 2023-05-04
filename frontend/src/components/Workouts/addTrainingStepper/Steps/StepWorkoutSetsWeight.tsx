@@ -24,6 +24,9 @@ interface StepWorkoutSetsWeightProps {
   inputValueSet: (valueForSets: number) => void;
   valueForExercise: ExerciseBase | null;
   valueForSets: number;
+  lastTrainingId: number;
+  changeMyExercise: () => void;
+  myExercise: Exercise[];
 }
 
 const StepWorkoutSetsWeight: FC<StepWorkoutSetsWeightProps> = ({
@@ -31,54 +34,39 @@ const StepWorkoutSetsWeight: FC<StepWorkoutSetsWeightProps> = ({
   inputValueSet,
   valueForSets,
   valueForExercise,
+  lastTrainingId,
+  changeMyExercise,
+  myExercise,
 }) => {
   const [exerciseBase, setExerciseBase] = useState<ExerciseBase[]>([]);
-  const [myExercise, setMyExercise] = useState<Exercise[]>([]);
-  const [lastTrainingId, setLastTrainingId] = useState<number>(0);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const id = await getTrainingId();
-      setLastTrainingId(id);
-    };
-    fetchData();
-  }, []);
-
-  const getMyExercise = () => {
-    void exerciseApi
-      .getExerciseByTrainingId(lastTrainingId)
-      .then(({ data }) => setMyExercise(data));
-  };
 
   const handleAddExerciseAndWeight = (e: React.FormEvent) => {
     e.preventDefault();
-    const id = lastTrainingId;
     if (valueForExercise !== null && valueForSets !== null) {
       void exerciseApi
         .addExercise(
-          id,
+          lastTrainingId,
           valueForExercise.name,
           valueForExercise.id,
           valueForSets
         )
         .then(() => {
-          getMyExercise();
-        });
+          changeMyExercise();
+        }).then(() =>{
+          inputValueExercise(null)
+          inputValueSet(1)
+        })
     }
   };
 
   const handleRemoveItem = (id: number) => {
-    exerciseApi.deleteExercise(id).then(() => getMyExercise());
+    exerciseApi.deleteExercise(id).then(() => changeMyExercise());
   };
 
   useEffect(() => {
     void exerciseBaseApi
       .getAllExerciseBase()
       .then(({ data }) => setExerciseBase(data));
-  }, []);
-
-  useEffect(() => {
-    getMyExercise();
   }, []);
 
   return (

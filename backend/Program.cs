@@ -1,4 +1,6 @@
 
+using backend.Authorization.Helpers;
+using backend.Authorization.Services;
 using backend.Context;
 using backend.Interfaces;
 using backend.Repository;
@@ -17,6 +19,18 @@ builder.Services.AddControllers();
 
 
 // Add services to the container.
+// add services to DI container
+{
+    var services = builder.Services;
+    services.AddCors();
+    services.AddControllers();
+
+    // configure strongly typed settings object
+    services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
+
+    // configure DI for application services
+    services.AddScoped<IUserService, UserService>();
+}
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -31,7 +45,8 @@ app.UseCors(builder =>
         .AllowAnyMethod()
         .AllowAnyHeader();
 });
-
+app.UseMiddleware<JwtMiddleware>();
+app.MapControllers();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

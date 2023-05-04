@@ -75,8 +75,6 @@ ORDER BY Id
         return createdExercise;
     }
 
- 
-
 
     public async Task DeleteExercise(int id)
     {
@@ -99,19 +97,36 @@ ORDER BY Id
 
     public async Task UpdateExercise(EditExerciseDto[] editExerciseDtos)
     {
+        
+        
         var query =
-            @"UPDATE Exercise SET Name = @Name, IdExerciseBase = @IdExerciseBase,  NumberOfSeries = @NumberOfSeries 
-    WHERE Id = @Id";
+            @"DECLARE @BasicNumberOfSeries INT;
+SELECT @BasicNumberOfSeries = NumberOfSeries
+FROM Exercise
+WHERE Id = @Id;
+
+IF @NumberOfSeries = 0
+BEGIN
+   SET @NumberOfSeries = @BasicNumberOfSeries;
+END
+
+UPDATE Exercise 
+SET 
+    Name = @Name, 
+    IdExerciseBase = @IdExerciseBase,  
+    NumberOfSeries = @NumberOfSeries
+WHERE 
+    Id = @Id;";
 
         using (var connection = _context.CreateConnection())
         {
             foreach (var editExerciseDto in editExerciseDtos)
             {
                 var parameters = new DynamicParameters();
-   
+
                 parameters.Add("Id", editExerciseDto.Id, DbType.Int32);
                 parameters.Add("Name", editExerciseDto.Name, DbType.String);
-       
+
                 parameters.Add("IdExerciseBase", editExerciseDto.IdExerciseBase, DbType.Int32);
                 parameters.Add("NumberOfSeries", editExerciseDto.NumberOfSeries, DbType.Int32);
                 parameters.Add("TrainingTitle", editExerciseDto.TreningTitle, DbType.String);

@@ -1,7 +1,8 @@
 import { Autocomplete, TableCell, TableRow, TextField } from "@mui/material";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { FC } from "react";
+import exerciseApi from "../../../api/exerciseApi";
 import Exercise from "../../../types/Exercise";
 import ExerciseBase from "../../../types/ExerciseBase";
 
@@ -14,7 +15,6 @@ interface EditTrainingTableProps {
   valueForExercise: ExerciseBase | null;
   valueForSets: number;
 }
-
 const EditTrainingTable: FC<EditTrainingTableProps> = ({
   valueForExercise,
   valueForSets,
@@ -24,8 +24,12 @@ const EditTrainingTable: FC<EditTrainingTableProps> = ({
   inputValueExercise,
   exercise,
 }) => {
+  // Set the initial default value
   const defaultValue =
     exerciseBase.find((e) => e.id === exercise.idExerciseBase) || null;
+
+
+    
 
   return (
     <TableRow>
@@ -34,7 +38,7 @@ const EditTrainingTable: FC<EditTrainingTableProps> = ({
           id={`${exercise.id}`}
           options={exerciseBase}
           getOptionLabel={(exerciseBase) => exerciseBase.name}
-          value={valueForExercise }
+          value={valueForExercise || defaultValue}
           onChange={(event, value) =>
             inputValueExercise(
               value !== null ? value : exerciseBase[0],

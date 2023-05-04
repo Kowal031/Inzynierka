@@ -14,6 +14,7 @@ import InfoIcon from "@mui/icons-material/Info";
 interface WorkoutsItemProps {
   exercise: Exercise;
   trainingId: number;
+  isFromCreator?: boolean;
 }
 const ButtonIcon = styled(IconButton)({
   "&:hover": {
@@ -32,18 +33,20 @@ const StyledTableRow = styled(TableRow)({
   },
 });
 
-const WorkoutsItem: FC<WorkoutsItemProps> = ({ exercise, trainingId }) => {
+const WorkoutsItem: FC<WorkoutsItemProps> = ({ exercise, isFromCreator }) => {
   return (
     <StyledTableRow>
       <TableCell align="left">{exercise.name}</TableCell>
       <TableCell align="left">{exercise.numberOfSeries}</TableCell>
-      <TableCell align="left">
-        <ButtonIcon>
-          <Tooltip title="Details" placement="top" arrow>
-            <InfoIcon color="action" />
-          </Tooltip>
-        </ButtonIcon>
-      </TableCell>
+      {isFromCreator !== true && (
+        <TableCell align="left">
+          <ButtonIcon>
+            <Tooltip title="Details" placement="top" arrow>
+              <InfoIcon color="action" />
+            </Tooltip>
+          </ButtonIcon>
+        </TableCell>
+      )}
     </StyledTableRow>
   );
 };

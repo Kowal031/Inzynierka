@@ -4,11 +4,13 @@ import {
   FormControlLabel,
   FormGroup,
   styled,
+  TextField,
   Typography,
 } from "@mui/material";
 import { ChangeEvent, FC, FormEvent, useState } from "react";
 import CustomTextField from "../../../common/CustomTextField";
 import SwitchComponent from "../../../common/SwitchComponent";
+import { object, string, number, date, InferType } from "yup";
 
 const BasicForm = styled(`form`)({
   display: "flex",
@@ -24,6 +26,7 @@ const Container = styled(Box)({
 interface StepTrainingDetails {
   handleChangeCheckbox: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  title: string;
   state: {
     schoulder: boolean;
     chest: boolean;
@@ -36,12 +39,14 @@ interface StepTrainingDetails {
     hamstring: boolean;
     claves: boolean;
   };
+
 }
 
 const StepTrainingDetais: FC<StepTrainingDetails> = ({
   handleChangeCheckbox,
   handleChange,
   state,
+  title
 }) => {
   const [checked, setChecked] = useState(false);
 
@@ -62,17 +67,18 @@ const StepTrainingDetais: FC<StepTrainingDetails> = ({
     setChecked(event.target.checked);
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-  };
 
   return (
     <Container>
-      <BasicForm onSubmit={(e) => handleSubmit(e)}>
-        <CustomTextField
-          changeHandler={handleChange}
-          label={"Add Training name"}
+      <BasicForm>
+        <TextField
+          onChange={handleChange}
+          required
+          label={"Add Training name (1 - 50 chars)"}
           name={"title"}
+          value={title}
+          inputProps={{ maxLength: 50 }}
+      
         />
         <Box mt="0.5rem" mb="0.5rem" display="flex">
           <Typography mr="1rem">

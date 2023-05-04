@@ -63,6 +63,7 @@ const ManageStepper: FC<ManageStepperProps> = ({ handleCloseModal }) => {
         break;
     }
   };
+  console.log(valueForExercise)
 
   const stepperBackManagement = () => {
     switch (activeStep) {
@@ -115,6 +116,7 @@ const ManageStepper: FC<ManageStepperProps> = ({ handleCloseModal }) => {
         stepperBackManagement={stepperBackManagement}
         stepperNextManagement={stepperNextManagement}
         steps={steps}
+        title={title.title ?? ""}
       />
     </Box>
   );

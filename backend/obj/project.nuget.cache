@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "xio3SY47Vw0EgtNmK7K2LyP76w4l5ArI3XrsV2AJsz6IUlKPXowxYIY3N3rSdHXf8ai70lwvjoYMY9Ua+8f04w==",
+  "dgSpecHash": "M+SGdjFQRepzQ2fR3koPuIB+Rve8NDKfQrSlBFHuz4Watk1wT+fpcwIC5T+Sm1Vj3ue+kCiH+Vjy5hq0D5sn5A==",
   "success": true,
   "projectFilePath": "C:\\Users\\Maciej.LAPTOP-A8IIEIHI\\Desktop\\Inzynierka\\backend\\backend.csproj",
   "expectedPackageFiles": [
@@ -23,7 +23,12 @@
     "C:\\Users\\Maciej.LAPTOP-A8IIEIHI\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\7.0.0\\microsoft.extensions.logging.abstractions.7.0.0.nupkg.sha512",
     "C:\\Users\\Maciej.LAPTOP-A8IIEIHI\\.nuget\\packages\\microsoft.extensions.options\\7.0.0\\microsoft.extensions.options.7.0.0.nupkg.sha512",
     "C:\\Users\\Maciej.LAPTOP-A8IIEIHI\\.nuget\\packages\\microsoft.extensions.primitives\\7.0.0\\microsoft.extensions.primitives.7.0.0.nupkg.sha512",
+    "C:\\Users\\Maciej.LAPTOP-A8IIEIHI\\.nuget\\packages\\microsoft.identitymodel.abstractions\\6.30.0\\microsoft.identitymodel.abstractions.6.30.0.nupkg.sha512",
+    "C:\\Users\\Maciej.LAPTOP-A8IIEIHI\\.nuget\\packages\\microsoft.identitymodel.jsonwebtokens\\6.30.0\\microsoft.identitymodel.jsonwebtokens.6.30.0.nupkg.sha512",
+    "C:\\Users\\Maciej.LAPTOP-A8IIEIHI\\.nuget\\packages\\microsoft.identitymodel.logging\\6.30.0\\microsoft.identitymodel.logging.6.30.0.nupkg.sha512",
+    "C:\\Users\\Maciej.LAPTOP-A8IIEIHI\\.nuget\\packages\\microsoft.identitymodel.tokens\\6.30.0\\microsoft.identitymodel.tokens.6.30.0.nupkg.sha512",
     "C:\\Users\\Maciej.LAPTOP-A8IIEIHI\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
+    "C:\\Users\\Maciej.LAPTOP-A8IIEIHI\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
     "C:\\Users\\Maciej.LAPTOP-A8IIEIHI\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
     "C:\\Users\\Maciej.LAPTOP-A8IIEIHI\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
     "C:\\Users\\Maciej.LAPTOP-A8IIEIHI\\.nuget\\packages\\runtime.native.system.data.sqlclient.sni\\4.7.0\\runtime.native.system.data.sqlclient.sni.4.7.0.nupkg.sha512",
@@ -35,9 +40,15 @@
     "C:\\Users\\Maciej.LAPTOP-A8IIEIHI\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.2.3\\swashbuckle.aspnetcore.swaggergen.6.2.3.nupkg.sha512",
     "C:\\Users\\Maciej.LAPTOP-A8IIEIHI\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.2.3\\swashbuckle.aspnetcore.swaggerui.6.2.3.nupkg.sha512",
     "C:\\Users\\Maciej.LAPTOP-A8IIEIHI\\.nuget\\packages\\system.data.sqlclient\\4.8.5\\system.data.sqlclient.4.8.5.nupkg.sha512",
+    "C:\\Users\\Maciej.LAPTOP-A8IIEIHI\\.nuget\\packages\\system.identitymodel.tokens.jwt\\6.30.0\\system.identitymodel.tokens.jwt.6.30.0.nupkg.sha512",
+    "C:\\Users\\Maciej.LAPTOP-A8IIEIHI\\.nuget\\packages\\system.runtime\\4.3.0\\system.runtime.4.3.0.nupkg.sha512",
     "C:\\Users\\Maciej.LAPTOP-A8IIEIHI\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
     "C:\\Users\\Maciej.LAPTOP-A8IIEIHI\\.nuget\\packages\\system.security.accesscontrol\\4.7.0\\system.security.accesscontrol.4.7.0.nupkg.sha512",
-    "C:\\Users\\Maciej.LAPTOP-A8IIEIHI\\.nuget\\packages\\system.security.principal.windows\\4.7.0\\system.security.principal.windows.4.7.0.nupkg.sha512"
+    "C:\\Users\\Maciej.LAPTOP-A8IIEIHI\\.nuget\\packages\\system.security.cryptography.cng\\4.5.0\\system.security.cryptography.cng.4.5.0.nupkg.sha512",
+    "C:\\Users\\Maciej.LAPTOP-A8IIEIHI\\.nuget\\packages\\system.security.principal.windows\\4.7.0\\system.security.principal.windows.4.7.0.nupkg.sha512",
+    "C:\\Users\\Maciej.LAPTOP-A8IIEIHI\\.nuget\\packages\\system.text.encoding\\4.3.0\\system.text.encoding.4.3.0.nupkg.sha512",
+    "C:\\Users\\Maciej.LAPTOP-A8IIEIHI\\.nuget\\packages\\system.text.encodings.web\\4.7.2\\system.text.encodings.web.4.7.2.nupkg.sha512",
+    "C:\\Users\\Maciej.LAPTOP-A8IIEIHI\\.nuget\\packages\\system.text.json\\4.7.2\\system.text.json.4.7.2.nupkg.sha512"
   ],
   "logs": []
 }

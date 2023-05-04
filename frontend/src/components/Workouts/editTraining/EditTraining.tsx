@@ -47,7 +47,7 @@ const EditTraining: FC<EditTrainingProps> = ({ allExercise, training,handleRefre
   const [valueForExercise, setValueForExercise] = useState<{
     [key: number]: ExerciseBase | null;
   }>({});
-  const [data, setData] = useState<EditExercise[]>();
+  const [data, setData] = useState<number[]>();
 
   const inputValueExercise = (value: ExerciseBase, exerciseId: number) => {
     setValueForExercise({
@@ -55,6 +55,17 @@ const EditTraining: FC<EditTrainingProps> = ({ allExercise, training,handleRefre
       [exerciseId]: value,
     });
   };
+  useEffect(() => {
+    void exerciseApi.getExerciseByTrainingId(training.id).then((response) => {
+      const exercises = response.data;
+      const exerciseData = exercises.reduce((acc: any, curr: Exercise) => {
+        acc[curr.id] = exerciseBase.find((e) => e.id === curr.idExerciseBase) || null;
+        return acc;
+      }, {});
+      setValueForExercise(exerciseData);
+    });
+  }, []);
+
 
   const changeTitle = (value: string) => {
     setTitle(value);
@@ -71,30 +82,44 @@ const EditTraining: FC<EditTrainingProps> = ({ allExercise, training,handleRefre
     void exerciseBaseApi
       .getAllExerciseBase()
       .then(({ data }) => setExerciseBase(data));
+
+    void exerciseApi.getExerciseByTrainingId(training.id).then(({ data }) => setData(data.map((dat) => dat.idExerciseBase)))
   }, []);
 
-  const handleOnSave = () => {
-    const exercises: EditExercise[] = [];
+const handleOnSave = () => {
+  const exercises: EditExercise[] = [];
 
-    Object.keys(valueForExercise).forEach((id) => {
-      const exerciseBase = valueForExercise[parseInt(id)];
-      const numberOfSeries = valueForSets[parseInt(id)];
+  Object.keys(valueForExercise).forEach((id) => {
+    
+    const baseExercise = valueForExercise[parseInt(id)];
+    const numberOfSeries = valueForSets[parseInt(id)];
+    const defaultValue =
+    exerciseBase.find((e) => data?.includes( e.id) || null);
 
-      if (exerciseBase) {
-        exercises.push({
-          id: parseInt(id),
-          idTraining: training.id,
-          treningTitle: title,
-          name: exerciseBase.name,
-          idExerciseBase: exerciseBase.id,
-          numberOfSeries,
-        });
-      }
-    });
-    void exerciseApi.updateExercise(exercises).then(()=>{
-      handleRefreshTraining()
-    })
-  };
+    if (baseExercise) {
+      exercises.push({
+        id: parseInt(id),
+        idTraining: training.id,
+        treningTitle: title,
+        name: baseExercise.name,
+        idExerciseBase: baseExercise.id,
+        numberOfSeries,
+      });
+    } else if (valueForExercise[parseInt(id)] === null && valueForSets[parseInt(id)] ) {
+      exercises.push({
+        id: parseInt(id),
+        idTraining: training.id,
+        treningTitle: title,
+        name: defaultValue !== undefined ? defaultValue.name : "",
+        idExerciseBase: defaultValue !== undefined ? defaultValue.id : 0,
+        numberOfSeries,
+      });
+    }
+  });
+  void exerciseApi.updateExercise(exercises).then(()=>{
+    handleRefreshTraining()
+  })
+};
 
 
 

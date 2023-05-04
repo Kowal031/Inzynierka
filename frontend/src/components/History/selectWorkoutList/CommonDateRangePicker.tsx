@@ -1,5 +1,5 @@
-import { Button } from "@mui/material";
-import React, { useState } from "react";
+import { Box, Button, Grid, TextField, TextFieldProps } from "@mui/material";
+import React, { forwardRef, useState } from "react";
 import DatePicker, { ReactDatePickerProps } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -28,6 +28,8 @@ const CommonDateRangePicker: React.FC<CommonDateRangePickerProps> = ({
     startDate: startDate,
     endDate: endDate,
     placeholderText: "Start Date",
+    wrapperClassName: "date-picker-wrapper",
+    dateFormat: "dd/MM/yyyy",
   };
 
   const endDatePickerProps: ReactDatePickerProps = {
@@ -38,14 +40,52 @@ const CommonDateRangePicker: React.FC<CommonDateRangePickerProps> = ({
     endDate: endDate,
     minDate: startDate,
     placeholderText: "End Date",
+    wrapperClassName: "date-picker-wrapper",
+    dateFormat: "dd/MM/yyyy",
   };
+// changeit
+//   const ExampleCustomInput = forwardRef<
+//   HTMLDivElement | null,
+//   TextFieldProps 
+// >(({ value, onClick }, ref) => (
+//   <div className="example-custom-input" onClick={onClick} ref={ref}>
+//     {value}
+//   </div>
+// ));
 
   return (
-    <div>
-      <DatePicker {...datePickerProps} />
-      <DatePicker {...endDatePickerProps} />
-      <Button size="small" variant="contained" onClick={handleReset}>Reset filter</Button>
-    </div>
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        gap: "16px",
+        backgroundColor: "white",
+        borderRadius: "8px",
+        boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+        padding: "8px",
+      }}
+    >
+      <DatePicker
+        {...datePickerProps}
+        wrapperClassName="date-picker-wrapper"
+        className="date-picker"
+        
+      />
+      <DatePicker
+        {...endDatePickerProps}
+        wrapperClassName="date-picker-wrapper"
+        className="date-picker"
+        // customInput={<ExampleCustomInput />}
+      />
+      <Button
+        size="small"
+        variant="contained"
+        onClick={handleReset}
+        sx={{ backgroundColor: "primary.main", color: "white" }}
+      >
+        Reset
+      </Button>
+    </Box>
   );
 };
 

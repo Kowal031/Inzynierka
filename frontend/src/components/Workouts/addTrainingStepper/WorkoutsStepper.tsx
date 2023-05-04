@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -13,6 +13,9 @@ import MuscleGroupInjuriesState from "../../../types/MuscleGroupInjuriesState";
 import StepSubmitWorkout from "./Steps/StepSubmitWorkout";
 import StepTrainingDetails from "./Steps/StepTrainingDetails";
 import StepWorkoutSetsWeight from "./Steps/StepWorkoutSetsWeight";
+import Exercise from "../../../types/Exercise";
+import exerciseApi from "../../../api/exerciseApi";
+import getTrainingId from "../../../utils/GetTrainingId";
 
 const BoxContainer = styled(Box)({
   width: "100%",
@@ -37,6 +40,7 @@ interface WorkoutsStepperProps {
   stepperBackManagement: () => void;
   stepperNextManagement: () => void;
   steps: string[];
+  title: string;
 }
 
 const WorkoutsStepper: FC<WorkoutsStepperProps> = ({
@@ -51,21 +55,54 @@ const WorkoutsStepper: FC<WorkoutsStepperProps> = ({
   stepperBackManagement,
   stepperNextManagement,
   steps,
+  title,
 }) => {
-  const convertedSteps = activeStep 
+  const [lastTrainingId, setLastTrainingId] = useState<number>(0);
+  const [myExercise, setMyExercise] = useState<Exercise[]>([]);
+  const validationForNextButton = () => {
+    switch (activeStep) {
+      case 0:
+        return title.length < 1;
+
+      case 1:
+        return myExercise.length < 1;
+      default:
+        return false;
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const id = await getTrainingId();
+      setLastTrainingId(id);
+    };
+    fetchData();
+  }, []);
+
+  const changeMyExercise = () => {
+    void exerciseApi
+      .getExerciseByTrainingId(lastTrainingId)
+      .then(({ data }) => setMyExercise(data));
+  };
+
+  const convertedSteps = activeStep;
   const stepsContent = [
     <StepTrainingDetails
       handleChangeCheckbox={handleChangeCheckbox}
       handleChange={handleChange}
       state={state}
+      title={title}
     />,
     <StepWorkoutSetsWeight
       valueForExercise={valueForExercise}
       valueForSets={valueForSets}
       inputValueExercise={inputValueExercise}
       inputValueSet={inputValueSet}
+      changeMyExercise={changeMyExercise}
+      myExercise={myExercise}
+      lastTrainingId={lastTrainingId}
     />,
-    <StepSubmitWorkout />,
+    <StepSubmitWorkout myExercise={myExercise} title={title} lastTrainingId={lastTrainingId}/>,
   ];
 
   return (
@@ -84,7 +121,10 @@ const WorkoutsStepper: FC<WorkoutsStepperProps> = ({
         <Button color="inherit" onClick={stepperBackManagement}>
           {convertedSteps === 0 ? "Exit" : "Back"}
         </Button>
-        <Button onClick={stepperNextManagement}>
+        <Button
+          onClick={stepperNextManagement}
+          disabled={validationForNextButton()}
+        >
           {convertedSteps === steps.length - 1 ? "Confirm" : "Next"}
         </Button>
       </ButtonContainer>

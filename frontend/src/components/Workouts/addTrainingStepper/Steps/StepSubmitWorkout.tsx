@@ -1,5 +1,14 @@
 import {
   Box,
+  IconButton,
+  styled,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
   // TableContainer,
   // Paper,
   // Table,
@@ -9,51 +18,76 @@ import {
   // TableBody,
 } from "@mui/material";
 import { FC } from "react";
+import { palette } from "../../../../assets/palette";
+import Exercise from "../../../../types/Exercise";
+import WorkoutsItem from "../../workoutsTable/WorkoutsItem";
 // import ExerciseBase from "../../../types/ExerciseBase";
+const ContainerForTable = styled(TableContainer)({
+  maxWidth: "32.25rem",
+  background: palette.white,
+  boxShadow: "2px 2px 7px 0px rgba(66, 68, 90, 1)",
+  margin: "1rem",
+});
 
+const ContainerForTabHeader = styled(Box)({
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "space-between",
+});
+
+const ButtonIcon = styled(IconButton)({
+  "&:hover": {
+    background: "transparent",
+    transform: "scale(1.1)",
+  },
+});
+
+const ContainerForIcon = styled(Box)({
+  display: "flex",
+  flexDirection: "row",
+  marginRight: "0.5rem",
+});
+
+const Cell = styled(TableCell)({
+  verticalAlign: "bottom",
+});
 interface StepSubmitWorkoutProps {
-
+  myExercise: Exercise[];
+  title: string;
+  lastTrainingId: number
 }
 
-const StepSubmitWorkout: FC<StepSubmitWorkoutProps> = ({}) => {
+const StepSubmitWorkout: FC<StepSubmitWorkoutProps> = ({
+  myExercise,
+  title,
+  lastTrainingId
+}) => {
   return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        overflow: "auto",
-        padding: "1rem",
-      }}
-    >
-      {/* {formValues.length !== 0 && (
-        <TableContainer component={Paper} sx={{ width: "80%" }}>
-          <Table aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <Box>Title</Box>
-              </TableRow>
-              <TableRow>
-                <TableCell>Workout</TableCell>
-                <TableCell align="right">Sets</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {formValues.map((item, index) => (
-                <TableRow
-                  key={index}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell component="th" scope="row">
-                    {item.exercise ? item.exercise.name : "N/A"}
-                  </TableCell>
-                  <TableCell align="right">{item.sets}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      )} */}
-    </Box>
+    <ContainerForTable>
+      <ContainerForTabHeader>
+        <Typography sx={{ margin: "1rem" }} variant="h4">
+          {title}
+        </Typography>
+      </ContainerForTabHeader>
+
+      <Table>
+        <TableHead>
+          <TableRow>
+            <Cell width="75%" align="left">
+              Exercise
+            </Cell>
+            <Cell width="25%" align="left">
+              Sets
+            </Cell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {myExercise.map((exercise: Exercise) => (
+            <WorkoutsItem exercise={exercise} trainingId={lastTrainingId} isFromCreator={true} />
+          ))}
+        </TableBody>
+      </Table>
+    </ContainerForTable>
   );
 };
 
