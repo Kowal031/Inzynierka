@@ -6,6 +6,7 @@ import {
   IconButton,
   InputAdornment,
   Paper,
+  styled,
   Table,
   TableBody,
   TableCell,
@@ -19,6 +20,14 @@ import Tooltip from "@mui/material/Tooltip";
 import { Scrollbar } from "react-scrollbars-custom";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import seriesAndRepsApi from "../../../api/seriesAndRepsApi";
+
+const StyledTableRow = styled(TableRow)({
+
+  // hide last border
+
+    border: 0,
+
+});
 
 interface WorkoutPartProps {
   exercise: Exercise;
@@ -51,22 +60,22 @@ const WorkoutPart: FC<WorkoutPartProps> = ({
   };
 
   return (
-    <Box component={Paper} elevation={3}>
-      <Box sx={{ padding: "0.5rem" }}>
+    <Box component={Paper} elevation={3} sx={{ borderTopLeftRadius: "2rem", borderTopRightRadius: "2rem" }}>
+      <Box sx={{ padding: "1rem 0 1rem 1rem"  }}>
         <Typography variant="h5">{`${numberOfExercise}.${name}`}</Typography>
       </Box>
-      <TableContainer sx={{ width: "33rem" }} component={Paper}>
+      <TableContainer sx={{ width: "33rem" }}  >
         <Scrollbar
           style={{ height: "25rem", width: "33rem", background: "white" }}
         >
           <Table stickyHeader>
             <TableHead>
-              <TableRow>
+              <StyledTableRow>
                 <TableCell align="left">Sets</TableCell>
                 <TableCell align="left">Reps</TableCell>
                 <TableCell align="left">Weight</TableCell>
                 <TableCell align="left">Save</TableCell>
-              </TableRow>
+              </StyledTableRow>
             </TableHead>
             <TableBody>
               {series.map((s, index) => (
@@ -130,7 +139,12 @@ const WorkoutPart: FC<WorkoutPartProps> = ({
                     ) : (
                       <IconButton
                         onClick={() => {
-                          saveAllValues(id, s, parseInt(reps[index]), parseInt(weights[index]));
+                          saveAllValues(
+                            id,
+                            s,
+                            parseInt(reps[index]),
+                            parseInt(weights[index])
+                          );
                           handleSaveSeries(s);
                         }}
                       >

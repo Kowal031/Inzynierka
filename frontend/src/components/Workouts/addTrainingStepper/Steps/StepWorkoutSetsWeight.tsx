@@ -39,8 +39,10 @@ const StepWorkoutSetsWeight: FC<StepWorkoutSetsWeightProps> = ({
   myExercise,
 }) => {
   const [exerciseBase, setExerciseBase] = useState<ExerciseBase[]>([]);
+  const [disabled, setDisabled] = useState<boolean>(false);
 
   const handleAddExerciseAndWeight = (e: React.FormEvent) => {
+    setDisabled(true);
     e.preventDefault();
     if (valueForExercise !== null && valueForSets !== null) {
       void exerciseApi
@@ -52,10 +54,14 @@ const StepWorkoutSetsWeight: FC<StepWorkoutSetsWeightProps> = ({
         )
         .then(() => {
           changeMyExercise();
-        }).then(() =>{
-          inputValueExercise(null)
-          inputValueSet(1)
         })
+        .then(() => {
+          inputValueExercise(null);
+          inputValueSet(1);
+        })
+        .finally(() => {
+          setDisabled(false);
+        });
     }
   };
 
@@ -76,6 +82,7 @@ const StepWorkoutSetsWeight: FC<StepWorkoutSetsWeightProps> = ({
           sx={{
             marginTop: "1rem",
             padding: "1rem",
+            gap: "1rem"
           }}
           onSubmit={handleAddExerciseAndWeight}
         >
@@ -103,6 +110,7 @@ const StepWorkoutSetsWeight: FC<StepWorkoutSetsWeightProps> = ({
             onChange={(event) => inputValueSet(parseInt(event.target.value))}
           />
           <Button
+          disabled={disabled || valueForExercise === null}
             variant="contained"
             sx={{
               border: "1rem",

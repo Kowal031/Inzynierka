@@ -47,6 +47,7 @@ const StartWorkout: FC = () => {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
+   
       }}
     >
       <Box
@@ -67,7 +68,19 @@ const StartWorkout: FC = () => {
           />
         ))}
       </Box>
-      <Button onClick={getWorkoutSeriesAndWeights} variant="contained">Finish Training</Button>
+      <Box   sx={{
+        display: "flex",
+
+        justifyContent: "center",
+      }}>
+        <Button
+          sx={{ margin: "1rem", width: "40vw" }}
+          onClick={getWorkoutSeriesAndWeights}
+          variant="contained"
+        >
+          Finish Training
+        </Button>
+      </Box>
     </Box>
   );
 };

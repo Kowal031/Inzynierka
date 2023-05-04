@@ -8,12 +8,13 @@ import Training from "../types/Training";
 import getTrainingId from "../utils/GetTrainingId";
 
 // Container for the WorkoutsTable components
-const ContainerForTable = styled(Box)({
+const ContainerForTable = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "row",
   flexWrap: "wrap",
-  justifyContent: "space-around",
-});
+  justifyContent: "center",
+
+}));
 
 // Container for the AddWorkouts component
 const ContainerForAddButton = styled(Box)({

@@ -23,10 +23,11 @@ import Exercise from "../../../../types/Exercise";
 import WorkoutsItem from "../../workoutsTable/WorkoutsItem";
 // import ExerciseBase from "../../../types/ExerciseBase";
 const ContainerForTable = styled(TableContainer)({
-  maxWidth: "32.25rem",
+  maxWidth: "34rem",
   background: palette.white,
   boxShadow: "2px 2px 7px 0px rgba(66, 68, 90, 1)",
   margin: "1rem",
+  
 });
 
 const ContainerForTabHeader = styled(Box)({
@@ -35,18 +36,7 @@ const ContainerForTabHeader = styled(Box)({
   justifyContent: "space-between",
 });
 
-const ButtonIcon = styled(IconButton)({
-  "&:hover": {
-    background: "transparent",
-    transform: "scale(1.1)",
-  },
-});
 
-const ContainerForIcon = styled(Box)({
-  display: "flex",
-  flexDirection: "row",
-  marginRight: "0.5rem",
-});
 
 const Cell = styled(TableCell)({
   verticalAlign: "bottom",
@@ -65,7 +55,7 @@ const StepSubmitWorkout: FC<StepSubmitWorkoutProps> = ({
   return (
     <ContainerForTable>
       <ContainerForTabHeader>
-        <Typography sx={{ margin: "1rem" }} variant="h4">
+        <Typography sx={{ padding: "1rem" }} variant="h4">
           {title}
         </Typography>
       </ContainerForTabHeader>

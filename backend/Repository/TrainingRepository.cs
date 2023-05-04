@@ -16,7 +16,7 @@ public class TrainingRepository : ITrainingRepository
     public async Task<IEnumerable<Training>> GetTrainings()
     {
         var query = @"SELECT * FROM Training
-                       ORDER BY Name";
+                       ORDER BY Id DESC";
         using var connection = _context.CreateConnection();
         var trainings = await connection.QueryAsync<Training>(query);
 

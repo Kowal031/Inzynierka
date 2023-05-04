@@ -120,6 +120,7 @@ const WorkoutsTable: FC<WorkoutsTableProps> = ({
             </Tooltip>
           </ButtonIcon>
           <CommonModal
+         
             openModal={openEditModal}
             children={
               <EditTraining

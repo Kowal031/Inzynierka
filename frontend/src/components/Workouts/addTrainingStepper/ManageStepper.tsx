@@ -103,7 +103,7 @@ const ManageStepper: FC<ManageStepperProps> = ({ handleCloseModal }) => {
   ];
 
   return (
-    <Box sx={{ padding: " 4rem" }}>
+    <Box sx={{ padding: " 1.5rem" }}>
       <WorkoutsStepper
         activeStep={activeStep}
         handleChangeCheckbox={handleChangeCheckbox}
