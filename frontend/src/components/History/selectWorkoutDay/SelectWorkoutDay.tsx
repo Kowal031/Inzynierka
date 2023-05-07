@@ -35,8 +35,7 @@ const SelectWorkoutDay: FC<SelectWorkoutDayProps> = ({
     setEvents(uniqueEventsSet ?? []);
   }, [historyOfWorkouts]);
 
-  console.log(events)
-  console.log(historyOfWorkouts)
+
 
   return (
     <Box>

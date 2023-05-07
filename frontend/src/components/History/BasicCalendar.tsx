@@ -23,9 +23,9 @@ const BasicCalendar: FC<BasicCalendarProps> = ({
 
 
 
-  console.log(events);
+
   const renderEventContent = (eventInfo: EventContentArg) => {
-    console.log(eventInfo)
+
     return (
       <>
         <Button
@@ -111,6 +111,14 @@ export const StyleWrapper = styled.div`
   }
   .fc-today-bg-color{
     background-color: gray 
+  }
+  .fc-daygrid-day-bottom{
+    background-color: #3788d8;
+    font-family: "Helvetica";
+    border-radius: 8px;
+    color: white;
+
+
   }
 
 `;

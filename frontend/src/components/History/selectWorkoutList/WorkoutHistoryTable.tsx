@@ -6,11 +6,21 @@ import {
   TableCell,
   TableBody,
   Box,
+  styled,
 } from "@mui/material";
 import { FC, useState } from "react";
 import HistoryOfWorkouts from "../../../types/HistoryOfWorkouts";
 import CommonDateRangePicker from "./CommonDateRangePicker";
 
+const BoldTableCell = styled(TableCell)({
+  fontWeight: "bold",
+});
+
+const TitleTableCell = styled(TableCell)({
+  background: "#1976d2",
+  color: "white",
+  fontWeight: "500",
+});
 
 interface GroupedWorkout {
   idExercise: number;
@@ -49,7 +59,8 @@ const WorkoutHistoryTable: FC<WorkoutHistoryTableProps> = ({ workouts }) => {
   // group the workouts by date and trainingTitle, and then by idExercise
   const groupedWorkouts: Record<string, Record<string, GroupedWorkout>> = {};
   for (const workout of filterWorkoutsByDate(workouts)) {
-    const { date, trainingTitle, idExercise, reps, weight, exerciseName } = workout;
+    const { date, trainingTitle, idExercise, reps, weight, exerciseName } =
+      workout;
     const key = `${date}_${trainingTitle}`;
     if (!groupedWorkouts[key]) {
       groupedWorkouts[key] = {};
@@ -58,7 +69,7 @@ const WorkoutHistoryTable: FC<WorkoutHistoryTableProps> = ({ workouts }) => {
       groupedWorkouts[key][idExercise] = {
         idExercise,
         exerciseName,
-        series: []
+        series: [],
       };
     }
     groupedWorkouts[key][idExercise].series.push({ reps, weight });
@@ -67,28 +78,33 @@ const WorkoutHistoryTable: FC<WorkoutHistoryTableProps> = ({ workouts }) => {
   // create a table row for each series of each grouped workout
   const rows = [];
   for (const key of Object.keys(groupedWorkouts)) {
-    const { id, date, trainingTitle } = workouts.find(w => `${w.date}_${w.trainingTitle}` === key)!;
+    const { id, date, trainingTitle, idExercise } = workouts.find(
+      (w) => `${w.date}_${w.trainingTitle}` === key
+    )!;
     rows.push(
       <TableRow key={`title_${key}`}>
-        <TableCell colSpan={5}>{`${trainingTitle} - ${new Date(date).toLocaleDateString()}`}</TableCell>
+        <TitleTableCell colSpan={5}>{`${trainingTitle} - ${new Date(
+          date
+        ).toLocaleDateString()}`}</TitleTableCell>
       </TableRow>
     );
+    if (idExercise){
     rows.push(
-      <TableRow key="header">
-        <TableCell>Exercise Name</TableCell>
-        <TableCell>Series</TableCell>
-        <TableCell>Reps</TableCell>
-        <TableCell>Weight</TableCell>
+      <TableRow key={`header_${key}`}>
+        <BoldTableCell>Exercise Name</BoldTableCell>
+        <BoldTableCell>Series</BoldTableCell>
+        <BoldTableCell>Reps</BoldTableCell>
+        <BoldTableCell>Weight</BoldTableCell>
       </TableRow>
-    );
+    );}
     for (const idExercise of Object.keys(groupedWorkouts[key])) {
       const { exerciseName, series } = groupedWorkouts[key][idExercise];
       rows.push(
-        <TableRow key={`${key}_${idExercise}`}>
+        <TableRow  key={`${key}_${idExercise}`}>
           <TableCell>{exerciseName}</TableCell>
           <TableCell>{series.length}</TableCell>
-          <TableCell>{series.map(s => s.reps).join(' / ')}</TableCell>
-          <TableCell>{series.map(s => s.weight).join(' / ')}</TableCell>
+          <TableCell>{series.map((s) => s.reps).join(" / ")}</TableCell>
+          <TableCell>{series.map((s) => s.weight).join(" / ")}</TableCell>
         </TableRow>
       );
     }
@@ -108,6 +124,6 @@ const WorkoutHistoryTable: FC<WorkoutHistoryTableProps> = ({ workouts }) => {
       </Table>
     </Box>
   );
-}
+};
 
 export default WorkoutHistoryTable;

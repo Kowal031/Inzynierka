@@ -40,7 +40,7 @@ const StartWorkout: FC = () => {
     if (allValues !== undefined)
       void seriesAndRepsApi.updateSeriesAndWeight(allValues);
   };
-  console.log(allValues);
+
   return (
     <Box
       sx={{

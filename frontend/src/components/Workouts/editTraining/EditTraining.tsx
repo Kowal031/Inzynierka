@@ -1,6 +1,5 @@
 import {
   styled,
-  TableContainer,
   Box,
   Typography,
   TableHead,
@@ -31,12 +30,14 @@ interface EditTrainingProps {
   allExercise: Exercise[];
   training: Training;
   handleRefreshTraining: () => void;
+  handleOpenSnackBar:  (succesfull: boolean, message: string) => void
 }
 
 const EditTraining: FC<EditTrainingProps> = ({
   allExercise,
   training,
   handleRefreshTraining,
+  handleOpenSnackBar,
 }) => {
   const [title, setTitle] = useState<string>(training.name);
   const [exerciseBase, setExerciseBase] = useState<ExerciseBase[]>([]);
@@ -118,63 +119,69 @@ const EditTraining: FC<EditTrainingProps> = ({
         });
       }
     });
-    void exerciseApi.updateExercise(exercises).then(() => {
-      handleRefreshTraining();
-    });
+    void exerciseApi
+      .updateExercise(exercises)
+      .then(() => {
+        handleOpenSnackBar(true, "Your workout has been updated!");
+        handleRefreshTraining();
+      })
+      .catch((error) => {
+        handleOpenSnackBar(true, "Something went wrong!");
+        handleRefreshTraining();
+      });
   };
 
   return (
-    <Box >
-        <Box  sx={{ margin: "1rem 2rem" }}>
-          <Box sx={{ display: "flex", alignItems: "center", width: "90%" }}>
-            <Typography sx={{ margin: "1rem" }} variant="h4">
-              Title:
-            </Typography>
-            <TextField
-              variant="outlined"
-              value={title}
-              onChange={(event) => changeTitle(event.target.value)}
-              color="info"
-              fullWidth
-            />
-          </Box>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <Cell width="65%" align="left">
-                  Exercise
-                </Cell>
-                <Cell width="25%" align="left">
-                  Sets
-                </Cell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {allExercise.map((exercise: Exercise) => (
-                <EditTrainingTable
-                  key={exercise.id}
-                  exercise={exercise}
-                  exerciseBase={exerciseBase}
-                  trainingId={training.id}
-                  inputValueSet={inputValueSet}
-                  inputValueExercise={inputValueExercise}
-                  valueForExercise={valueForExercise[exercise.id]}
-                  valueForSets={valueForSets[exercise.id]}
-                />
-              ))}
-            </TableBody>
-          </Table>
+    <Box>
+      <Box sx={{ margin: "1rem 2rem" }}>
+        <Box sx={{ display: "flex", alignItems: "center", width: "90%" }}>
+          <Typography sx={{ margin: "1rem" }} variant="h4">
+            Title:
+          </Typography>
+          <TextField
+            variant="outlined"
+            value={title}
+            onChange={(event) => changeTitle(event.target.value)}
+            color="info"
+            fullWidth
+          />
         </Box>
-        <Box  sx={{display: "flex", justifyContent: "center", }}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <Cell width="65%" align="left">
+                Exercise
+              </Cell>
+              <Cell width="25%" align="left">
+                Sets
+              </Cell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {allExercise.map((exercise: Exercise) => (
+              <EditTrainingTable
+                key={exercise.id}
+                exercise={exercise}
+                exerciseBase={exerciseBase}
+                trainingId={training.id}
+                inputValueSet={inputValueSet}
+                inputValueExercise={inputValueExercise}
+                valueForExercise={valueForExercise[exercise.id]}
+                valueForSets={valueForSets[exercise.id]}
+              />
+            ))}
+          </TableBody>
+        </Table>
+      </Box>
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
         <Button
-       
           sx={{ margin: "0rem 0 2rem 0", width: "85%" }}
           variant="contained"
           onClick={handleOnSave}
         >
           Save
         </Button>
-        </Box>
+      </Box>
     </Box>
   );
 };

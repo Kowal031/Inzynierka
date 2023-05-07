@@ -6,8 +6,6 @@ import SelectWorkoutList from "../components/History/selectWorkoutList/SelectWor
 import WorkoutHistoryTable from "../components/History/selectWorkoutList/WorkoutHistoryTable";
 import ExerciseBase from "../types/ExerciseBase";
 import HistoryOfWorkouts from "../types/HistoryOfWorkouts";
-import SloRenderValueForHistory from "../utils/SloRenderValueForHistory";
-import sumValuesForHistory from "../utils/SumValuesForHistory";
 
 const HistoryPage: FC = () => {
   const [historyOfWorkouts, setHistoryOfWorkouts] = useState<
@@ -20,7 +18,9 @@ const HistoryPage: FC = () => {
   const [valueForSelectedWorkoutsList, setValueForSelectedWorkoutsList] =
     useState<HistoryOfWorkouts[]>([]);
 
-  const getTrainingValueFromCalendar = (title: string, start: Date | null) => {
+  const getTrainingValueFromCalendar = async (title: string, start: Date | null) => {
+    await setValueForSelectedWorkoutsList([])
+    setValueForExercise(null)
     setValueForSelectedWorkoutsList(
       historyOfWorkouts.filter(
         (his) =>
@@ -32,7 +32,7 @@ const HistoryPage: FC = () => {
       )
     );
   };
-
+  
   const inputValueExercise = (value: ExerciseBase | null) => {
     setValueForExercise(value);
     getValueForWorkoutsList(value);
@@ -44,7 +44,8 @@ const HistoryPage: FC = () => {
     });
   }, []);
 
-  const getValueForWorkoutsList = (value: ExerciseBase | null) => {
+  const getValueForWorkoutsList = async (value: ExerciseBase | null) => {
+    await setValueForSelectedWorkoutsList([])
     setValueForSelectedWorkoutsList(
       historyOfWorkouts.filter((his) => his.idBaseExercise === value?.id)
     );

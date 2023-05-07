@@ -23,7 +23,7 @@ import Training from "../../../types/Training";
 import WorkoutsItem from "./WorkoutsItem";
 import CommonModal from "../../common/CommonModal";
 import EditTraining from "../editTraining/EditTraining";
-import { useNavigate  } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 // import ExerciseBase from "../../../types/ExerciseBase";
 
 const ContainerForTable = styled(TableContainer)({
@@ -59,21 +59,24 @@ const Cell = styled(TableCell)({
 interface WorkoutsTableProps {
   training: Training;
   handleRefreshTraining: () => void;
+  handleOpenSnackBar: (succesfull: boolean, message: string) => void;
 }
 
 const WorkoutsTable: FC<WorkoutsTableProps> = ({
   training,
   handleRefreshTraining,
+  handleOpenSnackBar,
 }) => {
   const [allExercise, setAllExercise] = useState<Exercise[]>([]);
   const [openEditModal, setOpenEditModal] = useState(false);
-  const navigate  = useNavigate();
+  const navigate = useNavigate();
 
   const onDeleteClick = (id: number) => {
     void trainingApi.deleteTrainingById(id).then(() => {
       //sprawdzić czy ćw z takim id istnieją
       void exerciseApi.deleteExercises(id).then(() => {
         handleRefreshTraining();
+        handleOpenSnackBar(true, `${training.name} has been deleted`);
       });
     });
   };
@@ -88,14 +91,14 @@ const WorkoutsTable: FC<WorkoutsTableProps> = ({
   };
 
   const handleOnPlayClick = (trainingId: number) => {
-    navigate(`/workout/${trainingId}`)
-  }
+    navigate(`/workout/${trainingId}`);
+  };
 
   useEffect(() => {
     exerciseApi.getExerciseByTrainingId(training.id).then(({ data }) => {
       setAllExercise(data);
     });
-  }, [training.id,openEditModal]);
+  }, [training.id, openEditModal]);
 
   return (
     <ContainerForTable>
@@ -106,7 +109,10 @@ const WorkoutsTable: FC<WorkoutsTableProps> = ({
         <ContainerForIcon>
           <ButtonIcon>
             <Tooltip title="Start workout" placement="top" arrow>
-              <PlayCircleIcon onClick={()=> handleOnPlayClick(training.id)} sx={{ color: palette.blue, fontSize: 30 }} />
+              <PlayCircleIcon
+                onClick={() => handleOnPlayClick(training.id)}
+                sx={{ color: palette.blue, fontSize: 30 }}
+              />
             </Tooltip>
           </ButtonIcon>
 
@@ -120,13 +126,13 @@ const WorkoutsTable: FC<WorkoutsTableProps> = ({
             </Tooltip>
           </ButtonIcon>
           <CommonModal
-         
             openModal={openEditModal}
             children={
               <EditTraining
                 allExercise={allExercise}
-                training={training} 
+                training={training}
                 handleRefreshTraining={handleCloseEditModal}
+                handleOpenSnackBar={handleOpenSnackBar}
               />
             }
             handleCloseModal={handleCloseEditModal}

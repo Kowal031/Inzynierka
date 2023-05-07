@@ -12,6 +12,7 @@ interface TitleProps {
 
 interface ManageStepperProps {
   handleCloseModal: () => void;
+  handleOpenSnackBar: (succesfull: boolean, message: string) => void;
 }
 
 const initialState: MuscleGroupInjuriesState = {
@@ -27,7 +28,10 @@ const initialState: MuscleGroupInjuriesState = {
   claves: false,
 };
 
-const ManageStepper: FC<ManageStepperProps> = ({ handleCloseModal }) => {
+const ManageStepper: FC<ManageStepperProps> = ({
+  handleCloseModal,
+  handleOpenSnackBar,
+}) => {
   const [activeStep, setActiveStep] = useState<number>(0);
   const [title, setTitle] = useState<TitleProps>({ title: "" });
   const [injuries, setInjuries] =
@@ -55,6 +59,11 @@ const ManageStepper: FC<ManageStepperProps> = ({ handleCloseModal }) => {
             injuries.claves === true ? 3 : 0
           )
           .then(() => {
+            handleOpenSnackBar(true, "You have successfully added a workout");
+            handleCloseModal();
+          })
+          .catch((err) => {
+            handleOpenSnackBar(false, "Something went wrong");
             handleCloseModal();
           });
         break;
@@ -63,7 +72,7 @@ const ManageStepper: FC<ManageStepperProps> = ({ handleCloseModal }) => {
         break;
     }
   };
-  console.log(valueForExercise)
+
 
   const stepperBackManagement = () => {
     switch (activeStep) {

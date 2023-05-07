@@ -28,12 +28,14 @@ interface AddWorkoutsProps {
   handleOpenModal: () => void;
   openModal: boolean;
   handleCloseModal: () => void;
+  handleOpenSnackBar:  (succesfull: boolean, message: string) => void
 }
 
 const AddWorkouts: FC<AddWorkoutsProps> = ({
   handleCloseModal,
   handleOpenModal,
   openModal,
+  handleOpenSnackBar
 }) => {
   const [parentOpen, setParentOpen] = useState(false);
 
@@ -60,6 +62,7 @@ const AddWorkouts: FC<AddWorkoutsProps> = ({
             children={
               <ManageStepper
                 handleCloseModal={handleCloseModal}
+                handleOpenSnackBar={handleOpenSnackBar}
               />
             }
           />
