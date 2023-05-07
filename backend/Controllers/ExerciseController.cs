@@ -1,10 +1,12 @@
 ﻿using backend.Dto;
 using backend.Entities;
 using backend.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers;
 
+[Authorize]
 [Route("api/Exercise")]
 [ApiController]
 public class ExerciseController : ControllerBase

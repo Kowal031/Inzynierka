@@ -1,8 +1,10 @@
 ﻿using backend.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers;
 
+[Authorize]
 [Route("api/History")]
 [ApiController]
 public class HistoryController : ControllerBase

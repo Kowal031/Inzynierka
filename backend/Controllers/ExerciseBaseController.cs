@@ -1,6 +1,8 @@
 ﻿using backend.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+[Authorize]
 [Route("api/ExerciseBase")]
 [ApiController]
 public class ExerciseBaseController : ControllerBase
