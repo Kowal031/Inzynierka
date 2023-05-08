@@ -1,9 +1,10 @@
 import { Typography, Box } from "@mui/material";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { NavLink } from "react-router-dom";
 import RouteItems from "../../../routes/RouteItems";
 import { palette } from "../../../assets/palette";
+import { getToken, removeTokern } from "../../../utils/Token";
 
 // Styled components
 const Container = styled(Box)({
@@ -43,14 +44,19 @@ const NavLinkText = styled(Typography)<{
   },
 }));
 
+const Logout = styled(Typography)({
+  display: "flex",
+  alignItems: "center",
+  padding: "0.5rem",
+  cursor: "pointer",
+});
+
 const Logo = styled(Typography)({
   color: palette.black,
-})
-
-
+});
 
 // Component
-const Navigation: FC = () => {
+const NotTokenNavigation: FC = () => {
   const currentLocation = window.location.pathname;
   const [changeOnClick, setChangeOnClick] = useState<number>(-1);
 
@@ -78,25 +84,33 @@ const Navigation: FC = () => {
         </NavLink>
       </ListItem>
       <CommonBox>
-        {RouteItems.map(({ toPath, name }, index) => (
-          index !== RouteItems.length -1 &&
-          <ListItem key={toPath}>
-            <NavLink
-              to={toPath}
-              onClick={() =>
-                handleNavLinkClick(index, changeOnClick, setChangeOnClick)
-              }
-              className={({ isActive }) => setClassName(isActive)}
-            >
-              <NavLinkText currentLocation={currentLocation} pathname={toPath}>
-                {name}
-              </NavLinkText>
-            </NavLink>
-          </ListItem>
-        ))}
+        <ListItem>
+          <NavLink
+            to="/"
+            className={({ isActive }) => setClassName(isActive)}
+            onClick={() =>
+              handleNavLinkClick(2, changeOnClick, setChangeOnClick)
+            }
+          >
+            <NavLinkText currentLocation={currentLocation} pathname="/">
+              Login
+            </NavLinkText>
+          </NavLink>
+          <NavLink
+            to="/register"
+            className={({ isActive }) => setClassName(isActive)}
+            onClick={() =>
+              handleNavLinkClick(1, changeOnClick, setChangeOnClick)
+            }
+          >
+            <NavLinkText currentLocation={currentLocation} pathname="/register">
+              Register
+            </NavLinkText>
+          </NavLink>
+        </ListItem>
       </CommonBox>
     </Container>
   );
 };
 
-export default Navigation;
+export default NotTokenNavigation;

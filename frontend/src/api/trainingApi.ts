@@ -1,11 +1,12 @@
 import axios, { AxiosResponse } from "axios";
 import Training from "../types/Training";
 import endpoints from "./endpoints";
+import http from "./httpCommon";
 
 // Function to get all trainings
 const getAllTrainings = async (): Promise<AxiosResponse<Training[]>> => {
   const url = `${endpoints.baseURL}${endpoints.training}`;
-  const response = await axios.get<Training[]>(url);
+  const response = await http.get<Training[]>(url);
   return response;
 };
 
@@ -14,7 +15,7 @@ const getTrainingById = async (
   id: number
 ): Promise<AxiosResponse<Training>> => {
   const url = `${endpoints.baseURL}${endpoints.training}/${id}`;
-  const response = await axios.get<Training>(url);
+  const response = await http.get<Training>(url);
   return response;
 };
 
@@ -32,7 +33,7 @@ const createTraining = async (
   hamstringsInjury: number,
   clavesInjury: number
 ): Promise<AxiosResponse<Training>> => {
-  return await axios.post(`${endpoints.baseURL}${endpoints.training}`, {
+  return await http.post(`${endpoints.baseURL}${endpoints.training}`, {
     name,
     shouldersInjury,
     chestInjury,
@@ -50,7 +51,7 @@ const createTraining = async (
 // Function to delete a training by ID
 const deleteTrainingById = async (id: number): Promise<AxiosResponse<void>> => {
   const url = `${endpoints.baseURL}${endpoints.training}/${id}`;
-  const response = await axios.delete(url);
+  const response = await http.delete(url);
   return response;
 };
 

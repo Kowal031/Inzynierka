@@ -54,8 +54,8 @@ namespace backend.Controllers
         public async Task<IActionResult> Login(UserDto dto)
         {
             var user = await _userRepository.GetUserByEmail(dto.Email);
-
-            if (user == null || !VerifyPassword(dto.Password, user.Password))
+            var password = HashPassword(dto.Password);
+            if (user == null || !VerifyPassword(password, user.Password))
             {
                 return Unauthorized("Invalid email or password");
             }

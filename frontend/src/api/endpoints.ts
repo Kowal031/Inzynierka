@@ -5,6 +5,8 @@ const seriesaAndReps = "api/SeriesAndReps";
 const history = "api/History";
 const byTrainingId = "/ByTrainingId";
 const byExerciseId = "/ByExerciseId";
+const register = "api/Users/register";
+const login = "api/Users/login";
 const baseURL = "https://localhost:7212/";
 
 const endpoints = {
@@ -15,6 +17,8 @@ const endpoints = {
   byExerciseId,
   history,
   exerciseBase,
-  seriesaAndReps
+  seriesaAndReps,
+  register,
+  login
 };
 export default endpoints;

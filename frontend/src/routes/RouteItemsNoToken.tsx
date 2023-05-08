@@ -8,30 +8,15 @@ import Login from "../components/User/Login";
 
 const Routes: RouteItem[] = [
   {
-    name: "Workouts",
-    toPath: "/workouts",
-    component: <WorkoutsPage />,
-  },
-  {
-    name: "History",
-    toPath: "/history-of-workouts",
-    component: <HistoryPage />,
-  },
-  {
-    name: "Measure",
-    toPath: "/measure",
+    name: "Login",
+    toPath: "/",
     component: <Login />,
   },
   {
-    name: "My Profile",
-    toPath: "/my-profile",
+    name: "Register",
+    toPath: "/register",
     component: <Register />,
   },
-  {
-    name: "Workout",
-    toPath: "/workout/:workoutId",
-    component:<StartWorkout />
-  }
 ];
 
 export default Routes;

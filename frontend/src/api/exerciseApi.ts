@@ -2,11 +2,12 @@ import axios, { AxiosResponse } from "axios";
 import EditExercise from "../types/EditExercise";
 import Exercise from "../types/Exercise";
 import endpoints from "./endpoints";
+import http from "./httpCommon";
 
 // Function to get exercises by training ID
 const getExerciseByTrainingId = async (id: number): Promise<AxiosResponse<Exercise[]>> => {
   const url = `${endpoints.baseURL}${endpoints.exercise}${endpoints.byTrainingId}/${id}`;
-  const response = await axios.get<Exercise[]>(url);
+  const response = await http.get<Exercise[]>(url);
   return response;
 };
 
@@ -19,21 +20,21 @@ const addExercise = async (
 ): Promise<AxiosResponse<Exercise>> => {
   const url = `${endpoints.baseURL}${endpoints.exercise}`;
   const data = { idTraining, name, idExerciseBase, numberOfSeries };
-  const response = await axios.post<Exercise>(url, data);
+  const response = await http.post<Exercise>(url, data);
   return response;
 };
 
 // Function to delete an exercise
 const deleteExercise = async (id: number): Promise<AxiosResponse<void>> => {
   const url = `${endpoints.baseURL}${endpoints.exercise}/${id}`;
-  const response = await axios.delete(url);
+  const response = await http.delete(url);
   return response;
 };
 
 // Function to delete exercises by training ID
 const deleteExercises = async (id: number): Promise<AxiosResponse<void>> => {
   const url = `${endpoints.baseURL}${endpoints.exercise}${endpoints.byTrainingId}/${id}`;
-  const response = await axios.delete(url);
+  const response = await http.delete(url);
   return response;
 };
 
@@ -41,7 +42,7 @@ const deleteExercises = async (id: number): Promise<AxiosResponse<void>> => {
 
 const updateExercise = async (editExerciseDtos: EditExercise[]) => {
   try {
-    const response = await axios.put(`${endpoints.baseURL}${endpoints.exercise}`, editExerciseDtos);
+    const response = await http.put(`${endpoints.baseURL}${endpoints.exercise}`, editExerciseDtos);
     console.log(response.data);
   } catch (error) {
     console.error(error);
