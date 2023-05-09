@@ -7,7 +7,6 @@ import { palette } from "../../../assets/palette";
 import { getToken, removeTokern } from "../../../utils/Token";
 import { useNavigate } from "react-router-dom";
 
-// Styled components
 const Container = styled(Box)({
   display: "flex",
   justifyContent: "space-between",
@@ -56,7 +55,6 @@ const Logo = styled(Typography)({
   color: palette.black,
 });
 
-// Component
 const CommonNavigation: FC = () => {
   const navigate = useNavigate();
   const currentLocation = window.location.pathname;

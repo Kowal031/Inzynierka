@@ -1,6 +1,5 @@
 import {
   Box,
-  IconButton,
   styled,
   Table,
   TableBody,
@@ -9,25 +8,17 @@ import {
   TableHead,
   TableRow,
   Typography,
-  // TableContainer,
-  // Paper,
-  // Table,
-  // TableHead,
-  // TableRow,
-  // TableCell,
-  // TableBody,
 } from "@mui/material";
 import { FC } from "react";
 import { palette } from "../../../../assets/palette";
 import Exercise from "../../../../types/Exercise";
 import WorkoutsItem from "../../workoutsTable/WorkoutsItem";
-// import ExerciseBase from "../../../types/ExerciseBase";
+
 const ContainerForTable = styled(TableContainer)({
   maxWidth: "34rem",
   background: palette.white,
   boxShadow: "2px 2px 7px 0px rgba(66, 68, 90, 1)",
   margin: "1rem",
-  
 });
 
 const ContainerForTabHeader = styled(Box)({
@@ -36,21 +27,19 @@ const ContainerForTabHeader = styled(Box)({
   justifyContent: "space-between",
 });
 
-
-
 const Cell = styled(TableCell)({
   verticalAlign: "bottom",
 });
 interface StepSubmitWorkoutProps {
   myExercise: Exercise[];
   title: string;
-  lastTrainingId: number
+  lastTrainingId: number;
 }
 
 const StepSubmitWorkout: FC<StepSubmitWorkoutProps> = ({
   myExercise,
   title,
-  lastTrainingId
+  lastTrainingId,
 }) => {
   return (
     <ContainerForTable>
@@ -73,7 +62,11 @@ const StepSubmitWorkout: FC<StepSubmitWorkoutProps> = ({
         </TableHead>
         <TableBody>
           {myExercise.map((exercise: Exercise) => (
-            <WorkoutsItem exercise={exercise} trainingId={lastTrainingId} isFromCreator={true} />
+            <WorkoutsItem
+              exercise={exercise}
+              trainingId={lastTrainingId}
+              isFromCreator={true}
+            />
           ))}
         </TableBody>
       </Table>

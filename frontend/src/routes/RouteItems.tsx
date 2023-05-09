@@ -4,7 +4,6 @@ import RouteItem from "../types/RouteItem";
 import StartWorkout from "../components/Workouts/startedWorkout/StartWorkout";
 import HistoryPage from "../pages/HistoryPage";
 import Register from "../components/User/Register";
-import Login from "../components/User/Login";
 
 const Routes: RouteItem[] = [
   {
@@ -30,8 +29,8 @@ const Routes: RouteItem[] = [
   {
     name: "Workout",
     toPath: "/workout/:workoutId",
-    component:<StartWorkout />
-  }
+    component: <StartWorkout />,
+  },
 ];
 
 export default Routes;

@@ -1,6 +1,6 @@
 interface EventsForCalendar {
-    title: string;
-    start: Date;
+  title: string;
+  start: Date;
 }
 
-export default EventsForCalendar
+export default EventsForCalendar;

@@ -31,7 +31,6 @@ const TrainingContextProvider: FC<{ children: React.ReactNode }> = ({
   const getUserId = (token: string): void => {
     const decoded: { nameid: string } = jwt_decode(token);
 
-
     setIdUser(parseInt(decoded.nameid));
   };
   const setIdUser = (id: number): void => {

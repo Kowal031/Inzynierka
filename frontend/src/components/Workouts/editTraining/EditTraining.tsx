@@ -8,13 +8,11 @@ import {
   TableCell,
   TableRow,
   Button,
-  Paper,
 } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { FC, useEffect, useState } from "react";
 import exerciseApi from "../../../api/exerciseApi";
 import exerciseBaseApi from "../../../api/exerciseBaseApi";
-import { palette } from "../../../assets/palette";
 import EditExercise from "../../../types/EditExercise";
 import Exercise from "../../../types/Exercise";
 import ExerciseBase from "../../../types/ExerciseBase";
@@ -30,7 +28,7 @@ interface EditTrainingProps {
   allExercise: Exercise[];
   training: Training;
   handleRefreshTraining: () => void;
-  handleOpenSnackBar:  (succesfull: boolean, message: string) => void
+  handleOpenSnackBar: (succesfull: boolean, message: string) => void;
 }
 
 const EditTraining: FC<EditTrainingProps> = ({

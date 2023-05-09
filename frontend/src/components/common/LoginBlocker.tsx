@@ -1,5 +1,4 @@
-import { FC, useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
+import { FC } from "react";
 import { getToken } from "../../utils/Token";
 
 interface LoginBlockerProps {
@@ -9,7 +8,7 @@ interface LoginBlockerProps {
 const LoginBlocker: FC<LoginBlockerProps> = ({ children }) => {
   const token = getToken();
 
-  if (!token) return<>{children}</>;
+  if (!token) return <>{children}</>;
   return <></>;
 };
 

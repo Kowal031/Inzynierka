@@ -1,14 +1,8 @@
 import React, { useState } from "react";
-
-
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import axios, { AxiosResponse } from "axios";
-
 import styled from "styled-components";
-import { Container, Avatar, Button, Typography, Grid, TextField } from "@mui/material";
-import endpoints from "../../api/endpoints";
-import User from "../../types/User";
+import { Container, Avatar, Button, Typography, Grid, TextField, Box } from "@mui/material";
 import usersApi from "../../api/usersApi";
 import { useNavigate } from "react-router-dom";
 
@@ -67,12 +61,14 @@ const navigate = useNavigate();
   return (
     <RegisterContainer maxWidth="xs">
       <div>
+      <Box sx={{display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
         <RegisterAvatar>
       
         </RegisterAvatar>
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
+        </Box>
         {error && (
           <Typography color="error" variant="subtitle1">
             {error}

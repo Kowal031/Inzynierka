@@ -1,6 +1,6 @@
 enum SloRenderValueForHistory {
-    ValueForList = 1,
-    ValueFromCalendar = 2,
+  ValueForList = 1,
+  ValueFromCalendar = 2,
 }
 
-export default SloRenderValueForHistory
+export default SloRenderValueForHistory;

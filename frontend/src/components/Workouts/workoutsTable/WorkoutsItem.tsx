@@ -7,8 +7,6 @@ import {
 } from "@mui/material";
 import { FC } from "react";
 import Exercise from "../../../types/Exercise";
-import { palette } from "../../../assets/palette";
-
 import InfoIcon from "@mui/icons-material/Info";
 
 interface WorkoutsItemProps {
@@ -24,7 +22,6 @@ const ButtonIcon = styled(IconButton)({
 });
 
 const StyledTableRow = styled(TableRow)({
-
   // hide last border
   "&:last-child td, &:last-child th": {
     border: 0,

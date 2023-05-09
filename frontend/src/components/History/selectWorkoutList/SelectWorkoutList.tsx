@@ -4,7 +4,6 @@ import { FC, useEffect, useState } from "react";
 import exerciseBaseApi from "../../../api/exerciseBaseApi";
 import ExerciseBase from "../../../types/ExerciseBase";
 import HistoryOfWorkouts from "../../../types/HistoryOfWorkouts";
-import SloRenderValueForHistory from "../../../utils/SloRenderValueForHistory";
 
 interface SelectWorkoutListProps {
   history: HistoryOfWorkouts[];
@@ -50,4 +49,5 @@ const SelectWorkoutList: FC<SelectWorkoutListProps> = ({
     </Box>
   );
 };
+
 export default SelectWorkoutList;

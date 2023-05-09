@@ -1,5 +1,5 @@
-import { Box, Button, Grid, TextField, TextFieldProps } from "@mui/material";
-import React, { forwardRef, useState } from "react";
+import { Box, Button } from "@mui/material";
+import { FC } from "react";
 import DatePicker, { ReactDatePickerProps } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -10,7 +10,7 @@ interface CommonDateRangePickerProps {
   handleEndDateChange: (date: Date | null) => void;
 }
 
-const CommonDateRangePicker: React.FC<CommonDateRangePickerProps> = ({
+const CommonDateRangePicker: FC<CommonDateRangePickerProps> = ({
   startDate,
   handleStartDateChange,
   endDate,
@@ -43,15 +43,6 @@ const CommonDateRangePicker: React.FC<CommonDateRangePickerProps> = ({
     wrapperClassName: "date-picker-wrapper",
     dateFormat: "dd/MM/yyyy",
   };
-// changeit
-//   const ExampleCustomInput = forwardRef<
-//   HTMLDivElement | null,
-//   TextFieldProps 
-// >(({ value, onClick }, ref) => (
-//   <div className="example-custom-input" onClick={onClick} ref={ref}>
-//     {value}
-//   </div>
-// ));
 
   return (
     <Box
@@ -69,13 +60,11 @@ const CommonDateRangePicker: React.FC<CommonDateRangePickerProps> = ({
         {...datePickerProps}
         wrapperClassName="date-picker-wrapper"
         className="date-picker"
-        
       />
       <DatePicker
         {...endDatePickerProps}
         wrapperClassName="date-picker-wrapper"
         className="date-picker"
-        // customInput={<ExampleCustomInput />}
       />
       <Button
         size="small"

@@ -19,14 +19,9 @@ import {
 import Tooltip from "@mui/material/Tooltip";
 import { Scrollbar } from "react-scrollbars-custom";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
-import seriesAndRepsApi from "../../../api/seriesAndRepsApi";
 
 const StyledTableRow = styled(TableRow)({
-
-  // hide last border
-
-    border: 0,
-
+  border: 0,
 });
 
 interface WorkoutPartProps {
@@ -60,11 +55,15 @@ const WorkoutPart: FC<WorkoutPartProps> = ({
   };
 
   return (
-    <Box component={Paper} elevation={3} sx={{ borderTopLeftRadius: "2rem", borderTopRightRadius: "2rem" }}>
-      <Box sx={{ padding: "1rem 0 1rem 1rem"  }}>
+    <Box
+      component={Paper}
+      elevation={3}
+      sx={{ borderTopLeftRadius: "2rem", borderTopRightRadius: "2rem" }}
+    >
+      <Box sx={{ padding: "1rem 0 1rem 1rem" }}>
         <Typography variant="h5">{`${numberOfExercise}.${name}`}</Typography>
       </Box>
-      <TableContainer sx={{ width: "33rem" }}  >
+      <TableContainer sx={{ width: "33rem" }}>
         <Scrollbar
           style={{ height: "25rem", width: "33rem", background: "white" }}
         >

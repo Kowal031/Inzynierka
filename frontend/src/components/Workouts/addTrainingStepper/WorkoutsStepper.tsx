@@ -102,7 +102,11 @@ const WorkoutsStepper: FC<WorkoutsStepperProps> = ({
       myExercise={myExercise}
       lastTrainingId={lastTrainingId}
     />,
-    <StepSubmitWorkout myExercise={myExercise} title={title} lastTrainingId={lastTrainingId}/>,
+    <StepSubmitWorkout
+      myExercise={myExercise}
+      title={title}
+      lastTrainingId={lastTrainingId}
+    />,
   ];
 
   return (

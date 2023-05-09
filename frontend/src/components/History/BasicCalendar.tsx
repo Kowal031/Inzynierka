@@ -1,15 +1,13 @@
 import { Box } from "@mui/material";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import { EventContentArg, sliceEvents } from "@fullcalendar/core";
-import { FC, Fragment } from "react";
+import { EventContentArg } from "@fullcalendar/core";
+import { FC } from "react";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
-import SloRenderValueForHistory from "../../utils/SloRenderValueForHistory";
-import EventsForCalendar from "../../types/EventsForCalendar";
 import styled from "styled-components";
-import React from "react";
+import EventsForCalendar from "../../types/EventsForCalendar";
 
 interface BasicCalendarProps {
   getTrainingValueFromCalendar: (title: string, start: Date | null) => void;
@@ -20,17 +18,16 @@ const BasicCalendar: FC<BasicCalendarProps> = ({
   getTrainingValueFromCalendar,
   events,
 }) => {
-
-
-
-
   const renderEventContent = (eventInfo: EventContentArg) => {
-
     return (
       <>
         <Button
-        style={{fontSize: "12px", whiteSpace:"break-spaces", textTransform: "none" }}
-        fullWidth
+          style={{
+            fontSize: "12px",
+            whiteSpace: "break-spaces",
+            textTransform: "none",
+          }}
+          fullWidth
           size="small"
           variant="contained"
           onClick={() => {
@@ -50,8 +47,6 @@ const BasicCalendar: FC<BasicCalendarProps> = ({
     center: "",
     right: "prev,next today",
   };
-
-
 
   return (
     <Box
@@ -73,8 +68,7 @@ const BasicCalendar: FC<BasicCalendarProps> = ({
           dayMaxEvents={0}
           headerToolbar={customHeaderToolbar}
           themeSystem="bootstrap"
-         moreLinkText={n => ` +${n} workouts`}
-          
+          moreLinkText={(n) => ` +${n} workouts`}
         />
       </StyleWrapper>
     </Box>
@@ -82,6 +76,7 @@ const BasicCalendar: FC<BasicCalendarProps> = ({
 };
 
 export default BasicCalendar;
+
 export const StyleWrapper = styled.div`
   .fc-button.fc-prev-button,
   .fc-button.fc-next-button,
@@ -102,8 +97,6 @@ export const StyleWrapper = styled.div`
       border: none;
       box-shadow: none;
     }
-
-
   }
   .fc-toolbar-title{
     font-family: "Helvetica";
@@ -117,8 +110,5 @@ export const StyleWrapper = styled.div`
     font-family: "Helvetica";
     border-radius: 8px;
     color: white;
-
-
   }
-
 `;

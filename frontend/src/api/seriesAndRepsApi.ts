@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
 import SeriesAndReps from "../types/SeriesAndReps";
 import endpoints from "./endpoints";
 import http from "./httpCommon";
@@ -28,7 +28,6 @@ const addSeriesAndWeight = async (
   const response = await http.post<SeriesAndReps>(url, data);
   return response;
 };
-
 
 const updateSeriesAndWeight = async (seriesAndReps: SeriesAndReps[]) => {
   try {

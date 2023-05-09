@@ -2,18 +2,15 @@ import { Box } from "@mui/system";
 import { FC, useState, useEffect } from "react";
 import EventsForCalendar from "../../../types/EventsForCalendar";
 import HistoryOfWorkouts from "../../../types/HistoryOfWorkouts";
-import SloRenderValueForHistory from "../../../utils/SloRenderValueForHistory";
 import BasicCalendar from "../BasicCalendar";
 
 interface SelectWorkoutDayProps {
   historyOfWorkouts: HistoryOfWorkouts[];
-
   getTrainingValueFromCalendar: (title: string, start: Date | null) => void;
 }
 
 const SelectWorkoutDay: FC<SelectWorkoutDayProps> = ({
   historyOfWorkouts,
-
   getTrainingValueFromCalendar,
 }) => {
   const [events, setEvents] = useState<EventsForCalendar[]>([]);
@@ -25,7 +22,13 @@ const SelectWorkoutDay: FC<SelectWorkoutDayProps> = ({
           title: workout.trainingTitle,
           start: new Date(workout.date),
         };
-        if (!acc.some((e) => e.title === event.title &&  new Date(e.start).getTime() ===  new Date(event.start).getTime()  )) {
+        if (
+          !acc.some(
+            (e) =>
+              e.title === event.title &&
+              new Date(e.start).getTime() === new Date(event.start).getTime()
+          )
+        ) {
           acc.push(event);
         }
         return acc;
@@ -34,8 +37,6 @@ const SelectWorkoutDay: FC<SelectWorkoutDayProps> = ({
     );
     setEvents(uniqueEventsSet ?? []);
   }, [historyOfWorkouts]);
-
-
 
   return (
     <Box>

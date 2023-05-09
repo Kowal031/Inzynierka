@@ -1,7 +1,6 @@
 import { FC, useState } from "react";
 import CustomSnackbar from "../components/common/CommonSnackbar";
 
-
 const TrainingPage: FC = () => {
   const [open, setOpen] = useState(false);
 

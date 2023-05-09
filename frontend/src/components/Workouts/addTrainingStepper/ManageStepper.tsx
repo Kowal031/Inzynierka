@@ -3,7 +3,6 @@ import trainingApi from "../../../api/trainingApi";
 import ExerciseBase from "../../../types/ExerciseBase";
 import WorkoutsStepper from "./WorkoutsStepper";
 import MuscleGroupInjuriesState from "../../../types/MuscleGroupInjuriesState";
-
 import { Box } from "@mui/material";
 import { TrainingContext } from "../../../context/training-context";
 
@@ -59,7 +58,7 @@ const ManageStepper: FC<ManageStepperProps> = ({
             injuries.quadraceps === true ? 3 : 0,
             injuries.hamstring === true ? 3 : 0,
             injuries.claves === true ? 3 : 0,
-            userId,
+            userId
           )
           .then(() => {
             handleOpenSnackBar(true, "You have successfully added a workout");
@@ -75,7 +74,6 @@ const ManageStepper: FC<ManageStepperProps> = ({
         break;
     }
   };
-
 
   const stepperBackManagement = () => {
     switch (activeStep) {

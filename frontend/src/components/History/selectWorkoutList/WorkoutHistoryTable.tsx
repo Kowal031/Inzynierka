@@ -1,5 +1,4 @@
 import {
-  TableContainer,
   Table,
   TableHead,
   TableRow,
@@ -88,19 +87,20 @@ const WorkoutHistoryTable: FC<WorkoutHistoryTableProps> = ({ workouts }) => {
         ).toLocaleDateString()}`}</TitleTableCell>
       </TableRow>
     );
-    if (idExercise){
-    rows.push(
-      <TableRow key={`header_${key}`}>
-        <BoldTableCell>Exercise Name</BoldTableCell>
-        <BoldTableCell>Series</BoldTableCell>
-        <BoldTableCell>Reps</BoldTableCell>
-        <BoldTableCell>Weight</BoldTableCell>
-      </TableRow>
-    );}
+    if (idExercise) {
+      rows.push(
+        <TableRow key={`header_${key}`}>
+          <BoldTableCell>Exercise Name</BoldTableCell>
+          <BoldTableCell>Series</BoldTableCell>
+          <BoldTableCell>Reps</BoldTableCell>
+          <BoldTableCell>Weight</BoldTableCell>
+        </TableRow>
+      );
+    }
     for (const idExercise of Object.keys(groupedWorkouts[key])) {
       const { exerciseName, series } = groupedWorkouts[key][idExercise];
       rows.push(
-        <TableRow  key={`${key}_${idExercise}`}>
+        <TableRow key={`${key}_${idExercise}`}>
           <TableCell>{exerciseName}</TableCell>
           <TableCell>{series.length}</TableCell>
           <TableCell>{series.map((s) => s.reps).join(" / ")}</TableCell>

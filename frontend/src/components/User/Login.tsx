@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import axios, { AxiosResponse } from "axios";
 import styled from "styled-components";
 import {
   Container,
@@ -9,12 +8,11 @@ import {
   Button,
   Typography,
   Grid,
+  Box,
   TextField,
 } from "@mui/material";
-import endpoints from "../../api/endpoints";
-import User from "../../types/User";
+import { useNavigate } from "react-router-dom";
 import usersApi from "../../api/usersApi";
-import { Navigate, useNavigate } from "react-router-dom";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Email is required"),
@@ -67,10 +65,12 @@ const navigate = useNavigate()
   return (
     <LoginContainer maxWidth="xs">
       <div>
+        <Box sx={{display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
         <LoginAvatar></LoginAvatar>
-        <Typography component="h1" variant="h5">
+        <Typography align="center" component="h1" variant="h5">
           Login
         </Typography>
+        </Box>
         {error && (
           <Typography color="error" variant="subtitle1">
             {error}

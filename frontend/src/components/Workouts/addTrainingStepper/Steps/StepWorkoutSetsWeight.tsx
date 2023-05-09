@@ -6,7 +6,6 @@ import exerciseBaseApi from "../../../../api/exerciseBaseApi";
 import exerciseApi from "../../../../api/exerciseApi";
 import Exercise from "../../../../types/Exercise";
 import ExerciseTable from "./ExerciseTable";
-import getTrainingId from "../../../../utils/GetTrainingId";
 
 const FormContainer = styled("form")({
   paddingTop: "1rem",
@@ -50,7 +49,7 @@ const StepWorkoutSetsWeight: FC<StepWorkoutSetsWeightProps> = ({
           lastTrainingId,
           valueForExercise.name,
           valueForExercise.id,
-          valueForSets,
+          valueForSets
         )
         .then(() => {
           changeMyExercise();
@@ -82,7 +81,7 @@ const StepWorkoutSetsWeight: FC<StepWorkoutSetsWeightProps> = ({
           sx={{
             marginTop: "1rem",
             padding: "1rem",
-            gap: "1rem"
+            gap: "1rem",
           }}
           onSubmit={handleAddExerciseAndWeight}
         >
@@ -110,7 +109,7 @@ const StepWorkoutSetsWeight: FC<StepWorkoutSetsWeightProps> = ({
             onChange={(event) => inputValueSet(parseInt(event.target.value))}
           />
           <Button
-          disabled={disabled || valueForExercise === null}
+            disabled={disabled || valueForExercise === null}
             variant="contained"
             sx={{
               border: "1rem",

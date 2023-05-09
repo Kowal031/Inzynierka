@@ -7,18 +7,16 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { ChangeEvent, FC, FormEvent, useState } from "react";
-import CustomTextField from "../../../common/CustomTextField";
+import { ChangeEvent, FC, useState } from "react";
 import SwitchComponent from "../../../common/SwitchComponent";
-import { object, string, number, date, InferType } from "yup";
 
 const BasicForm = styled(`form`)({
   display: "flex",
   flexDirection: "column",
 });
+
 const Container = styled(Box)({
   backgroundColor: "#ffffff",
-
   padding: 30,
   textAlign: "center",
 });
@@ -39,17 +37,15 @@ interface StepTrainingDetails {
     hamstring: boolean;
     claves: boolean;
   };
-
 }
 
 const StepTrainingDetais: FC<StepTrainingDetails> = ({
   handleChangeCheckbox,
   handleChange,
   state,
-  title
+  title,
 }) => {
   const [checked, setChecked] = useState(false);
-
   const {
     schoulder,
     chest,
@@ -67,7 +63,6 @@ const StepTrainingDetais: FC<StepTrainingDetails> = ({
     setChecked(event.target.checked);
   };
 
-
   return (
     <Container>
       <BasicForm>
@@ -78,7 +73,6 @@ const StepTrainingDetais: FC<StepTrainingDetails> = ({
           name={"title"}
           value={title}
           inputProps={{ maxLength: 50 }}
-      
         />
         <Box mt="0.5rem" mb="0.5rem" display="flex">
           <Typography mr="1rem">

@@ -3,7 +3,6 @@ import { FC, useEffect, useState } from "react";
 import CommonModal from "../common/CommonModal";
 import ManageStepper from "./addTrainingStepper/ManageStepper";
 import { palette } from "../../assets/palette";
-import trainingApi from "../../api/trainingApi";
 
 const Container = styled(Button)({
   height: "4rem",
@@ -28,14 +27,14 @@ interface AddWorkoutsProps {
   handleOpenModal: () => void;
   openModal: boolean;
   handleCloseModal: () => void;
-  handleOpenSnackBar:  (succesfull: boolean, message: string) => void
+  handleOpenSnackBar: (succesfull: boolean, message: string) => void;
 }
 
 const AddWorkouts: FC<AddWorkoutsProps> = ({
   handleCloseModal,
   handleOpenModal,
   openModal,
-  handleOpenSnackBar
+  handleOpenSnackBar,
 }) => {
   const [parentOpen, setParentOpen] = useState(false);
 

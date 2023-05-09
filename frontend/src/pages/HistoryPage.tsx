@@ -18,9 +18,12 @@ const HistoryPage: FC = () => {
   const [valueForSelectedWorkoutsList, setValueForSelectedWorkoutsList] =
     useState<HistoryOfWorkouts[]>([]);
 
-  const getTrainingValueFromCalendar = async (title: string, start: Date | null) => {
-    await setValueForSelectedWorkoutsList([])
-    setValueForExercise(null)
+  const getTrainingValueFromCalendar = async (
+    title: string,
+    start: Date | null
+  ) => {
+    await setValueForSelectedWorkoutsList([]);
+    setValueForExercise(null);
     setValueForSelectedWorkoutsList(
       historyOfWorkouts.filter(
         (his) =>
@@ -32,7 +35,7 @@ const HistoryPage: FC = () => {
       )
     );
   };
-  
+
   const inputValueExercise = (value: ExerciseBase | null) => {
     setValueForExercise(value);
     getValueForWorkoutsList(value);
@@ -45,7 +48,7 @@ const HistoryPage: FC = () => {
   }, []);
 
   const getValueForWorkoutsList = async (value: ExerciseBase | null) => {
-    await setValueForSelectedWorkoutsList([])
+    await setValueForSelectedWorkoutsList([]);
     setValueForSelectedWorkoutsList(
       historyOfWorkouts.filter((his) => his.idBaseExercise === value?.id)
     );

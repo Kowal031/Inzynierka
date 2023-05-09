@@ -1,31 +1,33 @@
-import { Autocomplete, styled, TableCell, TableRow, TextField } from "@mui/material";
-
-import React, { useEffect } from "react";
-import { FC } from "react";
-import exerciseApi from "../../../api/exerciseApi";
+import {
+  Autocomplete,
+  styled,
+  TableCell,
+  TableRow,
+  TextField,
+} from "@mui/material";
+import { FC, ChangeEvent } from "react";
 import Exercise from "../../../types/Exercise";
 import ExerciseBase from "../../../types/ExerciseBase";
-const StyledTableRow = styled(TableRow)({
 
-  // hide last border
+const StyledTableRow = styled(TableRow)({
   "&:last-child td, &:last-child th": {
     border: 0,
   },
 });
+
 interface EditTrainingTableProps {
   exercise: Exercise;
   exerciseBase: ExerciseBase[];
-  trainingId: number;
   inputValueSet: (valueForSets: number, exerciseId: number) => void;
   inputValueExercise: (value: ExerciseBase, exerciseId: number) => void;
   valueForExercise: ExerciseBase | null;
   valueForSets: number;
 }
+
 const EditTrainingTable: FC<EditTrainingTableProps> = ({
   valueForExercise,
   valueForSets,
   exerciseBase,
-  trainingId,
   inputValueSet,
   inputValueExercise,
   exercise,
@@ -33,9 +35,6 @@ const EditTrainingTable: FC<EditTrainingTableProps> = ({
   // Set the initial default value
   const defaultValue =
     exerciseBase.find((e) => e.id === exercise.idExerciseBase) || null;
-
-
-    
 
   return (
     <StyledTableRow>
@@ -65,9 +64,9 @@ const EditTrainingTable: FC<EditTrainingTableProps> = ({
             },
           }}
           value={valueForSets ?? exercise.numberOfSeries}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-            inputValueSet(Number(event.target.value), exercise.id)
-          }
+          onChange={(event: ChangeEvent<HTMLInputElement>) => {
+            return inputValueSet(Number(event.target.value), exercise.id);
+          }}
         />
       </TableCell>
     </StyledTableRow>
