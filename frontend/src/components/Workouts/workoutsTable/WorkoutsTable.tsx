@@ -11,7 +11,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState, useContext } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import PlayCircleIcon from "@mui/icons-material/PlayCircle";
@@ -24,7 +24,7 @@ import WorkoutsItem from "./WorkoutsItem";
 import CommonModal from "../../common/CommonModal";
 import EditTraining from "../editTraining/EditTraining";
 import { useNavigate } from "react-router-dom";
-// import ExerciseBase from "../../../types/ExerciseBase";
+import { TrainingContext } from "../../../context/training-context";
 
 const ContainerForTable = styled(TableContainer)({
   maxWidth: "32.25rem",
@@ -69,6 +69,7 @@ const WorkoutsTable: FC<WorkoutsTableProps> = ({
 }) => {
   const [allExercise, setAllExercise] = useState<Exercise[]>([]);
   const [openEditModal, setOpenEditModal] = useState(false);
+
   const navigate = useNavigate();
 
   const onDeleteClick = (id: number) => {

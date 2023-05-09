@@ -1,6 +1,7 @@
 import { FC, useState } from "react";
 import CustomSnackbar from "../components/common/CommonSnackbar";
 
+
 const TrainingPage: FC = () => {
   const [open, setOpen] = useState(false);
 
@@ -18,11 +19,17 @@ const TrainingPage: FC = () => {
 
     setOpen(false);
   };
+
   return (
     <div>
       <button onClick={handleClick}>Show Snackbar</button>
 
-      <CustomSnackbar handleClose={handleClose} open={open} message={"xd"} severity={"error"} />
+      <CustomSnackbar
+        handleClose={handleClose}
+        open={open}
+        message={"xd"}
+        severity={"error"}
+      />
     </div>
   );
 };

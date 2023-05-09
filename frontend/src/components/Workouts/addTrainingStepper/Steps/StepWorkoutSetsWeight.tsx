@@ -50,7 +50,7 @@ const StepWorkoutSetsWeight: FC<StepWorkoutSetsWeightProps> = ({
           lastTrainingId,
           valueForExercise.name,
           valueForExercise.id,
-          valueForSets
+          valueForSets,
         )
         .then(() => {
           changeMyExercise();

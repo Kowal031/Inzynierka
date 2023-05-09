@@ -20,7 +20,7 @@ const Routes: RouteItem[] = [
   {
     name: "Measure",
     toPath: "/measure",
-    component: <Login />,
+    component: <TrainingPage />,
   },
   {
     name: "My Profile",

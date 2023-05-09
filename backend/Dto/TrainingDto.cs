@@ -13,4 +13,6 @@ public class TrainingDto
     public int? QuadricepsInjury { get; set; }
     public int? HamstringsInjury { get; set; }
     public int? ClavesInjury { get; set; }
+    public int? userId { get; set; }
+    
 }

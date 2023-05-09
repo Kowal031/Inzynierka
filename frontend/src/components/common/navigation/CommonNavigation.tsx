@@ -86,7 +86,7 @@ const CommonNavigation: FC = () => {
     <Container>
       <ListItem>
         <NavLink
-          to="/"
+          to="/workouts"
           onClick={() =>
             handleNavLinkClick(-1, changeOnClick, setChangeOnClick)
           }

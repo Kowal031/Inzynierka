@@ -1,10 +1,11 @@
-import { useState, ChangeEvent, FC } from "react";
+import { useState, ChangeEvent, FC, useContext } from "react";
 import trainingApi from "../../../api/trainingApi";
 import ExerciseBase from "../../../types/ExerciseBase";
 import WorkoutsStepper from "./WorkoutsStepper";
 import MuscleGroupInjuriesState from "../../../types/MuscleGroupInjuriesState";
-import getTrainingId from "../../../utils/GetTrainingId";
+
 import { Box } from "@mui/material";
+import { TrainingContext } from "../../../context/training-context";
 
 interface TitleProps {
   title: string;
@@ -40,6 +41,7 @@ const ManageStepper: FC<ManageStepperProps> = ({
     null
   );
   const [valueForSets, setValueForSets] = useState<number>(1);
+  const { userId } = useContext(TrainingContext);
 
   const stepperNextManagement = () => {
     switch (activeStep) {
@@ -56,7 +58,8 @@ const ManageStepper: FC<ManageStepperProps> = ({
             injuries.buttocks === true ? 3 : 0,
             injuries.quadraceps === true ? 3 : 0,
             injuries.hamstring === true ? 3 : 0,
-            injuries.claves === true ? 3 : 0
+            injuries.claves === true ? 3 : 0,
+            userId,
           )
           .then(() => {
             handleOpenSnackBar(true, "You have successfully added a workout");

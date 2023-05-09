@@ -43,9 +43,9 @@ public class TrainingRepository : ITrainingRepository
                 END
 
             INSERT INTO Training(Name, ShouldersInjury ,ChestInjury  ,BackInjury  ,BicepsInjury ,TricepsInjury
-                    ,AbdominalInjury ,ButtocksInjury ,QuadricepsInjury ,HamstringsInjury ,ClavesInjury, Date) 
+                    ,AbdominalInjury ,ButtocksInjury ,QuadricepsInjury ,HamstringsInjury ,ClavesInjury, Date, userId ) 
             VALUES (@Name, @ShouldersInjury ,@ChestInjury  ,@BackInjury  ,@BicepsInjury ,@TricepsInjury
-                    ,@AbdominalInjury ,@ButtocksInjury ,@QuadricepsInjury ,@HamstringsInjury ,@ClavesInjury, GETDATE())
+                    ,@AbdominalInjury ,@ButtocksInjury ,@QuadricepsInjury ,@HamstringsInjury ,@ClavesInjury, GETDATE(), @UserId)
 
             SELECT CAST(SCOPE_IDENTITY() AS int)";
 
@@ -61,6 +61,7 @@ public class TrainingRepository : ITrainingRepository
         parametrs.Add("QuadricepsInjury", training.QuadricepsInjury, DbType.Int32);
         parametrs.Add("HamstringsInjury", training.HamstringsInjury, DbType.Int32);
         parametrs.Add("ClavesInjury", training.ClavesInjury, DbType.Int32);
+        parametrs.Add("UserId", training.userId, DbType.Int32);
 
         using var connection = _context.CreateConnection();
         var id = await connection.QuerySingleAsync<int>(query, parametrs);
@@ -79,6 +80,7 @@ public class TrainingRepository : ITrainingRepository
             QuadricepsInjury = training.QuadricepsInjury,
             HamstringsInjury = training.HamstringsInjury,
             ClavesInjury = training.ClavesInjury,
+            userId = training.userId
         };
 
         return createdTraining;

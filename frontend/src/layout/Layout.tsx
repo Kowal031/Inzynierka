@@ -7,6 +7,7 @@ interface LayoutProps {
 }
 
 const Layout: FC<LayoutProps> = ({ children }) => {
+
   return (
     <Box>
       <Header />

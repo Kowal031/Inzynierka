@@ -31,7 +31,8 @@ const createTraining = async (
   buttocksInjury: number,
   quadricepsInjury: number,
   hamstringsInjury: number,
-  clavesInjury: number
+  clavesInjury: number,
+  userId: number,
 ): Promise<AxiosResponse<Training>> => {
   return await http.post(`${endpoints.baseURL}${endpoints.training}`, {
     name,
@@ -45,6 +46,7 @@ const createTraining = async (
     quadricepsInjury,
     hamstringsInjury,
     clavesInjury,
+    userId,
   });
 };
 

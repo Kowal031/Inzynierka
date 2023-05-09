@@ -1,12 +1,16 @@
 import { Box, styled } from "@mui/material";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState, useContext } from "react";
 import exerciseApi from "../api/exerciseApi";
 import trainingApi from "../api/trainingApi";
 import CustomSnackbar from "../components/common/CommonSnackbar";
 import AddWorkouts from "../components/Workouts/AddWorkouts";
 import WorkoutsTable from "../components/Workouts/workoutsTable/WorkoutsTable";
+import TrainingContextProvider, {
+  TrainingContext,
+} from "../context/training-context";
 import Training from "../types/Training";
 import getTrainingId from "../utils/GetTrainingId";
+
 
 // Container for the WorkoutsTable components
 const ContainerForTable = styled(Box)(({ theme }) => ({
@@ -84,35 +88,37 @@ const WorkoutsPage: FC = () => {
       setTraining(data);
     });
   }, [refreshTraining]);
-
+  const { userId } = useContext(TrainingContext);
+  console.log(userId);
   return (
     <Box>
-      <ContainerForAddButton>
-        <AddWorkouts
-          handleCloseModal={handleCloseModal}
-          handleOpenModal={handleOpenModal}
-          openModal={openModal}
-          handleOpenSnackBar={handleOpenSnackBar}
-          
-        />
-      </ContainerForAddButton>
-
-      <ContainerForTable>
-        {training.map((tra) => (
-          <WorkoutsTable
-            key={tra.id}
-            training={tra}
-            handleRefreshTraining={handleRefreshTraining}
+      <TrainingContextProvider>
+        <ContainerForAddButton>
+          <AddWorkouts
+            handleCloseModal={handleCloseModal}
+            handleOpenModal={handleOpenModal}
+            openModal={openModal}
             handleOpenSnackBar={handleOpenSnackBar}
           />
-        ))}
-      </ContainerForTable>
-      <CustomSnackbar
-        handleClose={handleClose}
-        open={open}
-        message={message}
-        severity={severity}
-      />
+        </ContainerForAddButton>
+
+        <ContainerForTable>
+          {training.map((tra) => (
+            <WorkoutsTable
+              key={tra.id}
+              training={tra}
+              handleRefreshTraining={handleRefreshTraining}
+              handleOpenSnackBar={handleOpenSnackBar}
+            />
+          ))}
+        </ContainerForTable>
+        <CustomSnackbar
+          handleClose={handleClose}
+          open={open}
+          message={message}
+          severity={severity}
+        />
+      </TrainingContextProvider>
     </Box>
   );
 };

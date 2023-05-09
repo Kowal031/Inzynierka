@@ -91,12 +91,12 @@ DECLARE @Title VARCHAR(50);
 SELECT @Title = Name FROM Training WHERE Id = @IdTraining;
 
 MERGE SeriesAndReps AS target
-USING (SELECT @IdExercise AS IdExercise, @SeriesNumber AS SeriesNumber, @Reps AS Reps, @Weight AS Weight) AS source
+USING (SELECT @IdExercise AS IdExercise, @SeriesNumber AS SeriesNumber, @Reps AS Reps, @Weight AS Weight, @IdTraining AS IdTraining) AS source
 ON (target.IdExercise = source.IdExercise AND target.SeriesNumber = source.SeriesNumber)
 WHEN MATCHED THEN
 UPDATE SET target.Reps = source.Reps, target.Weight = source.Weight
 WHEN NOT MATCHED THEN
-INSERT (IdExercise, SeriesNumber, Reps, Weight) VALUES (source.IdExercise, source.SeriesNumber, source.Reps, source.Weight);
+INSERT (IdExercise, SeriesNumber, Reps, Weight, IdTraining) VALUES (source.IdExercise, source.SeriesNumber, source.Reps, source.Weight, source.IdTraining);
 
 INSERT INTO History (IdExercise, Reps, Weight, TrainingId, TrainingTitle, Date, IdBaseExercise, ExerciseName)
 VALUES (@IdExercise, @Reps, @Weight, @IdTraining, @Title, GETDATE(), @IdBaseExercise, @ExerciseName);
