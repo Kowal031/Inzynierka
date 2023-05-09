@@ -161,7 +161,6 @@ const EditTraining: FC<EditTrainingProps> = ({
                 key={exercise.id}
                 exercise={exercise}
                 exerciseBase={exerciseBase}
-                trainingId={training.id}
                 inputValueSet={inputValueSet}
                 inputValueExercise={inputValueExercise}
                 valueForExercise={valueForExercise[exercise.id]}
