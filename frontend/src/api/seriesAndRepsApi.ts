@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios";
 import SeriesAndReps from "../types/SeriesAndReps";
-import endpoints from "./endpoints";
-import http from "./httpCommon";
+import endpoints from "./common/endpoints";
+import http from "./common/httpCommon";
 
 const getSeriesAndWeight = async (
   id: number

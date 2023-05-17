@@ -1,8 +1,8 @@
 import { AxiosResponse } from "axios";
 import EditExercise from "../types/EditExercise";
 import Exercise from "../types/Exercise";
-import endpoints from "./endpoints";
-import http from "./httpCommon";
+import endpoints from "./common/endpoints";
+import http from "./common/httpCommon";
 
 const getExerciseByTrainingId = async (id: number): Promise<AxiosResponse<Exercise[]>> => {
   const url = `${endpoints.baseURL}${endpoints.exercise}${endpoints.byTrainingId}/${id}`;

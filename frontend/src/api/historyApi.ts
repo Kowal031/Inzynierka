@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios";
 import HistoryOfWorkouts from "../types/HistoryOfWorkouts";
-import endpoints from "./endpoints";
-import http from "./httpCommon";
+import endpoints from "./common/endpoints";
+import http from "./common/httpCommon";
 
 const getHistory = async (): Promise<AxiosResponse<HistoryOfWorkouts[]>> => {
   const url = `${endpoints.baseURL}${endpoints.history}`;

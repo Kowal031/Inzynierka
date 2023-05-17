@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import User from "../types/User";
-import endpoints from "./endpoints";
-import http from "./httpCommon";
+import endpoints from "./common/endpoints";
+import http from "./common/httpCommon";
 
 const register = async (
   email: string,

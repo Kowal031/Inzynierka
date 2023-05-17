@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios";
 import Training from "../types/Training";
-import endpoints from "./endpoints";
-import http from "./httpCommon";
+import endpoints from "./common/endpoints";
+import http from "./common/httpCommon";
 
 const getAllTrainingsByUserId = async (
   userId: number
