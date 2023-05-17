@@ -1,6 +1,6 @@
 import RouteItem from "../types/RouteItem";
-import Register from "../components/User/Register";
-import Login from "../components/User/Login";
+import Register from "../pages/RegisterPage";
+import Login from "../pages/LoginPage";
 
 const Routes: RouteItem[] = [
   {

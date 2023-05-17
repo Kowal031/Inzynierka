@@ -68,17 +68,16 @@ const WorkoutsTable: FC<WorkoutsTableProps> = ({
 }) => {
   const [allExercise, setAllExercise] = useState<Exercise[]>([]);
   const [openEditModal, setOpenEditModal] = useState(false);
-const [a,setA] = useState(false);
-const changeA = () =>{
-  setA(!a)
-  handleOpenSnackBar(true,"Your training has been saved successfully")
-}
+  const [a, setA] = useState(false);
+  const changeA = () => {
+    setA(!a);
+    handleOpenSnackBar(true, "Your training has been saved successfully");
+  };
 
   const navigate = useNavigate();
 
   const onDeleteClick = (id: number) => {
     void trainingApi.deleteTrainingById(id).then(() => {
-      //sprawdzić czy ćw z takim id istnieją
       handleRefreshTraining();
       handleOpenSnackBar(true, `${training.name} has been deleted`);
     });
@@ -106,19 +105,20 @@ const changeA = () =>{
   return (
     <ContainerForTable>
       <ContainerForTabHeader>
-        <Typography sx={{ margin: "1rem" }} variant="h4">
-          {training.name}
-        </Typography>
-        <ContainerForIcon>
-          <ButtonIcon>
+        <Box sx={{display: "flex", flexDirection: "row", alighItems: "center"}}>
+          <ButtonIcon >
             <Tooltip title="Start workout" placement="top" arrow>
               <PlayCircleIcon
                 onClick={() => handleOnPlayClick(training.id)}
-                sx={{ color: palette.blue, fontSize: 30 }}
+                sx={{ color: palette.blue, fontSize: 38 }}
               />
             </Tooltip>
           </ButtonIcon>
-
+          <Typography sx={{ margin: "1rem" }} variant="h4">
+            {training.name}
+          </Typography>
+        </Box>
+        <ContainerForIcon>
           <ButtonIcon>
             <Tooltip title="Edit workout" placement="top" arrow>
               <EditIcon

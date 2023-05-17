@@ -4,7 +4,9 @@ import Exercise from "../types/Exercise";
 import endpoints from "./common/endpoints";
 import http from "./common/httpCommon";
 
-const getExerciseByTrainingId = async (id: number): Promise<AxiosResponse<Exercise[]>> => {
+const getExerciseByTrainingId = async (
+  id: number
+): Promise<AxiosResponse<Exercise[]>> => {
   const url = `${endpoints.baseURL}${endpoints.exercise}${endpoints.byTrainingId}/${id}`;
   const response = await http.get<Exercise[]>(url);
   return response;
@@ -34,13 +36,12 @@ const deleteExercises = async (id: number): Promise<AxiosResponse<void>> => {
   return response;
 };
 
-const updateExercise = async (editExerciseDtos: EditExercise[]) => {
-  try {
-    const response = await http.put(`${endpoints.baseURL}${endpoints.exercise}`, editExerciseDtos);
-    console.log(response.data);
-  } catch (error) {
-    console.error(error);
-  }
+const updateExercise = async (
+  editExerciseDtos: EditExercise[]
+): Promise<AxiosResponse<void>> => {
+  const url = `${endpoints.baseURL}${endpoints.exercise}`;
+  const response = await http.put(url, editExerciseDtos);
+  return response;
 };
 
 const exerciseApi = {
@@ -48,7 +49,7 @@ const exerciseApi = {
   addExercise,
   deleteExercise,
   deleteExercises,
-  updateExercise
+  updateExercise,
 };
 
 export default exerciseApi;

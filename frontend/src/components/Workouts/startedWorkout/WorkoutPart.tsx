@@ -53,17 +53,13 @@ const WorkoutPart: FC<WorkoutPartProps> = ({
   const handleSaveSeries = (seriesNumber: number) => {
     setSavedSeries(new Set(savedSeries).add(seriesNumber));
   };
-
+console.log(reps[0])
   return (
-    <Box
-      component={Paper}
-      elevation={3}
-      sx={{ borderRadius: "2rem" }}
-    >
+    <Box component={Paper} elevation={3}>
       <Box sx={{ padding: "1rem 0 1rem 1rem" }}>
         <Typography variant="h5">{`${numberOfExercise}.${name}`}</Typography>
       </Box>
-      <TableContainer sx={{ width: "33rem", borderRadius: "2rem" }}>
+      <TableContainer sx={{ width: "33rem" }}>
         <Scrollbar
           style={{ height: "25rem", width: "33rem", background: "white" }}
         >
@@ -97,6 +93,7 @@ const WorkoutPart: FC<WorkoutPartProps> = ({
                         label={`Reps`}
                         type="number"
                         value={reps[index]}
+                        disabled={index === 0 ? false : reps[index - 1] === "" ?  true : savedSeries.has(s - 1) ?  false : true  } // dodać że jak 1 element to nie
                         onChange={(event) => {
                           const newReps = [...reps];
                           newReps[index] = event.target.value;
@@ -115,6 +112,7 @@ const WorkoutPart: FC<WorkoutPartProps> = ({
                       <TextField
                         label={`Weight`}
                         type="number"
+                    disabled={index === 0 ? false : weights[index - 1] === "" ?  true : savedSeries.has(s - 1) ?  false : true }
                         value={weights[index]}
                         onChange={(event) => {
                           const newWeights = [...weights];
@@ -132,9 +130,7 @@ const WorkoutPart: FC<WorkoutPartProps> = ({
                   </TableCell>
                   <TableCell>
                     {savedSeries.has(s) ? (
-                      <IconButton disabled>
-                        <TaskAltIcon color="success" />
-                      </IconButton>
+                      <>saved</>
                     ) : (
                       <IconButton
                         onClick={() => {
@@ -148,7 +144,7 @@ const WorkoutPart: FC<WorkoutPartProps> = ({
                         }}
                       >
                         <Tooltip title="Save series" placement="top" arrow>
-                          <SaveIcon color="info" />
+                          <TaskAltIcon color="success" />
                         </Tooltip>
                       </IconButton>
                     )}

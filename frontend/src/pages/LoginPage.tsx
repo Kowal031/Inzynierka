@@ -2,55 +2,59 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import styled from "styled-components";
-import { Container, Avatar, Button, Typography, Grid, TextField, Box } from "@mui/material";
-import usersApi from "../../api/usersApi";
+import {
+  Container,
+  Avatar,
+  Button,
+  Typography,
+  Grid,
+  Box,
+  TextField,
+} from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import usersApi from "../api/usersApi";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Email is required"),
-  password: Yup.string()
-    .required("Password is required")
-    .min(6, "Password must be at least 6 characters"),
-  confirmPassword: Yup.string()
-    .oneOf([Yup.ref("password"), null], "Passwords must match")
-    .required("Confirm Password is required"),
+  password: Yup.string().required("Password is required"),
 });
 
-const RegisterContainer = styled(Container)`
+const LoginContainer = styled(Container)`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 24px;
+  margin-top: 32px; /* replace with specific pixel value */
 `;
 
-const RegisterAvatar = styled(Avatar)`
-  margin: 8px;
+const LoginAvatar = styled(Avatar)`
+  margin: 8px; /* replace with specific pixel value */
 
 `;
 
-const RegisterForm = styled.form`
+const LoginForm = styled.form`
   width: 100%;
-  margin-top: 16px;
+  margin-top: 24px; /* replace with specific pixel value */
 `;
 
-const RegisterSubmitButton = styled(Button)`
-  margin: 24px 0 16px;
+const LoginSubmitButton = styled(Button)`
+  margin: 24px 0 16px; /* replace with specific pixel values */
 `;
 
-const Register: React.FC = () => {
+const LoginPage: React.FC = () => {
   const [error, setError] = useState<string>("");
-const navigate = useNavigate();
+const navigate = useNavigate()
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
-      confirmPassword: "",
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       try {
-        await usersApi.register(values.email,values.password);
-        navigate("/login")
+        await usersApi.login(values.email, values.password);
+        navigate("/workouts", {  state: { shouldReload: true } })
+        window.location.reload();
+
       } catch (error: any) {
         console.error(error);
         setError(error.response?.data?.message || "An error occurred");
@@ -59,14 +63,12 @@ const navigate = useNavigate();
   });
 
   return (
-    <RegisterContainer maxWidth="xs">
+    <LoginContainer maxWidth="xs">
       <div>
-      <Box sx={{display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
-        <RegisterAvatar>
-      
-        </RegisterAvatar>
-        <Typography component="h1" variant="h5">
-          Sign up
+        <Box sx={{display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
+        <LoginAvatar></LoginAvatar>
+        <Typography align="center" component="h1" variant="h5">
+          Login
         </Typography>
         </Box>
         {error && (
@@ -74,16 +76,18 @@ const navigate = useNavigate();
             {error}
           </Typography>
         )}
-        <RegisterForm onSubmit={formik.handleSubmit}>
+        <LoginForm onSubmit={formik.handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
+              required
                 variant="outlined"
                 fullWidth
                 id="email"
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                sx={{background: "white"}}
                 value={formik.values.email}
                 onChange={formik.handleChange}
                 error={formik.touched.email && Boolean(formik.errors.email)}
@@ -92,14 +96,16 @@ const navigate = useNavigate();
             </Grid>
             <Grid item xs={12}>
               <TextField
+              required
                 variant="outlined"
                 fullWidth
                 name="password"
                 label="Password"
                 type="password"
                 id="password"
-                autoComplete="new-password"
+                autoComplete="current-password"
                 value={formik.values.password}
+                sx={{background: "white"}}
                 onChange={formik.handleChange}
                 error={
                   formik.touched.password && Boolean(formik.errors.password)
@@ -107,41 +113,20 @@ const navigate = useNavigate();
                 helperText={formik.touched.password && formik.errors.password}
               />
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                fullWidth
-                name="confirmPassword"
-                label="Confirm Password"
-                type="password"
-                id="confirmPassword"
-                autoComplete="new-password"
-                value={formik.values.confirmPassword}
-                onChange={formik.handleChange}
-                error={
-                  formik.touched.confirmPassword &&
-                  Boolean(formik.errors.confirmPassword)
-                }
-                helperText={
-                  formik.touched.confirmPassword &&
-                  formik.errors.confirmPassword
-                }
-              />
-            </Grid>
           </Grid>
-          <RegisterSubmitButton
+          <LoginSubmitButton
             type="submit"
             fullWidth
             variant="contained"
             color="primary"
             sx={{marginTop: "2rem"}}
           >
-            Sign up
-          </RegisterSubmitButton>
-        </RegisterForm>
+            Login
+          </LoginSubmitButton>
+        </LoginForm>
       </div>
-    </RegisterContainer>
+    </LoginContainer>
   );
 };
 
-export default Register;
+export default LoginPage;

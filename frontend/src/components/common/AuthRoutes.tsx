@@ -1,7 +1,7 @@
 import { Login } from "@mui/icons-material";
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import Register from "../User/Register";
+import Register from "../../pages/RegisterPage";
 
 const AuthRoutes: React.FC = () => {
   return (

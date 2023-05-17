@@ -55,12 +55,13 @@ const HistoryPage: FC = () => {
   };
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "row" }}>
+    <Box sx={{ display: "flex", flexDirection: "row", marginLeft: "2rem" }}>
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
-          justifyContent: "center",
+      
+          flex:0.4
         }}
       >
         <SelectWorkoutList
@@ -75,7 +76,7 @@ const HistoryPage: FC = () => {
       </Box>
       <Box
         sx={{
-          width: "100%",
+          flex:0.6,
           maxHeight: "87vh",
           margin: "2rem 2rem 0 2rem",
           overflow: "auto",

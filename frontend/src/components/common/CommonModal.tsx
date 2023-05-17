@@ -7,6 +7,7 @@ const CommonStyledModal = styled(Modal)({
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
+  borderTopRightRadius: "1rem 1rem",
 });
 
 const CommonBox = styled(Box)({
@@ -14,7 +15,7 @@ const CommonBox = styled(Box)({
   display: "flex",
   flexDirection: "column",
   boxShadow: "2px 2px 7px 0px rgba(66, 68, 90, 1)",
-  borderRadius: "4rem",
+  borderTopRightRadius: "1.5rem 1.5rem",
 });
 
 interface CommonModalProps {
@@ -36,8 +37,9 @@ const CommonModal: FC<CommonModalProps> = ({
             sx={{
               background: "white",
               border: "0.1px solid black ",
-              alignSelf: "flex-end",
+              alignSelf: "end",
               color: "black",
+
               ":hover": {
                 background: "white",
                 transform: "scale(1.1)",

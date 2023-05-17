@@ -119,6 +119,7 @@ const WorkoutsStepper: FC<WorkoutsStepperProps> = ({
           {convertedSteps === 0 ? "Exit" : "Back"}
         </Button>
         <Button
+        variant="contained"
           onClick={stepperNextManagement}
           disabled={validationForNextButton()}
         >
