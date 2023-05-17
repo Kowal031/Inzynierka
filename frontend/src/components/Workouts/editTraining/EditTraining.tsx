@@ -93,7 +93,6 @@ const EditTraining: FC<EditTrainingProps> = ({
       const defaultValue = exerciseBase.find(
         (e) => data?.includes(e.id) || null
       );
-
       if (baseExercise) {
         exercises.push({
           id: parseInt(id),

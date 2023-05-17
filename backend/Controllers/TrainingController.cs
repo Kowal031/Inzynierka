@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers;
+
 [Authorize]
 [Route("api/Training")]
 [ApiController]
@@ -16,8 +17,18 @@ public class TrainingController : ControllerBase
         _trainingRepo = trainingRepo;
     }
 
+    [HttpGet("GetTrainingsByUserId/{userId}")]
+    public async Task<IActionResult> GetTrainingsByUserId(int userId)
+    {
+        var trainingRepo = await _trainingRepo.GetTrainingsByUserId(userId);
+        if (trainingRepo is null)
+            return NotFound();
+        return Ok(trainingRepo);
+
+    }
+
     [HttpGet]
-    public async Task<IActionResult> GetExerciseBase()
+    public async Task<IActionResult> GetTrainings()
     {
         try
         {
@@ -40,6 +51,7 @@ public class TrainingController : ControllerBase
         return Ok(trainingRepo);
     }
 
+
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteTraining(int id)
     {
@@ -47,7 +59,7 @@ public class TrainingController : ControllerBase
         if (trainingRepo is null)
             return NotFound();
         await _trainingRepo.DeleteTraining(id);
-        
+
         return NoContent();
     }
 

@@ -3,6 +3,14 @@ import Training from "../types/Training";
 import endpoints from "./endpoints";
 import http from "./httpCommon";
 
+const getAllTrainingsByUserId = async (
+  userId: number
+): Promise<AxiosResponse<Training[]>> => {
+  const url = `${endpoints.baseURL}${endpoints.training}/GetTrainingsByUserId/${userId}`;
+  const response = await http.get<Training[]>(url);
+  return response;
+};
+
 const getAllTrainings = async (): Promise<AxiosResponse<Training[]>> => {
   const url = `${endpoints.baseURL}${endpoints.training}`;
   const response = await http.get<Training[]>(url);
@@ -19,30 +27,10 @@ const getTrainingById = async (
 
 const createTraining = async (
   name: string,
-  shouldersInjury: number,
-  chestInjury: number,
-  backInjury: number,
-  bicepsInjury: number,
-  tricepsInjury: number,
-  abdominalInjury: number,
-  buttocksInjury: number,
-  quadricepsInjury: number,
-  hamstringsInjury: number,
-  clavesInjury: number,
-  userId: number,
+  userId: number
 ): Promise<AxiosResponse<Training>> => {
   return await http.post(`${endpoints.baseURL}${endpoints.training}`, {
     name,
-    shouldersInjury,
-    chestInjury,
-    backInjury,
-    bicepsInjury,
-    tricepsInjury,
-    abdominalInjury,
-    buttocksInjury,
-    quadricepsInjury,
-    hamstringsInjury,
-    clavesInjury,
     userId,
   });
 };
@@ -54,6 +42,7 @@ const deleteTrainingById = async (id: number): Promise<AxiosResponse<void>> => {
 };
 
 const trainingApi = {
+  getAllTrainingsByUserId,
   getAllTrainings,
   getTrainingById,
   createTraining,

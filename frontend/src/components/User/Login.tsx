@@ -115,6 +115,7 @@ const navigate = useNavigate()
             fullWidth
             variant="contained"
             color="primary"
+            sx={{marginTop: "2rem"}}
           >
             Login
           </LoginSubmitButton>

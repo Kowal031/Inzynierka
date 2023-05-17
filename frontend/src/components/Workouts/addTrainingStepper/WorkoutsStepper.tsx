@@ -9,7 +9,6 @@ import {
   Typography,
 } from "@mui/material";
 import ExerciseBase from "../../../types/ExerciseBase";
-import MuscleGroupInjuriesState from "../../../types/MuscleGroupInjuriesState";
 import StepSubmitWorkout from "./Steps/StepSubmitWorkout";
 import StepTrainingDetails from "./Steps/StepTrainingDetails";
 import StepWorkoutSetsWeight from "./Steps/StepWorkoutSetsWeight";
@@ -30,9 +29,7 @@ const ButtonContainer = styled(Box)({
 
 interface WorkoutsStepperProps {
   activeStep: number;
-  handleChangeCheckbox: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  state: MuscleGroupInjuriesState;
   valueForExercise: ExerciseBase | null;
   valueForSets: number;
   inputValueExercise: (value: ExerciseBase | null) => void;
@@ -45,9 +42,7 @@ interface WorkoutsStepperProps {
 
 const WorkoutsStepper: FC<WorkoutsStepperProps> = ({
   activeStep,
-  handleChangeCheckbox,
   handleChange,
-  state,
   valueForExercise,
   valueForSets,
   inputValueExercise,
@@ -88,9 +83,7 @@ const WorkoutsStepper: FC<WorkoutsStepperProps> = ({
   const convertedSteps = activeStep;
   const stepsContent = [
     <StepTrainingDetails
-      handleChangeCheckbox={handleChangeCheckbox}
       handleChange={handleChange}
-      state={state}
       title={title}
     />,
     <StepWorkoutSetsWeight

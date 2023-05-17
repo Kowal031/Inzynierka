@@ -7,7 +7,7 @@ const byTrainingId = "/ByTrainingId";
 const byExerciseId = "/ByExerciseId";
 const register = "api/Users/register";
 const login = "api/Users/login";
-const baseURL = "https://localhost:7212/";
+const baseURL = process.env.REACT_APP_API_BASE_URL
 
 const endpoints = {
   training,

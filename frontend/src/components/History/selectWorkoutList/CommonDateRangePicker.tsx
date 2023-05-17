@@ -2,6 +2,9 @@ import { Box, Button } from "@mui/material";
 import { FC } from "react";
 import DatePicker, { ReactDatePickerProps } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { TextField } from "@mui/material";
+import InputAdornment from "@mui/material/InputAdornment";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 
 interface CommonDateRangePickerProps {
   startDate: Date | null;
@@ -60,17 +63,39 @@ const CommonDateRangePicker: FC<CommonDateRangePickerProps> = ({
         {...datePickerProps}
         wrapperClassName="date-picker-wrapper"
         className="date-picker"
+        customInput={
+          <TextField
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <CalendarMonthIcon />
+                </InputAdornment>
+              ),
+            }}
+          />
+        }
       />
       <DatePicker
         {...endDatePickerProps}
         wrapperClassName="date-picker-wrapper"
         className="date-picker"
+        customInput={
+          <TextField
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <CalendarMonthIcon />
+                </InputAdornment>
+              ),
+            }}
+          />
+        }
       />
       <Button
-        size="small"
+       size="large"
         variant="contained"
         onClick={handleReset}
-        sx={{ backgroundColor: "primary.main", color: "white" }}
+      
       >
         Reset
       </Button>

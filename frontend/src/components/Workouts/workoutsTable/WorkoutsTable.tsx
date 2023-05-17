@@ -68,16 +68,19 @@ const WorkoutsTable: FC<WorkoutsTableProps> = ({
 }) => {
   const [allExercise, setAllExercise] = useState<Exercise[]>([]);
   const [openEditModal, setOpenEditModal] = useState(false);
+const [a,setA] = useState(false);
+const changeA = () =>{
+  setA(!a)
+  handleOpenSnackBar(true,"Your training has been saved successfully")
+}
 
   const navigate = useNavigate();
 
   const onDeleteClick = (id: number) => {
     void trainingApi.deleteTrainingById(id).then(() => {
       //sprawdzić czy ćw z takim id istnieją
-      void exerciseApi.deleteExercises(id).then(() => {
-        handleRefreshTraining();
-        handleOpenSnackBar(true, `${training.name} has been deleted`);
-      });
+      handleRefreshTraining();
+      handleOpenSnackBar(true, `${training.name} has been deleted`);
     });
   };
 

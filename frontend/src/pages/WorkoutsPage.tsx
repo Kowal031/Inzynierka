@@ -32,6 +32,7 @@ const WorkoutsPage: FC = () => {
   const [openModal, setOpenModal] = useState(false);
   const [refreshTraining, setRefreshTraining] = useState(false);
   const [open, setOpen] = useState(false);
+  const { userId } = useContext(TrainingContext);
   const [message, setMessage] = useState<string>("");
   const [severity, setSeverity] = useState<
     "error" | "warning" | "info" | "success"
@@ -81,13 +82,16 @@ const WorkoutsPage: FC = () => {
   const handleCloseModal = () => {
     fetchData();
   };
-
+console.log(userId)
+console.log(typeof userId)
   useEffect(() => {
-    void trainingApi.getAllTrainings().then(({ data }) => {
-      setTraining(data);
-    });
-  }, [refreshTraining]);
-  const { userId } = useContext(TrainingContext);
+    if (userId !== 0) {
+      void trainingApi.getAllTrainingsByUserId(userId).then(({ data }) => {
+        setTraining(data);
+      });
+    }
+  }, [refreshTraining, userId]);
+
   console.log(userId);
   return (
     <Box>
