@@ -102,6 +102,8 @@ const WorkoutsTable: FC<WorkoutsTableProps> = ({
     });
   }, [training.id, openEditModal]);
 
+ 
+
   return (
     <ContainerForTable>
       <ContainerForTabHeader>

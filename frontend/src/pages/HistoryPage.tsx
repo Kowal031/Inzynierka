@@ -6,6 +6,7 @@ import SelectWorkoutList from "../components/History/selectWorkoutList/SelectWor
 import WorkoutHistoryTable from "../components/History/selectWorkoutList/WorkoutHistoryTable";
 import ExerciseBase from "../types/ExerciseBase";
 import HistoryOfWorkouts from "../types/HistoryOfWorkouts";
+import getAverageWeightForTrenings from "../utils/GetAverageWeightForTrenings";
 
 const HistoryPage: FC = () => {
   const [historyOfWorkouts, setHistoryOfWorkouts] = useState<
@@ -54,14 +55,16 @@ const HistoryPage: FC = () => {
     );
   };
 
+  console.log();
+const averageWeight = getAverageWeightForTrenings(historyOfWorkouts)
   return (
     <Box sx={{ display: "flex", flexDirection: "row", marginLeft: "2rem" }}>
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
-      
-          flex:0.4
+
+          flex: 0.4,
         }}
       >
         <SelectWorkoutList
@@ -76,7 +79,7 @@ const HistoryPage: FC = () => {
       </Box>
       <Box
         sx={{
-          flex:0.6,
+          flex: 0.6,
           maxHeight: "87vh",
           margin: "2rem 2rem 0 2rem",
           overflow: "auto",
@@ -84,7 +87,10 @@ const HistoryPage: FC = () => {
         component={Paper}
         elevation={3}
       >
-        <WorkoutHistoryTable workouts={valueForSelectedWorkoutsList} />
+        <WorkoutHistoryTable
+          workouts={valueForSelectedWorkoutsList}
+          averageWeight={averageWeight}
+        />
       </Box>
     </Box>
   );

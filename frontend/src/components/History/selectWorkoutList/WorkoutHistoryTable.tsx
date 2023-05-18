@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { FC, useState } from "react";
 import HistoryOfWorkouts from "../../../types/HistoryOfWorkouts";
+import HistoryChart from "../HistoryChart";
 import CommonDateRangePicker from "./CommonDateRangePicker";
 
 const BoldTableCell = styled(TableCell)({
@@ -32,9 +33,14 @@ interface GroupedWorkout {
 
 interface WorkoutHistoryTableProps {
   workouts: HistoryOfWorkouts[];
+  averageWeight: {
+    date: any;
+    average: number;
+    reps: number;
+}[]
 }
 
-const WorkoutHistoryTable: FC<WorkoutHistoryTableProps> = ({ workouts }) => {
+const WorkoutHistoryTable: FC<WorkoutHistoryTableProps> = ({ workouts, averageWeight }) => {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const handleStartDateChange = (date: Date | null) => {
@@ -112,16 +118,22 @@ const WorkoutHistoryTable: FC<WorkoutHistoryTableProps> = ({ workouts }) => {
 
   return (
     <Box>
-      <CommonDateRangePicker
-        startDate={startDate}
-        handleEndDateChange={handleEndDateChange}
-        endDate={endDate}
-        handleStartDateChange={handleStartDateChange}
-      />
-      <Table>
-        <TableHead>{rows[0]}</TableHead>
-        <TableBody>{rows.slice(1)}</TableBody>
-      </Table>
+      {workouts.length > 0 ? (
+        <>
+          <CommonDateRangePicker
+            startDate={startDate}
+            handleEndDateChange={handleEndDateChange}
+            endDate={endDate}
+            handleStartDateChange={handleStartDateChange}
+          />
+          <Table>
+            <TableHead>{rows[0]}</TableHead>
+            <TableBody>{rows.slice(1)}</TableBody>
+          </Table>{" "}
+        </>
+      ) : (
+        <HistoryChart averageWeight={averageWeight} />
+      )}
     </Box>
   );
 };

@@ -53,10 +53,8 @@ namespace backend.Repository // Przestrzeń nazw backend.Repository, która zawi
                         DBCC CHECKIDENT (Training, RESEED, 0);
                     END
 
-                INSERT INTO Training(Name, ShouldersInjury ,ChestInjury  ,BackInjury  ,BicepsInjury ,TricepsInjury
-                        ,AbdominalInjury ,ButtocksInjury ,QuadricepsInjury ,HamstringsInjury ,ClavesInjury, Date, userId ) 
-                VALUES (@Name, @ShouldersInjury ,@ChestInjury  ,@BackInjury  ,@BicepsInjury ,@TricepsInjury
-                        ,@AbdominalInjury ,@ButtocksInjury ,@QuadricepsInjury ,@HamstringsInjury ,@ClavesInjury, GETDATE(), @UserId)
+                INSERT INTO Training(Name, Date, userId ) 
+                VALUES (@Name, GETDATE(), @UserId)
 
                 SELECT CAST(SCOPE_IDENTITY() AS int)";
 
