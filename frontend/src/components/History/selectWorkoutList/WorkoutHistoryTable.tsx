@@ -90,7 +90,7 @@ const WorkoutHistoryTable: FC<WorkoutHistoryTableProps> = ({ workouts, averageWe
       <TableRow key={`title_${key}`}>
         <TitleTableCell colSpan={5}>{`${trainingTitle} - ${new Date(
           date
-        ).toLocaleDateString()}`}</TitleTableCell>
+        ).toLocaleDateString()} (${new Date(date).toLocaleString( "en-EN", { weekday: 'long' })})`}</TitleTableCell>
       </TableRow>
     );
     if (idExercise) {
@@ -110,7 +110,7 @@ const WorkoutHistoryTable: FC<WorkoutHistoryTableProps> = ({ workouts, averageWe
           <TableCell>{exerciseName}</TableCell>
           <TableCell>{series.length}</TableCell>
           <TableCell>{series.map((s) => s.reps).join(" / ")}</TableCell>
-          <TableCell>{series.map((s) => s.weight).join(" / ")}</TableCell>
+          <TableCell>{series.map((s) => s.weight).join("kg / ")}kg</TableCell>
         </TableRow>
       );
     }

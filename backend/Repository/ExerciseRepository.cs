@@ -50,8 +50,16 @@ ORDER BY Id
     public async Task<Exercise> AddExercise(ExerciseDto exercise)
     {
         var query =
-            @"INSERT INTO Exercise(IdTraining, Name, IdExerciseBase,NumberOfSeries) 
-            VALUES (@IdTraining, @Name, @IdExerciseBase, @NumberOfSeries)
+            @"
+               DECLARE @Description nvarchar(100);
+
+
+                SELECT @Description = Description
+                FROM ExerciseBase
+                WHERE Id = @IdExerciseBase;
+
+            INSERT INTO Exercise(IdTraining, Name, IdExerciseBase,NumberOfSeries, Description) 
+            VALUES (@IdTraining, @Name, @IdExerciseBase, @NumberOfSeries, @Description)
             SELECT CAST(SCOPE_IDENTITY() AS int)";
 
         var parametrs = new DynamicParameters();
