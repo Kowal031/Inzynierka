@@ -32,7 +32,6 @@ const EditTrainingTable: FC<EditTrainingTableProps> = ({
   inputValueExercise,
   exercise,
 }) => {
-  // Set the initial default value
   const defaultValue =
     exerciseBase.find((e) => e.id === exercise.idExerciseBase) || null;
 

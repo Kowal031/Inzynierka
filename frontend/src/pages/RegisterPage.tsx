@@ -2,7 +2,15 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import styled from "styled-components";
-import { Container, Avatar, Button, Typography, Grid, TextField, Box } from "@mui/material";
+import {
+  Container,
+  Avatar,
+  Button,
+  Typography,
+  Grid,
+  TextField,
+  Box,
+} from "@mui/material";
 import usersApi from "../api/usersApi";
 import { useNavigate } from "react-router-dom";
 
@@ -25,7 +33,6 @@ const RegisterContainer = styled(Container)`
 
 const RegisterAvatar = styled(Avatar)`
   margin: 8px;
-
 `;
 
 const RegisterForm = styled.form`
@@ -39,7 +46,7 @@ const RegisterSubmitButton = styled(Button)`
 
 const RegisterPage: React.FC = () => {
   const [error, setError] = useState<string>("");
-const navigate = useNavigate();
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -49,8 +56,8 @@ const navigate = useNavigate();
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       try {
-        await usersApi.register(values.email,values.password);
-        navigate("/login")
+        await usersApi.register(values.email, values.password);
+        navigate("/login");
       } catch (error: any) {
         console.error(error);
         setError(error.response?.data?.message || "An error occurred");
@@ -61,13 +68,18 @@ const navigate = useNavigate();
   return (
     <RegisterContainer maxWidth="xs">
       <div>
-      <Box sx={{display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
-        <RegisterAvatar>
-      
-        </RegisterAvatar>
-        <Typography component="h1" variant="h5">
-          Sign up
-        </Typography>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "column",
+          }}
+        >
+          <RegisterAvatar></RegisterAvatar>
+          <Typography component="h1" variant="h5">
+            Sign up
+          </Typography>
         </Box>
         {error && (
           <Typography color="error" variant="subtitle1">
@@ -80,7 +92,7 @@ const navigate = useNavigate();
               <TextField
                 variant="outlined"
                 fullWidth
-                sx={{background: "white"}}
+                sx={{ background: "white" }}
                 required
                 id="email"
                 label="Email Address"
@@ -100,7 +112,7 @@ const navigate = useNavigate();
                 label="Password"
                 type="password"
                 id="password"
-                sx={{background: "white"}}
+                sx={{ background: "white" }}
                 required
                 autoComplete="new-password"
                 value={formik.values.password}
@@ -118,7 +130,7 @@ const navigate = useNavigate();
                 name="confirmPassword"
                 label="Confirm Password"
                 type="password"
-                sx={{background: "white"}}
+                sx={{ background: "white" }}
                 required
                 id="confirmPassword"
                 autoComplete="new-password"
@@ -140,7 +152,7 @@ const navigate = useNavigate();
             fullWidth
             variant="contained"
             color="primary"
-            sx={{marginTop: "2rem"}}
+            sx={{ marginTop: "2rem" }}
           >
             Sign up
           </RegisterSubmitButton>

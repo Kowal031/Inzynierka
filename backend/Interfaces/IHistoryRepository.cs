@@ -4,5 +4,5 @@ namespace backend.Interfaces;
 
 public interface IHistoryRepository
 {
-    public Task<IEnumerable<History>> GetHistory();
+    public Task<IEnumerable<History>> GetHistory( int userId);
 }

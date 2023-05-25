@@ -16,10 +16,10 @@ public class HistoryController : ControllerBase
         _historyRepo = historyRepo;
     }
     
-    [HttpGet]
-    public async Task<IActionResult> GetTraining()
+    [HttpGet("{userId}")]
+    public async Task<IActionResult> GetTraining(int userId)
     {
-        var historyRepo = await _historyRepo.GetHistory();
+        var historyRepo = await _historyRepo.GetHistory(userId);
         if (historyRepo is null)
             return NotFound();
         return Ok(historyRepo);

@@ -22,7 +22,6 @@ const ButtonIcon = styled(IconButton)({
 });
 
 const StyledTableRow = styled(TableRow)({
-  // hide last border
   "&:last-child td, &:last-child th": {
     border: 0,
   },
@@ -36,7 +35,7 @@ const WorkoutsItem: FC<WorkoutsItemProps> = ({ exercise, isFromCreator }) => {
       {isFromCreator !== true && (
         <TableCell align="left">
           <ButtonIcon>
-            <Tooltip title="Details" placement="top" arrow>
+            <Tooltip title={exercise.description} placement="top" arrow>
               <InfoIcon color="action" />
             </Tooltip>
           </ButtonIcon>

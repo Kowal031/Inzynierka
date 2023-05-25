@@ -61,7 +61,6 @@ const WorkoutHistoryTable: FC<WorkoutHistoryTableProps> = ({ workouts, averageWe
     });
   };
 
-  // group the workouts by date and trainingTitle, and then by idExercise
   const groupedWorkouts: Record<string, Record<string, GroupedWorkout>> = {};
   for (const workout of filterWorkoutsByDate(workouts)) {
     const { date, trainingTitle, idExercise, reps, weight, exerciseName } =
@@ -80,7 +79,6 @@ const WorkoutHistoryTable: FC<WorkoutHistoryTableProps> = ({ workouts, averageWe
     groupedWorkouts[key][idExercise].series.push({ reps, weight });
   }
 
-  // create a table row for each series of each grouped workout
   const rows = [];
   for (const key of Object.keys(groupedWorkouts)) {
     const { id, date, trainingTitle, idExercise } = workouts.find(
@@ -129,7 +127,7 @@ const WorkoutHistoryTable: FC<WorkoutHistoryTableProps> = ({ workouts, averageWe
           <Table>
             <TableHead>{rows[0]}</TableHead>
             <TableBody>{rows.slice(1)}</TableBody>
-          </Table>{" "}
+          </Table>
         </>
       ) : (
         <HistoryChart averageWeight={averageWeight} />

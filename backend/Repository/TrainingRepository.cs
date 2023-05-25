@@ -58,12 +58,12 @@ namespace backend.Repository // Przestrzeń nazw backend.Repository, która zawi
 
                 SELECT CAST(SCOPE_IDENTITY() AS int)";
 
-            var parametrs = new DynamicParameters();
-            parametrs.Add("Name", training.Name, DbType.String);
-            parametrs.Add("UserId", training.userId, DbType.Int32);
+            var parameters = new DynamicParameters();
+            parameters.Add("Name", training.Name, DbType.String);
+            parameters.Add("UserId", training.userId, DbType.Int32);
 
             using var connection = _context.CreateConnection();
-            var id = await connection.QuerySingleAsync<int>(query, parametrs);
+            var id = await connection.QuerySingleAsync<int>(query, parameters);
 
             var createdTraining = new Training
             {

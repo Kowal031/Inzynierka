@@ -53,7 +53,6 @@ const ManageStepper: FC<ManageStepperProps> = ({
     switch (activeStep) {
       case 0:
         handleCloseModal();
-
         break;
       default:
         setActiveStep((prevActiveStep) => prevActiveStep - 1);

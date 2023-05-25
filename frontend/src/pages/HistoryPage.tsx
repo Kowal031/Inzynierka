@@ -1,9 +1,12 @@
 import { Box, Paper } from "@mui/material";
-import { FC, useEffect, useState } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import historyApi from "../api/historyApi";
 import SelectWorkoutDay from "../components/History/selectWorkoutDay/SelectWorkoutDay";
 import SelectWorkoutList from "../components/History/selectWorkoutList/SelectWorkoutList";
 import WorkoutHistoryTable from "../components/History/selectWorkoutList/WorkoutHistoryTable";
+import TrainingContextProvider, {
+  TrainingContext,
+} from "../context/training-context";
 import ExerciseBase from "../types/ExerciseBase";
 import HistoryOfWorkouts from "../types/HistoryOfWorkouts";
 import getAverageWeightForTrenings from "../utils/GetAverageWeightForTrenings";
@@ -12,7 +15,7 @@ const HistoryPage: FC = () => {
   const [historyOfWorkouts, setHistoryOfWorkouts] = useState<
     HistoryOfWorkouts[]
   >([]);
-
+  const { userId } = useContext(TrainingContext);
   const [valueForExercise, setValueForExercise] = useState<ExerciseBase | null>(
     null
   );
@@ -43,7 +46,7 @@ const HistoryPage: FC = () => {
   };
 
   useEffect(() => {
-    void historyApi.getHistory().then(({ data }) => {
+    void historyApi.getHistory(userId).then(({ data }) => {
       setHistoryOfWorkouts(data);
     });
   }, []);
@@ -55,44 +58,44 @@ const HistoryPage: FC = () => {
     );
   };
 
-  console.log();
-const averageWeight = getAverageWeightForTrenings(historyOfWorkouts)
+  const averageWeight = getAverageWeightForTrenings(historyOfWorkouts);
   return (
-    <Box sx={{ display: "flex", flexDirection: "row", marginLeft: "2rem" }}>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-
-          flex: 0.4,
-        }}
-      >
-        <SelectWorkoutList
-          inputValueExercise={inputValueExercise}
-          valueForExercise={valueForExercise}
-          history={historyOfWorkouts}
-        />
-        <SelectWorkoutDay
-          historyOfWorkouts={historyOfWorkouts}
-          getTrainingValueFromCalendar={getTrainingValueFromCalendar}
-        />
+    <TrainingContextProvider>
+      <Box sx={{ display: "flex", flexDirection: "row", marginLeft: "2rem" }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            flex: 0.4,
+          }}
+        >
+          <SelectWorkoutList
+            inputValueExercise={inputValueExercise}
+            valueForExercise={valueForExercise}
+            history={historyOfWorkouts}
+          />
+          <SelectWorkoutDay
+            historyOfWorkouts={historyOfWorkouts}
+            getTrainingValueFromCalendar={getTrainingValueFromCalendar}
+          />
+        </Box>
+        <Box
+          sx={{
+            flex: 0.6,
+            maxHeight: "87vh",
+            margin: "2rem 2rem 0 2rem",
+            overflow: "auto",
+          }}
+          component={Paper}
+          elevation={3}
+        >
+          <WorkoutHistoryTable
+            workouts={valueForSelectedWorkoutsList}
+            averageWeight={averageWeight}
+          />
+        </Box>
       </Box>
-      <Box
-        sx={{
-          flex: 0.6,
-          maxHeight: "87vh",
-          margin: "2rem 2rem 0 2rem",
-          overflow: "auto",
-        }}
-        component={Paper}
-        elevation={3}
-      >
-        <WorkoutHistoryTable
-          workouts={valueForSelectedWorkoutsList}
-          averageWeight={averageWeight}
-        />
-      </Box>
-    </Box>
+    </TrainingContextProvider>
   );
 };
 

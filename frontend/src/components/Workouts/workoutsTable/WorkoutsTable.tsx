@@ -68,11 +68,6 @@ const WorkoutsTable: FC<WorkoutsTableProps> = ({
 }) => {
   const [allExercise, setAllExercise] = useState<Exercise[]>([]);
   const [openEditModal, setOpenEditModal] = useState(false);
-  const [a, setA] = useState(false);
-  const changeA = () => {
-    setA(!a);
-    handleOpenSnackBar(true, "Your training has been saved successfully");
-  };
 
   const navigate = useNavigate();
 
@@ -102,13 +97,13 @@ const WorkoutsTable: FC<WorkoutsTableProps> = ({
     });
   }, [training.id, openEditModal]);
 
- 
-
   return (
     <ContainerForTable>
       <ContainerForTabHeader>
-        <Box sx={{display: "flex", flexDirection: "row", alighItems: "center"}}>
-          <ButtonIcon >
+        <Box
+          sx={{ display: "flex", flexDirection: "row", alighItems: "center" }}
+        >
+          <ButtonIcon>
             <Tooltip title="Start workout" placement="top" arrow>
               <PlayCircleIcon
                 onClick={() => handleOnPlayClick(training.id)}

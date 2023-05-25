@@ -53,19 +53,19 @@ ORDER BY Id
             @"
                DECLARE @Description nvarchar(100);
 
-
                 SELECT @Description = Description
                 FROM ExerciseBase
                 WHERE Id = @IdExerciseBase;
 
-            INSERT INTO Exercise(IdTraining, Name, IdExerciseBase,NumberOfSeries, Description) 
-            VALUES (@IdTraining, @Name, @IdExerciseBase, @NumberOfSeries, @Description)
+            INSERT INTO Exercise(IdTraining, Name, UserId, IdExerciseBase, NumberOfSeries, Description) 
+            VALUES (@IdTraining, @Name, @Userid, @IdExerciseBase, @NumberOfSeries, @Description)
             SELECT CAST(SCOPE_IDENTITY() AS int)";
 
         var parametrs = new DynamicParameters();
         parametrs.Add("IdTraining", exercise.IdTraining, DbType.Int32);
         parametrs.Add("Name", exercise.Name, DbType.String);
         parametrs.Add("IdExerciseBase", exercise.IdExerciseBase, DbType.Int32);
+        parametrs.Add("UserId", exercise.UserId, DbType.Int32);
         parametrs.Add("NumberOfSeries", exercise.NumberOfSeries, DbType.Int32);
 
         using var connection = _context.CreateConnection();
@@ -75,6 +75,7 @@ ORDER BY Id
         {
             Id = id,
             IdTraining = exercise.IdTraining,
+            UserId = exercise.UserId,
             Name = exercise.Name,
             IdExerciseBase = exercise.IdExerciseBase,
             NumberOfSeries = exercise.NumberOfSeries,
@@ -109,22 +110,22 @@ ORDER BY Id
         
         var query =
             @"DECLARE @BasicNumberOfSeries INT;
-SELECT @BasicNumberOfSeries = NumberOfSeries
-FROM Exercise
-WHERE Id = @Id;
+                SELECT @BasicNumberOfSeries = NumberOfSeries
+                FROM Exercise
+                WHERE Id = @Id;
 
-IF @NumberOfSeries = 0
-BEGIN
-   SET @NumberOfSeries = @BasicNumberOfSeries;
-END
+                IF @NumberOfSeries = 0
+                BEGIN
+                   SET @NumberOfSeries = @BasicNumberOfSeries;
+                END
 
-UPDATE Exercise 
-SET 
-    Name = @Name, 
-    IdExerciseBase = @IdExerciseBase,  
-    NumberOfSeries = @NumberOfSeries
-WHERE 
-    Id = @Id;";
+                UPDATE Exercise 
+                SET 
+                    Name = @Name, 
+                    IdExerciseBase = @IdExerciseBase,  
+                    NumberOfSeries = @NumberOfSeries
+                WHERE 
+                 Id = @Id;";
 
         using (var connection = _context.CreateConnection())
         {

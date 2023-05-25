@@ -1,11 +1,12 @@
 import { Autocomplete, Button, Paper, TextField } from "@mui/material";
-import { FC, useEffect, useState } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import ExerciseBase from "../../../../types/ExerciseBase";
 import styled from "@mui/material/styles/styled";
 import exerciseBaseApi from "../../../../api/exerciseBaseApi";
 import exerciseApi from "../../../../api/exerciseApi";
 import Exercise from "../../../../types/Exercise";
 import ExerciseTable from "./ExerciseTable";
+import { TrainingContext } from "../../../../context/training-context";
 
 const FormContainer = styled("form")({
   paddingTop: "1rem",
@@ -39,8 +40,9 @@ const StepWorkoutSetsWeight: FC<StepWorkoutSetsWeightProps> = ({
 }) => {
   const [exerciseBase, setExerciseBase] = useState<ExerciseBase[]>([]);
   const [disabled, setDisabled] = useState<boolean>(false);
+  const { userId } = useContext(TrainingContext);
 
-  const handleAddExerciseAndWeight = (e: React.FormEvent) => {
+  const handleAddExercise = (e: React.FormEvent) => {
     setDisabled(true);
     e.preventDefault();
     if (valueForExercise !== null && valueForSets !== null) {
@@ -48,6 +50,7 @@ const StepWorkoutSetsWeight: FC<StepWorkoutSetsWeightProps> = ({
         .addExercise(
           lastTrainingId,
           valueForExercise.name,
+          userId,
           valueForExercise.id,
           valueForSets
         )
@@ -83,7 +86,7 @@ const StepWorkoutSetsWeight: FC<StepWorkoutSetsWeightProps> = ({
             padding: "1rem",
             gap: "1rem",
           }}
-          onSubmit={handleAddExerciseAndWeight}
+          onSubmit={handleAddExercise}
         >
           <Autocomplete
             id="filter-demo"

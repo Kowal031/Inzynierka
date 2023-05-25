@@ -3,8 +3,8 @@ import HistoryOfWorkouts from "../types/HistoryOfWorkouts";
 import endpoints from "./common/endpoints";
 import http from "./common/httpCommon";
 
-const getHistory = async (): Promise<AxiosResponse<HistoryOfWorkouts[]>> => {
-  const url = `${endpoints.baseURL}${endpoints.history}`;
+const getHistory = async (userId: number): Promise<AxiosResponse<HistoryOfWorkouts[]>> => {
+  const url = `${endpoints.baseURL}${endpoints.history}/${userId}`;
   const response = await http.get<HistoryOfWorkouts[]>(url);
   return response;
 };

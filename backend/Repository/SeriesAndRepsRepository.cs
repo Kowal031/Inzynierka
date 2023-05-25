@@ -16,7 +16,12 @@ public class SeriesAndRepsRepository : ISeriesAndRepsRepository
 
     public async Task<SeriesAndReps> GetSeriesAndReps(int id)
     {
-        var query = @"SELECT * FROM SeriesAndReps
+        var query = @"
+DECLARE @UserId INT;
+     SELECT  @UserId = UserId FROM Exercise WHERE IdExercise = @idExercise;
+
+SELECT * FROM SeriesAndReps
+WHERE UserId = @UserId
 ORDER BY Id
                      ";
         using var connection = _context.CreateConnection();
@@ -27,7 +32,12 @@ ORDER BY Id
 
     public async Task<SeriesAndReps> GetSeriesAndRepsByExerciseAndSeries(int idExercise, int idSeries)
     {
-        var query = @"SELECT * FROM SeriesAndReps WHERE idExercise = @idExercise AND  seriesNumber = @idSeries
+        var query = @"
+   DECLARE @UserId INT;
+     SELECT  @UserId = UserId FROM Exercise WHERE IdExercise = @idExercise;
+
+SELECT * FROM SeriesAndReps WHERE idExercise = @idExercise AND  seriesNumber = @idSeries
+WHERE UserId = @UserId
 ORDER BY Id
                      ";
         using var connection = _context.CreateConnection();
@@ -39,9 +49,14 @@ ORDER BY Id
 
     public async Task<IEnumerable<SeriesAndReps>> GetSeriesAndRepsByExerciseId(int id)
     {
-        var query = @"SELECT * FROM SeriesAndReps
-WHERE IdExercise = @Id
-ORDER BY Id
+        var query = @"
+   DECLARE @UserId INT;
+     SELECT  @UserId = UserId FROM Exercise WHERE IdExercise = @Id;
+
+
+    SELECT * FROM SeriesAndReps
+    WHERE IdExercise = @Id AND UserId = @UserId
+    ORDER BY Id
 
                      ";
         using var connection = _context.CreateConnection();
@@ -82,24 +97,25 @@ ORDER BY Id
     public async Task UpdateSeriesAndReps(SeriesAndRepsDto[] seriesAndReps)
     {
         var query = @"
-DECLARE @IdTraining INT;
-DECLARE @IdBaseExercise INT;
-DECLARE @ExerciseName VARCHAR(50);
-SELECT @IdTraining = IdTraining, @ExerciseName = Name, @IdBaseExercise = IdExerciseBase FROM Exercise WHERE Id = @IdExercise;
+                    DECLARE @IdTraining INT;
+                    DECLARE @IdBaseExercise INT;
+                    DECLARE @UserId INT;
+                    DECLARE @ExerciseName VARCHAR(50);
+                    SELECT @IdTraining = IdTraining, @ExerciseName = Name, @IdBaseExercise = IdExerciseBase, @UserId = UserId FROM Exercise WHERE Id = @IdExercise;
 
-DECLARE @Title VARCHAR(50);
-SELECT @Title = Name FROM Training WHERE Id = @IdTraining;
+                    DECLARE @Title VARCHAR(50);
+                    SELECT @Title = Name FROM Training WHERE Id = @IdTraining;
 
-MERGE SeriesAndReps AS target
-USING (SELECT @IdExercise AS IdExercise, @SeriesNumber AS SeriesNumber, @Reps AS Reps, @Weight AS Weight, @IdTraining AS IdTraining) AS source
-ON (target.IdExercise = source.IdExercise AND target.SeriesNumber = source.SeriesNumber)
-WHEN MATCHED THEN
-UPDATE SET target.Reps = source.Reps, target.Weight = source.Weight
-WHEN NOT MATCHED THEN
-INSERT (IdExercise, SeriesNumber, Reps, Weight, IdTraining) VALUES (source.IdExercise, source.SeriesNumber, source.Reps, source.Weight, source.IdTraining);
+                    MERGE SeriesAndReps AS target
+                    USING (SELECT @IdExercise AS IdExercise, @SeriesNumber AS SeriesNumber, @Reps AS Reps, @Weight AS Weight, @IdTraining AS IdTraining, @UserId AS UserId) AS source
+                    ON (target.IdExercise = source.IdExercise AND target.SeriesNumber = source.SeriesNumber)
+                    WHEN MATCHED THEN
+                    UPDATE SET target.Reps = source.Reps, target.Weight = source.Weight
+                    WHEN NOT MATCHED THEN
+                    INSERT (IdExercise, SeriesNumber, Reps, Weight, IdTraining, UserId) VALUES (source.IdExercise, source.SeriesNumber, source.Reps, source.Weight, source.IdTraining, source.UserId);
 
-INSERT INTO History (IdExercise, Reps, Weight, TrainingId, TrainingTitle, Date, IdBaseExercise, ExerciseName)
-VALUES (@IdExercise, @Reps, @Weight, @IdTraining, @Title, GETDATE(), @IdBaseExercise, @ExerciseName);
+                    INSERT INTO History (IdExercise, Reps, Weight, TrainingId, TrainingTitle, Date, IdBaseExercise, ExerciseName, UserId)
+                    VALUES (@IdExercise, @Reps, @Weight, @IdTraining, @Title, GETDATE(), @IdBaseExercise, @ExerciseName, @UserId);
 ";
         using (var connection = _context.CreateConnection())
         {

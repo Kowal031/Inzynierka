@@ -15,11 +15,12 @@ const getExerciseByTrainingId = async (
 const addExercise = async (
   idTraining: number,
   name: string,
+  userId: number,
   idExerciseBase: number,
   numberOfSeries: number
 ): Promise<AxiosResponse<Exercise>> => {
   const url = `${endpoints.baseURL}${endpoints.exercise}`;
-  const data = { idTraining, name, idExerciseBase, numberOfSeries };
+  const data = { idTraining, name, userId, idExerciseBase, numberOfSeries };
   const response = await http.post<Exercise>(url, data);
   return response;
 };

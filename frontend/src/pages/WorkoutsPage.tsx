@@ -11,15 +11,13 @@ import TrainingContextProvider, {
 import Training from "../types/Training";
 import getTrainingId from "../utils/GetTrainingId";
 
-// Container for the WorkoutsTable components
-const ContainerForTable = styled(Box)(({ theme }) => ({
+const ContainerForTable = styled(Box)({
   display: "flex",
   flexDirection: "row",
   flexWrap: "wrap",
   justifyContent: "center",
-}));
+});
 
-// Container for the AddWorkouts component
 const ContainerForAddButton = styled(Box)({
   display: "flex",
   justifyContent: "flex-end",
@@ -82,8 +80,7 @@ const WorkoutsPage: FC = () => {
   const handleCloseModal = () => {
     fetchData();
   };
-console.log(userId)
-console.log(typeof userId)
+
   useEffect(() => {
     if (userId !== 0) {
       void trainingApi.getAllTrainingsByUserId(userId).then(({ data }) => {
@@ -92,7 +89,6 @@ console.log(typeof userId)
     }
   }, [refreshTraining, userId]);
 
-  console.log(userId);
   return (
     <Box>
       <TrainingContextProvider>

@@ -28,7 +28,6 @@ const LoginContainer = styled(Container)`
 
 const LoginAvatar = styled(Avatar)`
   margin: 8px; /* replace with specific pixel value */
-
 `;
 
 const LoginForm = styled.form`
@@ -42,7 +41,7 @@ const LoginSubmitButton = styled(Button)`
 
 const LoginPage: React.FC = () => {
   const [error, setError] = useState<string>("");
-const navigate = useNavigate()
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -52,9 +51,8 @@ const navigate = useNavigate()
     onSubmit: async (values) => {
       try {
         await usersApi.login(values.email, values.password);
-        navigate("/workouts", {  state: { shouldReload: true } })
+        navigate("/workouts", { state: { shouldReload: true } });
         window.location.reload();
-
       } catch (error: any) {
         console.error(error);
         setError(error.response?.data?.message || "An error occurred");
@@ -65,11 +63,18 @@ const navigate = useNavigate()
   return (
     <LoginContainer maxWidth="xs">
       <div>
-        <Box sx={{display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
-        <LoginAvatar></LoginAvatar>
-        <Typography align="center" component="h1" variant="h5">
-          Login
-        </Typography>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "column",
+          }}
+        >
+          <LoginAvatar></LoginAvatar>
+          <Typography align="center" component="h1" variant="h5">
+            Login
+          </Typography>
         </Box>
         {error && (
           <Typography color="error" variant="subtitle1">
@@ -80,14 +85,14 @@ const navigate = useNavigate()
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
-              required
+                required
                 variant="outlined"
                 fullWidth
                 id="email"
                 label="Email Address"
                 name="email"
                 autoComplete="email"
-                sx={{background: "white"}}
+                sx={{ background: "white" }}
                 value={formik.values.email}
                 onChange={formik.handleChange}
                 error={formik.touched.email && Boolean(formik.errors.email)}
@@ -96,7 +101,7 @@ const navigate = useNavigate()
             </Grid>
             <Grid item xs={12}>
               <TextField
-              required
+                required
                 variant="outlined"
                 fullWidth
                 name="password"
@@ -105,7 +110,7 @@ const navigate = useNavigate()
                 id="password"
                 autoComplete="current-password"
                 value={formik.values.password}
-                sx={{background: "white"}}
+                sx={{ background: "white" }}
                 onChange={formik.handleChange}
                 error={
                   formik.touched.password && Boolean(formik.errors.password)
@@ -119,7 +124,7 @@ const navigate = useNavigate()
             fullWidth
             variant="contained"
             color="primary"
-            sx={{marginTop: "2rem"}}
+            sx={{ marginTop: "2rem" }}
           >
             Login
           </LoginSubmitButton>

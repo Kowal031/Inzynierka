@@ -30,7 +30,7 @@ const SelectWorkoutList: FC<SelectWorkoutListProps> = ({
       elevation={3}
     >
       <Typography variant="h5">
-        Check avarge performance in exercise{" "}
+        Check avarge performance in exercise
       </Typography>
 
       <Autocomplete

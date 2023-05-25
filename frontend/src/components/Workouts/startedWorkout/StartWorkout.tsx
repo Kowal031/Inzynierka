@@ -70,7 +70,6 @@ const StartWorkout: FC = () => {
     if (allValues !== undefined)
       void seriesAndRepsApi.updateSeriesAndWeight(allValues).then(() => {
         handleOpenSnackBar(true,"Your training has been saved successfully")
-        
       }).then(() => {
         setTimeout(() => {
           navigate("/workouts")

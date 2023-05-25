@@ -1,6 +1,5 @@
 import { FC, useState } from "react";
 import Exercise from "../../../types/Exercise";
-import SaveIcon from "@mui/icons-material/Save";
 import {
   Box,
   IconButton,
@@ -53,7 +52,7 @@ const WorkoutPart: FC<WorkoutPartProps> = ({
   const handleSaveSeries = (seriesNumber: number) => {
     setSavedSeries(new Set(savedSeries).add(seriesNumber));
   };
-console.log(reps[0])
+
   return (
     <Box component={Paper} elevation={3}>
       <Box sx={{ padding: "1rem 0 1rem 1rem" }}>
@@ -93,7 +92,15 @@ console.log(reps[0])
                         label={`Reps`}
                         type="number"
                         value={reps[index]}
-                        disabled={index === 0 ? false : reps[index - 1] === "" ?  true : savedSeries.has(s - 1) ?  false : true  } // dodać że jak 1 element to nie
+                        disabled={
+                          index === 0
+                            ? false
+                            : reps[index - 1] === ""
+                            ? true
+                            : savedSeries.has(s - 1)
+                            ? false
+                            : true
+                        }
                         onChange={(event) => {
                           const newReps = [...reps];
                           newReps[index] = event.target.value;
@@ -112,7 +119,15 @@ console.log(reps[0])
                       <TextField
                         label={`Weight`}
                         type="number"
-                    disabled={index === 0 ? false : weights[index - 1] === "" ?  true : savedSeries.has(s - 1) ?  false : true }
+                        disabled={
+                          index === 0
+                            ? false
+                            : weights[index - 1] === ""
+                            ? true
+                            : savedSeries.has(s - 1)
+                            ? false
+                            : true
+                        }
                         value={weights[index]}
                         onChange={(event) => {
                           const newWeights = [...weights];

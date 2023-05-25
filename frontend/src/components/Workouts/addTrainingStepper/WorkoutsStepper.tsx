@@ -58,7 +58,6 @@ const WorkoutsStepper: FC<WorkoutsStepperProps> = ({
     switch (activeStep) {
       case 0:
         return title.length < 1;
-
       case 1:
         return myExercise.length < 1;
       default:
